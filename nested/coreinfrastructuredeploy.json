@@ -600,7 +600,6 @@
 				"platform": "[parameters('redHatTags').platform]"
 			},
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftBastionHostname'), '-nsg')]"
 			],
 			"properties": {
@@ -711,7 +710,6 @@
 				"platform": "[parameters('redHatTags').platform]"
 			},
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftCnsHostname'), '-nsg')]"
 			],
 			"copy": {
