@@ -207,7 +207,7 @@
 	"outputs": {
 		"storageUri": {
 			"type": "string",
-			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('diagStorageAccount')), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
+			"value": "[(resourceGroup().name]"
 		}
 	}
 }
