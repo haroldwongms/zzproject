@@ -75,7 +75,7 @@
 			}
 		},
 		"masterFrontEndIpConfigurationProperties": {
-			"type": "string",
+			"type": "object",
 			"metadata": {
 				"description": "Master load balancer front end IP configuration properties"
 			}
@@ -111,7 +111,7 @@
 			}
 		},
 		"infraFrontEndIpConfigurationProperties": {
-			"type": "string",
+			"type": "object",
 			"metadata": {
 				"description": "Infra load balancer front end IP configuration properties"
 			}
