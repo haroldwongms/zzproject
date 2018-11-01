@@ -705,7 +705,6 @@
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
 			"name": "[concat(parameters('openshiftCnsHostname'), '-', copyIndex(), '-nic')]",
-			"condition": "[equals(parameters('enableCNS'), 'true')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": {
