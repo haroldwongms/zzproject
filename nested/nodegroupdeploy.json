@@ -207,7 +207,7 @@
 	"outputs": {
 		"storageUri": {
 			"type": "string",
-			"value": "[(resourceGroup().name]"
+			"value": "[(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('diagStorageAccount')), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
 		}
 	}
 }
