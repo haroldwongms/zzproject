@@ -20,6 +20,12 @@
 				"description": "Network API version"
 			}
 		},
+		"apiVersionCompute": {
+			"type": "string",
+			"metadata": {
+				"description": "Compute API version"
+			}
+		},
 		"diagStorageAccount": {
 			"type": "string",
 			"metadata": {
