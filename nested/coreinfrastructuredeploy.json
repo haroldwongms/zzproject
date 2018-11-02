@@ -265,6 +265,23 @@
 			}
 		}, {
 			"type": "Microsoft.Storage/storageAccounts",
+			"name": "[parameters('newStorageAccountRegistry')]",
+			"location": "[parameters('location')]",
+			"kind": "Storage",
+			"apiVersion": "[parameters('apiVersionStorage')]",
+			"tags": {
+				"displayName": "Diagnostics",
+				"provider": "[parameters('redHatTags').provider]",
+				"app": "[parameters('redHatTags').app]",
+				"version": "[parameters('redHatTags').version]",
+				"platform": "[parameters('redHatTags').platform]"
+			},
+			"sku": {
+				"name": "Standard_LRS",
+				"tier": "Standard"
+			}
+		}, {
+			"type": "Microsoft.Storage/storageAccounts",
 			"name": "[parameters('newStorageAccountWeb')]",
 			"location": "[parameters('location')]",
 			"kind": "StorageV2",
