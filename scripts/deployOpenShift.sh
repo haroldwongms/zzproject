@@ -11,7 +11,7 @@ export MASTERPUBLICIPHOSTNAME=$4
 export MASTERPUBLICIPADDRESS=$5
 export INFRA=$6
 export TOOLS=$7
-export NODECOUNT=$8
+export TOOLSCOUNT=$8
 export INFRACOUNT=$9
 export MASTERCOUNT=${10}
 export ROUTING=${11}
@@ -47,9 +47,8 @@ export PROXYSETTING=${40}
 export HTTPPROXYENTRY="${41}"
 export HTTSPPROXYENTRY="${42}"
 export NOPROXYENTRY="${43}"
-export TOOLSCOUNT="${44}"
-export PRODUCTIONCOUNT="${45}"
-export ACCEPTANCECOUNT="${46}"
+export PRODUCTIONCOUNT="${44}"
+export ACCEPTANCECOUNT="${45}"
 
 
 export BASTION=$(hostname)
