@@ -51,7 +51,7 @@
 			}
 		},
 		"newStorageAccountRegistryKey": {
-			"type": "string",
+			"type": "securestring",
 			"metadata": {
 				"description": "Storage Account Key for Docker Registry"
 			}
