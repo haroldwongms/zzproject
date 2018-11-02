@@ -32,6 +32,18 @@
 				"description": "Diagnostics storage account name"
 			}
 		},
+		"newStorageAccountWeb": {
+			"type": "string",
+			"metadata": {
+				"description": "Web storage account name for custom image"
+			}
+		},
+		"newStorageAccountRegistry": {
+			"type": "string",
+			"metadata": {
+				"description": "Storage account name for use by OpenShift registry"
+			}
+		},
 		"openshiftBastionHostname": {
 			"type": "string",
 			"metadata": {
@@ -60,6 +72,18 @@
 			"type": "array",
 			"metadata": {
 				"description": "Availability set array"
+			}
+		},
+		"masterClusterType": {
+			"type": "string",
+			"metadata": {
+				"description": "Master cluster type - private or public"
+			}
+		},
+		"routerClusterType": {
+			"type": "string",
+			"metadata": {
+				"description": "Routing cluster type - private or public"
 			}
 		},
 		"masterLoadBalancerName": {
@@ -237,6 +261,23 @@
 			},
 			"sku": {
 				"name": "Standard_LRS",
+				"tier": "Standard"
+			}
+		}, {
+			"type": "Microsoft.Storage/storageAccounts",
+			"name": "[parameters('newStorageAccountWeb')]",
+			"location": "[parameters('location')]",
+			"kind": "StorageV2",
+			"apiVersion": "[parameters('apiVersionStorage')]",
+			"tags": {
+				"displayName": "newStorageAccountWeb",
+				"provider": "[parameters('redHatTags').provider]",
+				"app": "[parameters('redHatTags').app]",
+				"version": "[parameters('redHatTags').version]",
+				"platform": "[parameters('redHatTags').platform]"
+			},
+			"sku": {
+				"name": "Standard_RAGRS",
 				"tier": "Standard"
 			}
 		}, {
@@ -426,7 +467,7 @@
 				"platform": "[parameters('redHatTags').platform]"
 			},
 			"dependsOn": [
-				"[concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel'))]"
+				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), json('null'))]"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
@@ -478,7 +519,7 @@
 				"platform": "[parameters('redHatTags').platform]"
 			},
 			"dependsOn": [
-				"[concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel'))]"
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), json('null'))]"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
@@ -558,6 +599,7 @@
 				}
 			}
 		}, {
+			"condition": "[equals(parameters('routerClusterType'), 'public')]",
 			"type": "Microsoft.Network/publicIPAddresses",
 			"name": "[parameters('infraLbPublicIpDnsLabel')]",
 			"location": "[parameters('location')]",
@@ -576,6 +618,7 @@
 				}
 			}
 		}, {
+			"condition": "[equals(parameters('masterClusterType'), 'public')]",
 			"type": "Microsoft.Network/publicIPAddresses",
 			"name": "[parameters('openshiftMasterPublicIpDnsLabel')]",
 			"location": "[parameters('location')]",
@@ -606,6 +649,7 @@
 				"platform": "[parameters('redHatTags').platform]"
 			},
 			"dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftBastionHostname'), '-nsg')]"
 			],
 			"properties": {
@@ -742,6 +786,22 @@
 		"storageUri": {
 			"type": "string",
 			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('diagStorageAccount')), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
+		},
+		"registryKey": {
+			"type": "string",
+			"value": "[listKeys(parameters('newStorageAccountRegistry'), parameters('apiVersionStorage')).keys[0].value]"
+		},
+		"masterPublicIp": {
+			"type": "string",
+			"value": "[if(equals(parameters('masterClusterType'), 'public'), reference(parameters('openshiftMasterPublicIpDnsLabel')).ipAddress, 'private')]"
+		},
+		"masterPublicIpFqdn": {
+			"type": "string",
+			"value": "[if(equals(parameters('masterClusterType'), 'public'), reference(parameters('openshiftMasterPublicIpDnsLabel')).dnsSettings.fqdn, 'private')]"
+		},
+		"infraPublicIp": {
+			"type": "string",
+			"value": "[if(equals(parameters('routerClusterType'), 'public'), reference(parameters('infraLbPublicIpDnsLabel')).ipAddress, 'private')]"
 		}
 	}
 }
