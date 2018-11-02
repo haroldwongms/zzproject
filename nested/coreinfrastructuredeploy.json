@@ -805,7 +805,7 @@
 			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('diagStorageAccount')), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
 		},
 		"registryKey": {
-			"type": "string",
+			"type": "securestring",
 			"value": "[listKeys(parameters('newStorageAccountRegistry'), parameters('apiVersionStorage')).keys[0].value]"
 		},
 		"masterPublicIp": {
