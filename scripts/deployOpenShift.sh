@@ -10,7 +10,7 @@ export MASTER=$3
 export MASTERPUBLICIPHOSTNAME=$4
 export MASTERPUBLICIPADDRESS=$5
 export INFRA=$6
-export NODE=$7
+export TOOLS=$7
 export NODECOUNT=$8
 export INFRACOUNT=$9
 export MASTERCOUNT=${10}
@@ -36,8 +36,8 @@ export NODEAVAILIBILITYSET=${29}
 export MASTERCLUSTERTYPE=${30}
 export PRIVATEIP=${31}
 export PRIVATEDNS=${32}
-export MASTERPIPNAME=${33}
-export ROUTERCLUSTERTYPE=${34}
+export PRODUCTION=${33}
+export ACCEPTANCE=${34}
 export INFRAPIPNAME=${35}
 export IMAGEURL=${36}
 export WEBSTORAGE=${37}
@@ -47,6 +47,11 @@ export PROXYSETTING=${40}
 export HTTPPROXYENTRY="${41}"
 export HTTSPPROXYENTRY="${42}"
 export NOPROXYENTRY="${43}"
+export TOOLSCOUNT="${44}"
+export PRODUCTIONCOUNT="${45}"
+export ACCEPTANCECOUNT="${46}"
+
+
 export BASTION=$(hostname)
 
 # Set CNS to default storage type.  Will be overridden later if Azure is true
@@ -189,12 +194,28 @@ do
 $INFRA-$c openshift_hostname=$INFRA-$c openshift_node_group_name='node-config-infra'"
 done
 
-# Create Nodes grouping
+# Create Tools node grouping
 echo $(date) " - Creating Nodes grouping"
-for (( c=0; c<$NODECOUNT; c++ ))
+for (( c=0; c<$TOOLSCOUNT; c++ ))
 do
-    nodegroup="$nodegroup
-$NODE-$c openshift_hostname=$NODE-$c openshift_node_group_name='node-config-compute'"
+    toolsnodegroup="$toolsnodegroup
+$TOOLS-$c openshift_hostname=$TOOLS-$c openshift_node_group_name='node-config-compute'"
+done
+
+# Create Production node grouping
+echo $(date) " - Creating Nodes grouping"
+for (( c=0; c<$PRODUCTIONCOUNT; c++ ))
+do
+    productionnodegroup="$productionnodegroup
+$PRODUCTION-$c openshift_hostname=$PRODUCTION-$c openshift_node_group_name='node-config-compute'"
+done
+
+# Create Acceptance node grouping
+echo $(date) " - Creating Nodes grouping"
+for (( c=0; c<$ACCEPTANCECOUNT; c++ ))
+do
+    acceptancenodegroup="$acceptancenodegroup
+$ACCEPTANCE-$c openshift_hostname=$ACCEPTANCE-$c openshift_node_group_name='node-config-compute'"
 done
 
 # Create CNS nodes grouping if CNS is enabled
@@ -225,6 +246,9 @@ $mastergroup
 $infragroup
 $nodegroup
 $cnsgroup
+$toolsnodegroup
+$productionnodegroup
+$acceptancenodegroup
 EOF
 
 # Run a loop playbook to ensure DNS Hostname resolution is working prior to continuing with script
@@ -402,7 +426,9 @@ $cnsglusterinfo
 [nodes]
 $mastergroup
 $infragroup
-$nodegroup
+$toolsnodegroup
+$productionnodegroup
+$acceptancenodegroup
 $cnsgroup
 
 # host group for adding new nodes

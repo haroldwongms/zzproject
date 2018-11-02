@@ -86,16 +86,28 @@
 				"description": "OpenShift Infra Node hostname"
 			}
 		},
-		"openshiftNodeHostname": {
-			"type": "string",
-			"metadata": {
-				"description": "OpenShift Node hostname"
-			}
-		},
 		"openshiftCnsHostname": {
 			"type": "string",
 			"metadata": {
 				"description": "OpenShift CNS Node hostname"
+			}
+		},
+		"openshiftToolsNodeHostname": {
+			"type": "string",
+			"metadata": {
+				"description": "OpenShift Tools Node hostname"
+			}
+		},
+		"openshiftProductionNodeHostname": {
+			"type": "string",
+			"metadata": {
+				"description": "OpenShift Production Node hostname"
+			}
+		},
+		"openshiftAcceptanceNodeHostname": {
+			"type": "string",
+			"metadata": {
+				"description": "OpenShift Acceptance Node hostname"
 			}
 		},
 		"masterInstanceCount": {
@@ -110,16 +122,28 @@
 				"description": "Number of OpenShift Infra nodes"
 			}
 		},
-		"nodeInstanceCount": {
-			"type": "int",
-			"metadata": {
-				"description": "Number of OpenShift nodes"
-			}
-		},
 		"cnsInstanceCount": {
 			"type": "int",
 			"metadata": {
 				"description": "Number of CNS nodes"
+			}
+		},
+		"toolsNodeInstanceCount": {
+			"type": "int",
+			"metadata": {
+				"description": "Number of Tools compute nodes"
+			}
+		},
+		"productionNodeInstanceCount": {
+			"type": "int",
+			"metadata": {
+				"description": "Number of Production compute nodes"
+			}
+		},
+		"acceptanceNodeInstanceCount": {
+			"type": "int",
+			"metadata": {
+				"description": "Number of Acceptance compute nodes"
 			}
 		},
 		"storageKind": {
@@ -236,18 +260,6 @@
 				"description": "Master Cluster DNS name"
 			}
 		},
-		"masterPublicIpName": {
-			"type": "string",
-			"metadata": {
-				"description": "Master Public IP Name"
-			}
-		},
-		"routerClusterType": {
-			"type": "string",
-			"metadata": {
-				"description": "Cluster Type"
-			}
-		},
 		"routerPublicIpName": {
 			"type": "string",
 			"metadata": {
@@ -336,7 +348,7 @@
 				]
 			},
 			"protectedSettings": {
-				"commandToExecute": "[concat('bash ', parameters('openshiftDeploymentScriptFileName'), ' \"', parameters('adminUsername'), '\" ', variables('singlequote'), parameters('openshiftPassword'), variables('singlequote'), ' \"', parameters('openshiftMasterHostname'), '\" \"', parameters('openshiftMasterPublicIpFqdn'), '\" \"', parameters('openshiftMasterPublicIpAddress'), '\" \"', parameters('openshiftInfraHostname'), '\" \"', parameters('openshiftNodeHostname'), '\" \"', parameters('nodeInstanceCount'), '\" \"', parameters('infraInstanceCount'), '\" \"', parameters('MasterInstanceCount'), '\" \"', parameters(parameters('subDomainChosen')), '\" \"', parameters('newStorageAccountRegistry'), '\" ', variables('singlequote'), parameters('newStorageAccountRegistryKey'), variables('singlequote'), ' \"', parameters('enableMetrics'), '\" \"', parameters('enableLogging'), '\" ', variables('singlequote'), parameters('tenantId'), variables('singlequote'), ' ', variables('singlequote'), parameters('subscriptionId'), variables('singlequote'), ' ', variables('singlequote'), parameters('aadClientId'), variables('singlequote'), ' ', variables('singlequote'), parameters('aadClientSecret'), variables('singlequote'), ' ', variables('singlequote'), parameters('resourceGroupName'), variables('singlequote'), ' ', variables('singlequote'), parameters('location'), variables('singlequote'), ' ', variables('singlequote'), parameters('enableAzure'), variables('singlequote'), ' ', variables('singlequote'), parameters('storageKind'), variables('singlequote'), ' ', variables('singlequote'), parameters('enableCNS'), variables('singlequote'), ' ', variables('singlequote'), parameters('openshiftCnsHostname'), variables('singlequote'),' ', variables('singlequote'), parameters('cnsInstanceCount'), variables('singlequote'), ' ', variables('singlequote'), parameters('virtualNetworkName'), variables('singlequote'), ' ', variables('singlequote'), parameters('nodeNetworkSecurityGroup'), variables('singlequote'), ' ', variables('singlequote'), parameters('nodeAvailabilitySet'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterClusterType'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterPrivateClusterIp'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterClusterDns'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterPublicIpName'), variables('singlequote'), ' ', variables('singlequote'), parameters('routerClusterType'), variables('singlequote'), ' ', variables('singlequote'), parameters('routerPublicIpName'), variables('singlequote'), ' ', variables('singlequote'), parameters('customHeaderImage'), variables('singlequote'), ' ', variables('singlequote'), parameters('newStorageAccountWeb'), variables('singlequote'), ' ', variables('singlequote'), parameters('routingCertType'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterCertType'), variables('singlequote'), ' ', variables('singlequote'), parameters('proxySettings'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpsProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('noProxyEntry'), variables('singlequote'))]"
+				"commandToExecute": "[concat('bash ', parameters('openshiftDeploymentScriptFileName'), ' \"', parameters('adminUsername'), '\" ', variables('singlequote'), parameters('openshiftPassword'), variables('singlequote'), ' \"', parameters('openshiftMasterHostname'), '\" \"', parameters('openshiftMasterPublicIpFqdn'), '\" \"', parameters('openshiftMasterPublicIpAddress'), '\" \"', parameters('openshiftInfraHostname'), '\" \"', parameters('openshiftToolsNodeHostname'), '\" \"', parameters('nodeInstanceCount'), '\" \"', parameters('infraInstanceCount'), '\" \"', parameters('MasterInstanceCount'), '\" \"', parameters(parameters('subDomainChosen')), '\" \"', parameters('newStorageAccountRegistry'), '\" ', variables('singlequote'), parameters('newStorageAccountRegistryKey'), variables('singlequote'), ' \"', parameters('enableMetrics'), '\" \"', parameters('enableLogging'), '\" ', variables('singlequote'), parameters('tenantId'), variables('singlequote'), ' ', variables('singlequote'), parameters('subscriptionId'), variables('singlequote'), ' ', variables('singlequote'), parameters('aadClientId'), variables('singlequote'), ' ', variables('singlequote'), parameters('aadClientSecret'), variables('singlequote'), ' ', variables('singlequote'), parameters('resourceGroupName'), variables('singlequote'), ' ', variables('singlequote'), parameters('location'), variables('singlequote'), ' ', variables('singlequote'), parameters('enableAzure'), variables('singlequote'), ' ', variables('singlequote'), parameters('storageKind'), variables('singlequote'), ' ', variables('singlequote'), parameters('enableCNS'), variables('singlequote'), ' ', variables('singlequote'), parameters('openshiftCnsHostname'), variables('singlequote'),' ', variables('singlequote'), parameters('cnsInstanceCount'), variables('singlequote'), ' ', variables('singlequote'), parameters('virtualNetworkName'), variables('singlequote'), ' ', variables('singlequote'), parameters('nodeNetworkSecurityGroup'), variables('singlequote'), ' ', variables('singlequote'), parameters('nodeAvailabilitySet'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterClusterType'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterPrivateClusterIp'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterClusterDns'), variables('singlequote'), ' ', variables('singlequote'), parameters('openshiftProductionNodeHostname'), variables('singlequote'), ' ', variables('singlequote'), parameters('openshiftAcceptanceNodeHostname'), variables('singlequote'), ' ', variables('singlequote'), parameters('routerPublicIpName'), variables('singlequote'), ' ', variables('singlequote'), parameters('customHeaderImage'), variables('singlequote'), ' ', variables('singlequote'), parameters('newStorageAccountWeb'), variables('singlequote'), ' ', variables('singlequote'), parameters('routingCertType'), variables('singlequote'), ' ', variables('singlequote'), parameters('masterCertType'), variables('singlequote'), ' ', variables('singlequote'), parameters('proxySettings'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpsProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('noProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('toolsNodeInstanceCount'), variables('singlequote'), ' ', variables('singlequote'), parameters('productionNodeInstanceCount'), variables('singlequote'), ' ', variables('singlequote'), parameters('acceptanceNodeInstanceCount'), variables('singlequote'))]"
 			}
 		}
 	}],
