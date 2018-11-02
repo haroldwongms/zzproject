@@ -323,11 +323,9 @@
 		}
 	},
 	"variables": {
-		"singlequote": "'",
-		"deploy": false
+		"singlequote": "'"
 	},
 	"resources": [{
-		"condition": false,
 		"type": "Microsoft.Compute/virtualMachines/extensions",
 		"name": "[concat(parameters('openshiftBastionHostname'), '/deployOpenShift')]",
 		"location": "[parameters('location')]",
