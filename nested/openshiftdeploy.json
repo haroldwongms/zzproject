@@ -218,10 +218,10 @@
 				"description": "Subdomain chosen for application routing"
 			}
 		},
-		"redHatTags": {
+		"customTags": {
 			"type": "object",
 			"metadata": {
-				"description": "Red Hat Tags"
+				"description": "Custom Tags"
 			}
 		},
 		"virtualNetworkName": {
@@ -330,13 +330,7 @@
 		"name": "[concat(parameters('openshiftBastionHostname'), '/deployOpenShift')]",
 		"location": "[parameters('location')]",
 		"apiVersion": "[parameters('apiVersionCompute')]",
-		"tags": {
-			"displayName": "DeployOpenShift",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-		},
+		"tags": "[parameters('customTags')]",
 		"properties": {
 			"publisher": "Microsoft.Azure.Extensions",
 			"type": "CustomScript",

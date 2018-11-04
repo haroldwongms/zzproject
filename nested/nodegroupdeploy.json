@@ -68,10 +68,10 @@
 				"description": "Node count"
 			}
 		},
-		"redHatTags": {
+		"customTags": {
 			"type": "object",
 			"metadata": {
-				"description": "Red Hat Tags"
+				"description": "Custom Tags"
 			}
 		}
 	},
@@ -84,13 +84,7 @@
 			"location": "[parameters('location')]",
 			"kind": "Storage",
 			"apiVersion": "[parameters('apiVersionStorage')]",
-			"tags": {
-				"displayName": "Diagnostics",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"sku": {
 				"name": "Standard_LRS",
 				"tier": "Standard"
@@ -98,15 +92,9 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftNodeHostname'), '-nsg')]",
+			"name": "[concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01')]",
 			"location": "[parameters('location')]",
-			"tags": {
-				"displayName": "NodeNSG",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"securityRules": [{
 					"name": "allowSSHin_all",
@@ -161,27 +149,15 @@
 				"platformFaultDomainCount": "2",
 				"platformUpdateDomainCount": "5"
 			},
-			"tags": {
-				"displayName": "[parameters('availabilitySetTag')]",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			}
+			"tags": "[parameters('customTags')]",
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
 			"name": "[concat(parameters('openshiftNodeHostname'), '-', copyIndex(), '-nic')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftNodeNetworkInterface",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftNodeHostname'), '-nsg')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftNodeHostname'), '-Nsg-Osca-01')]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
@@ -199,7 +175,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-nsg'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01'))]"
 				}
 			}
 		}

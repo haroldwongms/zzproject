@@ -87,10 +87,10 @@
 				"description": "If custom proxy settings selected, enter no_proxy settings to use"
 			}
 		},
-		"redHatTags": {
+		"customTags": {
 			"type": "object",
 			"metadata": {
-				"description": "Red Hat Tags"
+				"description": "Custom Tags"
 			}
 		}
 	},
@@ -105,13 +105,7 @@
 		"name": "[concat(parameters('openshiftMasterHostname'), '/prepMasters')]",
 		"location": "[parameters('location')]",
 		"apiVersion": "[parameters('apiVersionCompute')]",
-		"tags": {
-			"displayName": "PrepMaster",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-		},
+		"tags": "[parameters('customTags')]",
 		"properties": {
 			"publisher": "Microsoft.Azure.Extensions",
 			"type": "CustomScript",

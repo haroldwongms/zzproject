@@ -236,10 +236,10 @@
 				"description": "CNS count"
 			}
 		},
-		"redHatTags": {
+		"customTags": {
 			"type": "object",
 			"metadata": {
-				"description": "Red Hat Tags"
+				"description": "Custom Tags"
 			}
 		}
 	},
@@ -252,13 +252,7 @@
 			"location": "[parameters('location')]",
 			"kind": "Storage",
 			"apiVersion": "[parameters('apiVersionStorage')]",
-			"tags": {
-				"displayName": "Diagnostics",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"sku": {
 				"name": "Standard_LRS",
 				"tier": "Standard"
@@ -269,13 +263,7 @@
 			"location": "[parameters('location')]",
 			"kind": "Storage",
 			"apiVersion": "[parameters('apiVersionStorage')]",
-			"tags": {
-				"displayName": "Diagnostics",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"sku": {
 				"name": "Standard_LRS",
 				"tier": "Standard"
@@ -286,13 +274,7 @@
 			"location": "[parameters('location')]",
 			"kind": "StorageV2",
 			"apiVersion": "[parameters('apiVersionStorage')]",
-			"tags": {
-				"displayName": "newStorageAccountWeb",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"sku": {
 				"name": "Standard_RAGRS",
 				"tier": "Standard"
@@ -300,15 +282,9 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftBastionHostname'), '-nsg')]",
+			"name": "[concat(parameters('openshiftBastionHostname'), '-Nsg-Oscb-01')]",
 			"location": "[parameters('location')]",
-			"tags": {
-				"displayName": "BastionNSG",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"securityRules": [{
 					"name": "allowSSHin_all",
@@ -328,15 +304,9 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftMasterHostname'), '-nsg')]",
+			"name": "[concat(parameters('openshiftMasterHostname'), '-Nsg-Oscm-01')]",
 			"location": "[parameters('location')]",
-			"tags": {
-				"displayName": "MasterNSG",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"securityRules": [{
 					"name": "allowSSHin_all",
@@ -369,15 +339,9 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftInfraHostname'), '-nsg')]",
+			"name": "[concat(parameters('openshiftInfraHostname'), 'Nsg-Osci-01')]",
 			"location": "[parameters('location')]",
-			"tags": {
-				"displayName": "InfraNSG",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"securityRules": [{
 					"name": "allowSSHin_all",
@@ -423,15 +387,9 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftCnsHostname'), '-nsg')]",
+			"name": "[concat(parameters('openshiftCnsHostname'), 'Nsg-Oscc-01')]",
 			"location": "[parameters('location')]",
-			"tags": {
-				"displayName": "InfraNSG",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"securityRules": [{
 					"name": "allowSSHin_all",
@@ -460,13 +418,7 @@
 				"platformFaultDomainCount": "2",
 				"platformUpdateDomainCount": "5"
 			},
-			"tags": {
-				"displayName": "[parameters('availabilitySetArray')[copyIndex()].tagName]",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"copy": {
 				"name": "availabiltySetLoop",
 				"count": "[length(parameters('availabilitySetArray'))]"
@@ -476,13 +428,7 @@
 			"name": "[parameters('masterLoadBalancerName')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftMasterLB",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), json('null'))]"
 			],
@@ -528,13 +474,7 @@
 			"name": "[parameters('infraLoadBalancerName')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftInfraLB",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), json('null'))]"
 			],
@@ -602,13 +542,7 @@
 			"name": "[parameters('bastionPublicIp')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftBastionPublicIP",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"publicIPAllocationMethod": "Dynamic",
 				"dnsSettings": {
@@ -621,13 +555,7 @@
 			"name": "[parameters('infraLbPublicIpDnsLabel')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftInfraLBPublicIP",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"publicIPAllocationMethod": "Static",
 				"dnsSettings": {
@@ -640,13 +568,7 @@
 			"name": "[parameters('openshiftMasterPublicIpDnsLabel')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftMasterPublicIP",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"properties": {
 				"publicIPAllocationMethod": "Static",
 				"dnsSettings": {
@@ -658,16 +580,10 @@
 			"name": "[concat(parameters('openshiftBastionHostname'), '-nic')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftBastionNetworkInterface",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftBastionHostname'), '-nsg')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftBastionHostname'), '-Nsg-Oscb-01')]"
 			],
 			"properties": {
 				"ipConfigurations": [{
@@ -684,7 +600,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftBastionHostname'), '-nsg'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftBastionHostname'), '-Nsg-Oscb-01'))]"
 				}
 			}
 		}, {
@@ -692,16 +608,10 @@
 			"name": "[concat(parameters('openshiftMasterHostname'), '-', copyIndex(), '-nic')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftMasterNetworkInterface",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'))]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftMasterHostname'), '-nsg')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftMasterHostname'), '-Nsg-Oscm-01')]"
 			],
 			"copy": {
 				"name": "masterNicLoop",
@@ -722,7 +632,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftMasterHostname'), '-nsg'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftMasterHostname'), '-Nsg-Oscm-01'))]"
 				}
 			}
 		}, {
@@ -730,16 +640,10 @@
 			"name": "[concat(parameters('openshiftInfraHostname'), '-', copyIndex(), '-nic')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftInfraNetworkInterfaces",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'))]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftInfraHostname'), '-nsg')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftInfraHostname'), '-Nsg-Osci-01')]"
 			],
 			"copy": {
 				"name": "infraNicLoop",
@@ -760,7 +664,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftInfraHostname'), '-nsg'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftInfraHostname'), '-Nsg-Osci-01'))]"
 				}
 			}
 		}, {
@@ -768,15 +672,9 @@
 			"name": "[concat(parameters('openshiftCnsHostname'), '-', copyIndex(), '-nic')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"tags": {
-				"displayName": "OpenShiftInfraNetworkInterfaces",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-			},
+			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftCnsHostname'), '-nsg')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftCnsHostname'), '-Nsg-Oscc-01')]"
 			],
 			"copy": {
 				"name": "cnsNicLoop",
@@ -794,7 +692,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftCnsHostname'), '-nsg'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftCnsHostname'), '-Nsg-Oscc-01'))]"
 				}
 			}
 		}

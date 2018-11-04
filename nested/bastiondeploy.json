@@ -98,10 +98,10 @@
 				"description": "Image Reference"
 			}
 		},
-		"redHatTags": {
+		"customTags": {
 			"type": "object",
 			"metadata": {
-				"description": "Red Hat Tags"
+				"description": "Custom Tags"
 			}
 		}
 	},
@@ -125,13 +125,7 @@
 		"name": "[parameters('hostName')]",
 		"location": "[parameters('location')]",
 		"apiVersion": "[parameters('apiVersionCompute')]",
-		"tags": {
-			"Role": "[parameters('role')]",
-				"provider": "[parameters('redHatTags').provider]",
-				"app": "[parameters('redHatTags').app]",
-				"version": "[parameters('redHatTags').version]",
-				"platform": "[parameters('redHatTags').platform]"
-		},
+		"tags": {"[parameters('customTags')]",
 		"plan": "[if(equals(parameters('osImageType'), 'marketplace'), parameters('marketplacePlan'), json('null'))]",
 		"properties": {
 			"hardwareProfile": {
