@@ -387,7 +387,7 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftCnsHostname'), 'Nsg-Oscc-01')]",
+			"name": "[concat(parameters('openshiftCnsHostname'), '-Nsg-Oscc-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
