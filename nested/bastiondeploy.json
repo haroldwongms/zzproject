@@ -125,7 +125,7 @@
 		"name": "[parameters('hostName')]",
 		"location": "[parameters('location')]",
 		"apiVersion": "[parameters('apiVersionCompute')]",
-		"tags": {"[parameters('customTags')]",
+		"tags": "[parameters('customTags')]",
 		"plan": "[if(equals(parameters('osImageType'), 'marketplace'), parameters('marketplacePlan'), json('null'))]",
 		"properties": {
 			"hardwareProfile": {
