@@ -152,7 +152,7 @@
 			"tags": "[parameters('customTags')]",
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftNodeHostname'), '-', copyIndex(), '-nic')]",
+			"name": "[concat(parameters('openshiftNodeHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -165,7 +165,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftNodeHostname'), copyIndex(), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Dynamic",
 						"subnet": {

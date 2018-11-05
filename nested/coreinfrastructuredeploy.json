@@ -605,7 +605,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftMasterHostname'), '-', copyIndex(), '-nic')]",
+			"name": "[concat(parameters('openshiftMasterHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -619,7 +619,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftMasterHostname'), copyIndex(), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Dynamic",
 						"subnet": {
@@ -637,7 +637,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftInfraHostname'), '-', copyIndex(), '-nic')]",
+			"name": "[concat(parameters('openshiftInfraHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -651,7 +651,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftInfraHostname'), copyIndex(), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Dynamic",
 						"subnet": {
@@ -669,7 +669,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftCnsHostname'), '-', copyIndex(), '-nic')]",
+			"name": "[concat(parameters('openshiftCnsHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -682,7 +682,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftCnsHostname'), copyIndex(), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Dynamic",
 						"subnet": {
