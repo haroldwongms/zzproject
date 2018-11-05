@@ -1580,7 +1580,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('masterVmDeployment', copyindex())]",
+			"name": "[concat('masterVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
@@ -1630,7 +1630,7 @@
 						"value": "[variables('availabilitySetArray')[0].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftMasterHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "masternode"
@@ -1659,7 +1659,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('infraVmDeployment', copyindex())]",
+			"name": "[concat('infraVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
@@ -1709,7 +1709,7 @@
 						"value": "[variables('availabilitySetArray')[1].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftInfraHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "infranode"
@@ -1738,7 +1738,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('cnsVmDeployment', copyindex())]",
+			"name": "[concat('cnsVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
@@ -1791,7 +1791,7 @@
 						"value": "[variables('availabilitySetArray')[2].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftCnsHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "cnsnode"
@@ -1820,7 +1820,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('toolsNodeGroupVmDeployment', copyindex())]",
+			"name": "[concat('toolsNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('toolsNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('toolsNodeGroupSubscriptionID')]",
@@ -1870,7 +1870,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftToolsNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftToolsNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "toolscomputenode"
@@ -1899,7 +1899,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('productionNodeGroupVmDeployment', copyindex())]",
+			"name": "[concat('productionNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('productionNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('productionNodeGroupSubscriptionID')]",
@@ -1949,7 +1949,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftProductionNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftProductionNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "productioncomputenode"
@@ -1978,7 +1978,7 @@
 				}
 			}
 		}, {
-			"name": "[concat('acceptanceNodeGroupVmDeployment', copyindex())]",
+			"name": "[concat('acceptanceNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('acceptanceNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('acceptanceNodeGroupSubscriptionID')]",
@@ -2028,7 +2028,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].name]"
 					},
 					"hostName": {
-						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"role": {
 						"value": "acceptancecomputenode"
@@ -2179,13 +2179,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('MasterPrep', copyindex())]",
+			"name": "[concat('MasterPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('masterVmDeployment', copyindex())]"
+				"[concat('masterVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "masterPrepLoop",
@@ -2211,7 +2211,7 @@
 						"value": "[variables('masterPrepScriptFileName')]"
 					},
 					"openshiftMasterHostname": {
-						"value": "[concat(variables('openshiftMasterHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"adminUsername": {
 						"value": "[parameters('adminUsername')]"
@@ -2243,13 +2243,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('InfraPrep', copyindex())]",
+			"name": "[concat('InfraPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('infraVmDeployment', copyindex())]"
+				"[concat('infraVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "infraPrepLoop",
@@ -2275,7 +2275,7 @@
 						"value": "[variables('nodePrepScriptFileName')]"
 					},
 					"openshiftNodeHostname": {
-						"value": "[concat(variables('openshiftInfraHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"rhsmUsernameOrOrgId": {
 						"value": "[parameters('rhsmUsernameOrOrgId')]"
@@ -2304,13 +2304,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('CNSPrep', copyindex())]",
+			"name": "[concat('CNSPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreinfrastructureResourceGroup')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('cnsVmDeployment', copyindex())]"
+				"[concat('cnsVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "cnsPrepLoop",
@@ -2336,7 +2336,7 @@
 						"value": "[variables('nodePrepScriptFileName')]"
 					},
 					"openshiftNodeHostname": {
-						"value": "[concat(variables('openshiftCnsHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"rhsmUsernameOrOrgId": {
 						"value": "[parameters('rhsmUsernameOrOrgId')]"
@@ -2365,13 +2365,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('ToolsNodeGroupPrep', copyindex())]",
+			"name": "[concat('ToolsNodeGroupPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('toolsNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('toolsNodeGroupSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('toolsNodeGroupVmDeployment', copyindex())]"
+				"[concat('toolsNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "toolsNodeGroupPrepLoop",
@@ -2397,7 +2397,7 @@
 						"value": "[variables('nodePrepScriptFileName')]"
 					},
 					"openshiftNodeHostname": {
-						"value": "[concat(variables('openshiftToolsNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftToolsNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"rhsmUsernameOrOrgId": {
 						"value": "[parameters('rhsmUsernameOrOrgId')]"
@@ -2426,13 +2426,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('ProductionNodeGroupPrep', copyindex())]",
+			"name": "[concat('ProductionNodeGroupPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('productionNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('productionNodeGroupSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('productionNodeGroupVmDeployment', copyindex())]"
+				"[concat('productionNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "productionNodeGroupPrepLoop",
@@ -2458,7 +2458,7 @@
 						"value": "[variables('nodePrepScriptFileName')]"
 					},
 					"openshiftNodeHostname": {
-						"value": "[concat(variables('openshiftProductionNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftProductionNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"rhsmUsernameOrOrgId": {
 						"value": "[parameters('rhsmUsernameOrOrgId')]"
@@ -2487,13 +2487,13 @@
 				}
 			}
 		}, {
-			"name": "[concat('AcceptanceNodeGroupPrep', copyindex())]",
+			"name": "[concat('AcceptanceNodeGroupPrep', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('acceptanceNodeGroupResourceGroup')]",
             "subscriptionId": "[parameters('acceptanceNodeGroupSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('acceptanceNodeGroupVmDeployment', copyindex())]"
+				"[concat('acceptanceNodeGroupVmDeployment', padLeft(add(copyindex(), 1), 2, '0'))]"
 			],
 			"copy": {
 				"name": "acceptanceNodeGroupPrepLoop",
@@ -2519,7 +2519,7 @@
 						"value": "[variables('nodePrepScriptFileName')]"
 					},
 					"openshiftNodeHostname": {
-						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), '-', copyIndex())]"
+						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'))]"
 					},
 					"rhsmUsernameOrOrgId": {
 						"value": "[parameters('rhsmUsernameOrOrgId')]"

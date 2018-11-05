@@ -179,53 +179,149 @@ fi
 
 # Create Master nodes grouping
 echo $(date) " - Creating Master nodes grouping"
-for (( c=0; c<$MASTERCOUNT; c++ ))
-do
+if [ $MASTERCOUNT -gt 9 ]
+then
+	# If more than 10 master nodes need to create groups 01 - 09 separately than 10 and higher
+	for (( c=1; c<=9; c++ ))
+	do
     mastergroup="$mastergroup
-$MASTER-$c openshift_hostname=$MASTER-$c openshift_node_group_name='node-config-master'"
-done
+$MASTER0$c openshift_hostname=$MASTER0$c openshift_node_group_name='node-config-master'"
+	done
+
+	for (( c=10; c<=$MASTERCOUNT; c++ ))
+	do
+    mastergroup="$mastergroup
+$MASTER$c openshift_hostname=$MASTER$c openshift_node_group_name='node-config-master'"
+	done
+else
+	# If less than 10 master nodes
+	for (( c=1; c<=$MASTERCOUNT; c++ ))
+	do
+    mastergroup="$mastergroup
+$MASTER0$c openshift_hostname=$MASTER0$c openshift_node_group_name='node-config-master'"
+	done
+fi
 
 # Create Infra nodes grouping 
 echo $(date) " - Creating Infra nodes grouping"
-for (( c=0; c<$INFRACOUNT; c++ ))
-do
+if [ $INFRACOUNT -gt 9 ]
+then
+	# If more than 10 infra nodes need to create groups 01 - 09 separately than 10 and higher
+	for (( c=1; c<=$9; c++ ))
+	do
     infragroup="$infragroup
-$INFRA-$c openshift_hostname=$INFRA-$c openshift_node_group_name='node-config-infra'"
-done
+$INFRA0$c openshift_hostname=$INFRA0$c openshift_node_group_name='node-config-infra'"
+	done
+
+	for (( c=10; c=<$INFRACOUNT; c++ ))
+	do
+    infragroup="$infragroup
+$INFRA$c openshift_hostname=$INFRA$c openshift_node_group_name='node-config-infra'"
+	done
+else
+	# If less than 10 infra nodes
+	for (( c=1; c<=$INFRACOUNT; c++ ))
+	do
+    infragroup="$infragroup
+$INFRA0$c openshift_hostname=$INFRA0$c openshift_node_group_name='node-config-infra'"
+	done
+fi
 
 # Create Tools node grouping
 echo $(date) " - Creating Nodes grouping"
-for (( c=0; c<$TOOLSCOUNT; c++ ))
-do
-    toolsnodegroup="$toolsnodegroup
-$TOOLS-$c openshift_hostname=$TOOLS-$c openshift_node_group_name='node-config-compute'"
-done
+if [ $TOOLSCOUNT -gt 9 ]
+then
+	# If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+	for (( c=1; c<=9; c++ ))
+	do
+		toolsnodegroup="$toolsnodegroup
+	$TOOLS0$c openshift_hostname=$TOOLS0$c openshift_node_group_name='node-config-compute'"
+	done
+
+	for (( c=10; c<=$TOOLSCOUNT; c++ ))
+	do
+		toolsnodegroup="$toolsnodegroup
+	$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
+	done
+else
+	# If less than 10 tools nodes
+	for (( c=1; c<=$TOOLSCOUNT; c++ ))
+	do
+		toolsnodegroup="$toolsnodegroup
+	$TOOLS0$c openshift_hostname=$TOOLS0$c openshift_node_group_name='node-config-compute'"
+	done
+fi
 
 # Create Production node grouping
 echo $(date) " - Creating Nodes grouping"
-for (( c=0; c<$PRODUCTIONCOUNT; c++ ))
-do
+if [ $PRODUCTIONCOUNT -gt 9 ]
+then
+	# If more than 10 production nodes need to create groups 01 - 09 separately than 10 and higher
+	for (( c=1; c<=9; c++ ))
+	do
     productionnodegroup="$productionnodegroup
-$PRODUCTION-$c openshift_hostname=$PRODUCTION-$c openshift_node_group_name='node-config-compute'"
-done
+$PRODUCTION0$c openshift_hostname=$PRODUCTION0$c openshift_node_group_name='node-config-compute'"
+	done
+
+	for (( c=10; c<=$PRODUCTIONCOUNT; c++ ))
+	do
+    productionnodegroup="$productionnodegroup
+$PRODUCTION$c openshift_hostname=$PRODUCTION$c openshift_node_group_name='node-config-compute'"
+	done
+else
+	# If less than 10 tools nodes
+	for (( c=1; c<=$PRODUCTIONCOUNT; c++ ))
+	do
+    productionnodegroup="$productionnodegroup
+$PRODUCTION0$c openshift_hostname=$PRODUCTION0$c openshift_node_group_name='node-config-compute'"
+	done
+fi
 
 # Create Acceptance node grouping
 echo $(date) " - Creating Nodes grouping"
-for (( c=0; c<$ACCEPTANCECOUNT; c++ ))
-do
-    acceptancenodegroup="$acceptancenodegroup
-$ACCEPTANCE-$c openshift_hostname=$ACCEPTANCE-$c openshift_node_group_name='node-config-compute'"
-done
+if [ $ACCEPTANCECOUNT -gt 9 ]
+then
+	# If more than 10 acceptance nodes need to create groups 01 - 09 separately than 10 and higher
+	for (( c=1; c<=9; c++ ))
+	do
+		acceptancenodegroup="$acceptancenodegroup
+	$ACCEPTANCE0$c openshift_hostname=$ACCEPTANCE0$c openshift_node_group_name='node-config-compute'"
+	done
+	
+	for (( c=10; c<=$ACCEPTANCECOUNT; c++ ))
+	do
+		acceptancenodegroup="$acceptancenodegroup
+	$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute'"
+	done
+else
+	for (( c=1; c<=$ACCEPTANCECOUNT; c++ ))
+	do
+		acceptancenodegroup="$acceptancenodegroup
+	$ACCEPTANCE0$c openshift_hostname=$ACCEPTANCE0$c openshift_node_group_name='node-config-compute'"
+	done
+fi
 
 # Create CNS nodes grouping if CNS is enabled
-if [[ $ENABLECNS == "true" ]]
+echo $(date) " - Creating CNS nodes grouping"
+if [ $CNSCOUNT -gt 9 ]
 then
-    echo $(date) " - Creating CNS nodes grouping"
-
-    for (( c=0; c<$CNSCOUNT; c++ ))
+	# If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+    for (( c=1; c<=9; c++ ))
     do
         cnsgroup="$cnsgroup
-$CNS-$c openshift_hostname=$CNS-$c openshift_node_group_name='node-config-compute'"
+$CNS0$c openshift_hostname=$CNS0$c openshift_node_group_name='node-config-compute'"
+    done
+
+	for (( c=10; c<=$CNSCOUNT; c++ ))
+    do
+        cnsgroup="$cnsgroup
+$CNS$c openshift_hostname=$CNS$c openshift_node_group_name='node-config-compute'"
+    done
+else
+	for (( c=1; c<=$CNSCOUNT; c++ ))
+    do
+        cnsgroup="$cnsgroup
+$CNS0$c openshift_hostname=$CNS0$c openshift_node_group_name='node-config-compute'"
     done
 fi
 
@@ -408,11 +504,11 @@ openshift_logging_master_public_url=https://$MASTERPUBLICIPHOSTNAME
 
 # host group for masters
 [masters]
-$MASTER-[0:${MASTERLOOP}]
+$MASTER-[01:0${MASTERCOUNT}]
 
 # host group for etcd
 [etcd]
-$MASTER-[0:${MASTERLOOP}]
+$MASTER-[01:0${MASTERCOUNT}]
 
 [master0]
 $MASTER-0
