@@ -314,6 +314,18 @@
 				"description": "template link"
 			}
 		},
+		"coreVirtualNetworkResourceGroupName": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
+		"coreinfrastructureSubscriptionID": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
 		"customTags": {
 			"type": "object",
 			"metadata": {

@@ -1302,7 +1302,7 @@
 						"value": "[variables('availabilitySetArray')]"
 					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
+					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
 					},
 					"masterSubnetName": {
 						"value": "[parameters('masterSubnetName')]"
@@ -1415,6 +1415,12 @@
 					"subnetCreateTemplateUrl": {
 						"value": "[variables('subnetCreateTemplateUrl')]"
 					},
+					"coreVirtualNetworkResourceGroupName": {
+						"value": "[parameters('coreVirtualNetworkResourceGroupName')]"
+					},
+					"coreinfrastructureSubscriptionID": {
+						"value": "[parameters('coreinfrastructureSubscriptionID')]"
+					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
@@ -1466,7 +1472,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].tagName]"
 					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
+					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('toolsSubnetName')]"
