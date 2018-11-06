@@ -490,7 +490,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
-			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
 			],
@@ -529,7 +529,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
-			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]]"
 			],
@@ -568,7 +568,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
-			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]]"
 			],
