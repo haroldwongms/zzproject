@@ -137,7 +137,7 @@
 			"properties": {
 				"addressPrefix": "[parameters('nodeSubnetPrefix')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
 				}
 			}
 		}, {
@@ -208,7 +208,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftNodeHostname'), '-Nsg-Osca-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
