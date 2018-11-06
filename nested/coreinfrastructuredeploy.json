@@ -683,7 +683,7 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
-				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('masterSubnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]"
 			],
 			"properties": {
 				"ipConfigurations": [{
@@ -709,7 +709,7 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'))]",
-				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('masterSubnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]"
 			],
 			"copy": {
 				"name": "masterNicLoop",
@@ -739,7 +739,7 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'))]",
-				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('infraSubnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('infraSubnetName'))]"
 			],
 			"copy": {
 				"name": "infraNicLoop",
@@ -769,7 +769,7 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]",
-				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('cnsSubnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('cnsSubnetName'))]"
 			],
 			"copy": {
 				"name": "cnsNicLoop",
