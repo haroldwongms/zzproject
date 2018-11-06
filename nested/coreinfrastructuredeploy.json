@@ -508,7 +508,7 @@
 						"value": "[parameters('apiVersionCompute')]"
 					},
 					"existingVnetName": {
-						"value": "[parameters('coreVirtualNetworkName')]"
+						"value": "[parameters('existingVnetName')]"
 					},
 					"subnetName": {
 						"value": "[parameters('masterSubnetName')]"
@@ -547,7 +547,7 @@
 						"value": "[parameters('apiVersionCompute')]"
 					},
 					"existingVnetName": {
-						"value": "[parameters('coreVirtualNetworkName')]"
+						"value": "[parameters('existingVnetName')]"
 					},
 					"subnetName": {
 						"value": "[parameters('infraSubnetName')]"
@@ -586,7 +586,7 @@
 						"value": "[parameters('apiVersionCompute')]"
 					},
 					"existingVnetName": {
-						"value": "[parameters('coreVirtualNetworkName')]"
+						"value": "[parameters('existingVnetName')]"
 					},
 					"subnetName": {
 						"value": "[parameters('cnsSubnetName')]"
