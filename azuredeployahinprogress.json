@@ -720,26 +720,7 @@
 			}
 		},
 		"managedStorageCount": 3,
-		"unmanagedStorageCount": "[length(variables('newStorageAccountArray'))]",
 		"storageLoopCount": "[concat(parameters('storageKind'), 'StorageCount')]",
-		"unmanagedBastionUri": "[variables('newStorageAccountBastion')]",
-		"managedBastionUri": "[variables('diagStorageAccount1')]",
-		"unmanagedMasterUri": "[variables('newStorageAccountMaster')]",
-		"managedMasterUri": "[variables('diagStorageAccount1')]",
-		"unmanagedInfraUri": "[variables('newStorageAccountInfra')]",
-		"managedInfraUri": "[variables('diagStorageAccount1')]",
-		"unmanagedNodeOsUri": "[variables('newStorageAccountNodeOs')]",
-		"managedNodeOsUri": "[variables('diagStorageAccount1')]",
-		"unmanagedNodeDataUri": "[variables('newStorageAccountNodeData')]",
-		"managedNodeDataUri": "[variables('diagStorageAccount1')]",
-		"unmanagedCnsUri": "[variables('newStorageAccountCns')]",
-		"managedCnsUri": "[variables('diagStorageAccount1')]",
-		"bastionUri": "[concat(parameters('storageKind'), 'BastionUri')]",
-		"masterUri": "[concat(parameters('storageKind'), 'MasterUri')]",
-		"infraUri": "[concat(parameters('storageKind'), 'InfraUri')]",
-		"nodeOsUri": "[concat(parameters('storageKind'), 'NodeOsUri')]",
-		"nodeDataUri": "[concat(parameters('storageKind'), 'NodeDataUri')]",
-		"cnsUri": "[concat(parameters('storageKind'), 'CnsUri')]",
 		"masterFirstAddrOctets": "[split(parameters('masterSubnetPrefix'),'.')]",
 		"masterFirstAddrOctets4split": "[split(variables('masterFirstAddrOctets')[3],'/')]",
 		"masterFirstAddrOctet4": "[add(int(variables('masterFirstAddrOctets4split')[0]),5)]",
@@ -790,7 +771,7 @@
 			"privateIPAddress": "[parameters('masterPrivateClusterIp')]",
 			"privateIPAllocationMethod": "Static",
 			"subnet": {
-				"id": "[parameters('existingMasterSubnetReference')]"
+				"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreVirtualNetworkName'), parameters('masterSubnetName'))]"
 			}
 		},
 		"publicMasterFrontEndIpConfigurationProperties": {
@@ -803,7 +784,7 @@
 			"privateIPAddress": "[parameters('routerPrivateClusterIp')]",
 			"privateIPAllocationMethod": "Static",
 			"subnet": {
-				"id": "[parameters('existingInfraSubnetReference')]"
+				"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreVirtualNetworkName'), parameters('infraSubnetName'))]"
 			}
 		},
 		"publicInfraFrontEndIpConfigurationProperties": {
@@ -2778,7 +2759,7 @@
 						"value": "[parameters('customTags')]"
 					},
 					"virtualNetworkName": {
-						"value": "[parameters('virtualNetworkName')]"
+						"value": "[parameters('coreVirtualNetworkName')]"
 					},
 					"nodeNetworkSecurityGroup": {
 						"value": "[concat(variables('openshiftInfraHostname'), '-nsg')]"
