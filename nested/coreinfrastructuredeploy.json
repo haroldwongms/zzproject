@@ -474,7 +474,7 @@
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
 			],
 			"properties": {
 				"mode": "Incremental",
@@ -513,7 +513,7 @@
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[]"
+				"[[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]]"
 			],
 			"properties": {
 				"mode": "Incremental",
@@ -552,7 +552,7 @@
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[]"
+				"[[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]]"
 			],
 			"properties": {
 				"mode": "Incremental",
