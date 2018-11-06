@@ -850,6 +850,7 @@
 		"openshiftDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/openshiftdeploy.json')]",
 		"coreInfrastructureDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/coreinfrastructuredeploy.json')]",
 		"nodeGroupDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/nodegroupdeploy.json')]",
+		"subnetCreateTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/subnetcreate.json')]",
 		"bastionPrepTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/bastionprep.json')]",
 		"masterPrepTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/masterprep.json')]",
 		"nodePrepTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/nodeprep.json')]",
@@ -1410,6 +1411,9 @@
 					},
 					"cnsInstanceCount": {
 						"value": "[variables('cnsInstanceCount')]"
+					},
+					"subnetCreateTemplateUrl": {
+						"value": "[variables('subnetCreateTemplateUrl')]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"

@@ -308,6 +308,12 @@
 				"description": "CNS count"
 			}
 		},
+		"subnetCreateTemplateUrl": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
 		"customTags": {
 			"type": "object",
 			"metadata": {
@@ -355,52 +361,6 @@
 			"sku": {
 				"name": "Standard_RAGRS",
 				"tier": "Standard"
-			}
-		}, {
-			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"type": "Microsoft.Network/virtualNetworks/subnets",
-			"name": "[parameters('masterSubnetName')]",
-			"id": "[concat(parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]",
-			"location": "[parameters('location')]",
-			"tags": "[parameters('customTags')]",
-			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
-			],
-			"properties": {
-				"addressPrefix": "[parameters('masterSubnetPrefix')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
-				}
-			}
-		}, {
-			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"type": "Microsoft.Network/virtualNetworks/subnets",
-			"name": "[concat(parameters('existingVnetName'), '/', parameters('infraSubnetName'))]",
-			"location": "[parameters('location')]",
-			"tags": "[parameters('customTags')]",
-			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
-			],
-			"properties": {
-				"addressPrefix": "[parameters('infraSubnetPrefix')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
-				}
-			}
-		}, {
-			"apiVersion": "[parameters('apiVersionNetwork')]",
-			"type": "Microsoft.Network/virtualNetworks/subnets",
-			"name": "[concat(parameters('existingVnetName'), '/', parameters('cnsSubnetName'))]",
-			"location": "[parameters('location')]",
-			"tags": "[parameters('customTags')]",
-			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
-			],
-			"properties": {
-				"addressPrefix": "[parameters('cnsSubnetPrefix')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
-				}
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
@@ -506,6 +466,123 @@
 						"direction": "Inbound"
 					}
 				}]
+			}
+		}, {
+			"name": "CreateMasterSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+            "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
+			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionCompute": {
+						"value": "[parameters('apiVersionCompute')]"
+					},
+					"existingVnetName": {
+						"value": "[parameters('coreVirtualNetworkName')]"
+					},
+					"subnetName": {
+						"value": "[parameters('masterSubnetName')]"
+					},
+					"subnetPrefix": {
+						"value": "[parameters('masterSubnetPrefix')]"
+					},
+					"networkSecurityGroup": {
+						"value": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
+					},
+					"customTags": {
+						"value": "[parameters('customTags')]"
+					}
+				}
+			}
+		}, {
+			"name": "CreateInfraSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+            "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
+			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionCompute": {
+						"value": "[parameters('apiVersionCompute')]"
+					},
+					"existingVnetName": {
+						"value": "[parameters('coreVirtualNetworkName')]"
+					},
+					"subnetName": {
+						"value": "[parameters('infraSubnetName')]"
+					},
+					"subnetPrefix": {
+						"value": "[parameters('infraSubnetPrefix')]"
+					},
+					"networkSecurityGroup": {
+						"value": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]"
+					},
+					"customTags": {
+						"value": "[parameters('customTags')]"
+					}
+				}
+			}
+		}, {
+			"name": "CreateCnsSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+            "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
+			"apiVersion": "[variables('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionCompute": {
+						"value": "[parameters('apiVersionCompute')]"
+					},
+					"existingVnetName": {
+						"value": "[parameters('coreVirtualNetworkName')]"
+					},
+					"subnetName": {
+						"value": "[parameters('cnsSubnetName')]"
+					},
+					"subnetPrefix": {
+						"value": "[parameters('cnsSubnetPrefix')]"
+					},
+					"networkSecurityGroup": {
+						"value": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
+					},
+					"customTags": {
+						"value": "[parameters('customTags')]"
+					}
+				}
 			}
 		}, {
 			"type": "Microsoft.Compute/availabilitySets",
