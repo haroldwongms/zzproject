@@ -46,7 +46,6 @@
 		}
 	},
 	"variables": {
-		"bastionip": "[add(parameters('masterFirstAddrOctet4'), 4)]"
 	},
 	"resources": [
 		{
