@@ -314,7 +314,7 @@
 				"description": "template link"
 			}
 		},
-		"coreVirtualNetworkResourceGroupName": {
+		"virtualNetworkResourceGroupName": {
 			"type": "string",
 			"metadata": {
 				"description": "template link"
