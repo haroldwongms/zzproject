@@ -517,7 +517,7 @@
 						"value": "[parameters('masterSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
-						"value": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
+						"value": "[resourceId(concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
