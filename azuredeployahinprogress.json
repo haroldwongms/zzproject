@@ -1302,7 +1302,7 @@
 						"value": "[variables('availabilitySetArray')]"
 					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
+					  "value": "[parameters('coreVirtualNetworkName')]"
 					},
 					"masterSubnetName": {
 						"value": "[parameters('masterSubnetName')]"
