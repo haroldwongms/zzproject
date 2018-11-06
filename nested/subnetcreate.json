@@ -53,11 +53,13 @@
 			"type": "Microsoft.Network/virtualNetworks/subnets",
 			"name": "[concat(parameters('existingVnetName'), '/', parameters('subnetName'))]",
 			"location": "[parameters('location')]",
-			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 			],
 			"properties": {
-				"addressPrefix": "[parameters('subnetPrefix')]"
+				"addressPrefix": "[parameters('subnetPrefix')]",
+				"networkSecurityGroup": {
+					"id": "[parameters('networkSecurityGroup')]"
+				}
 			}
 		}
 	],
