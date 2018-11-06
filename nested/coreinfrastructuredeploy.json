@@ -369,6 +369,7 @@
 				"addressPrefix": "[parameters('masterSubnetPrefix')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftMasterHostname'), '-Nsg-Oscm-01'))]"
+				}
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
@@ -383,6 +384,7 @@
 				"addressPrefix": "[parameters('infraSubnetPrefix')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftInfraHostname'), '-Nsg-Osci-01'))]"
+				}
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
@@ -397,6 +399,7 @@
 				"addressPrefix": "[parameters('cnsSubnetPrefix')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftCnsHostname'), '-Nsg-Oscc-01'))]"
+				}
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
@@ -719,7 +722,6 @@
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]"
-				}
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
@@ -780,7 +782,6 @@
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]"
-				}
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
@@ -808,7 +809,6 @@
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]"
-				}
 			}
 		}
 	],
