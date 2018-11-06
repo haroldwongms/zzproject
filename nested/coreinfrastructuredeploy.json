@@ -298,6 +298,7 @@
 		}
 	},
 	"variables": {
+		"bastionip": "[add(parameters('masterFirstAddrOctet4'), 4)]"
 	},
 	"resources": [
 		{
@@ -674,7 +675,8 @@
 				"ipConfigurations": [{
 					"name": "[concat(parameters('openshiftBastionHostname'), 'ipconfig')]",
 					"properties": {
-						"privateIPAllocationMethod": "Dynamic",
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), variables('bastionip'))]",
 						"publicIPAddress": {
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
 						},

@@ -98,12 +98,6 @@
 				"description": "Enable accelerated networking for compute node"
 			}
 		},
-		"existingNodeSubnetReference": {
-			"type": "string",
-			"metadata": {
-				"description": "Full reference for existing compute node subnet"
-			}
-		},
 		"nodeInstanceCount": {
 			"type": "int",
 			"metadata": {
