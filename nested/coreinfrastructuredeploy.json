@@ -504,8 +504,8 @@
 					"location": {
 						"value": "[parameters('location')]"
 					},
-					"apiVersionCompute": {
-						"value": "[parameters('apiVersionCompute')]"
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
 						"value": "[parameters('existingVnetName')]"
@@ -543,8 +543,8 @@
 					"location": {
 						"value": "[parameters('location')]"
 					},
-					"apiVersionCompute": {
-						"value": "[parameters('apiVersionCompute')]"
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
 						"value": "[parameters('existingVnetName')]"
@@ -582,8 +582,8 @@
 					"location": {
 						"value": "[parameters('location')]"
 					},
-					"apiVersionCompute": {
-						"value": "[parameters('apiVersionCompute')]"
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
 						"value": "[parameters('existingVnetName')]"
