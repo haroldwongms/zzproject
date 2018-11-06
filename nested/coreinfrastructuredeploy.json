@@ -517,7 +517,7 @@
 						"value": "[parameters('masterSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
-						"value": "[resourceId(parameters('coreVirtualNetworkResourceGroupName'), 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -556,7 +556,7 @@
 						"value": "[parameters('infraSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
-						"value": "[resourceId(parameters('coreVirtualNetworkResourceGroupName'), 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -595,7 +595,7 @@
 						"value": "[parameters('cnsSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
-						"value": "[resourceId(parameters('coreVirtualNetworkResourceGroupName'), 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
