@@ -400,11 +400,11 @@
 		  }
 		},
 		"masterSubnetName": {
-		  "type": "string",
-		  "defaultValue": "mastersubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Master nodes and Bastion node"
-		  }
+			"type": "string",
+			"defaultValue": "mastersubnet",
+			"metadata": {
+				"description": "Name of the subnet for Master nodes and Bastion node"
+			}
 		},
 		"masterSubnetPrefix": {
 			"type": "string",
@@ -414,11 +414,11 @@
 			}
 		},
 		"infraSubnetName": {
-		  "type": "string",
-		  "defaultValue": "infrasubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Infra nodes"
-		  }
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
 		},
 		"infraSubnetPrefix": {
 			"type": "string",
@@ -428,11 +428,11 @@
 			}
 		},
 		"cnsSubnetName": {
-		  "type": "string",
-		  "defaultValue": "infrasubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Infra nodes"
-		  }
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
 		},
 		"cnsSubnetPrefix": {
 			"type": "string",
@@ -442,11 +442,11 @@
 			}
 		},
 		"toolsSubnetName": {
-		  "type": "string",
-		  "defaultValue": "infrasubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Infra nodes"
-		  }
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
 		},
 		"toolsSubnetPrefix": {
 			"type": "string",
@@ -456,11 +456,11 @@
 			}
 		},
 		"prodSubnetName": {
-		  "type": "string",
-		  "defaultValue": "infrasubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Infra nodes"
-		  }
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
 		},
 		"prodSubnetPrefix": {
 			"type": "string",
@@ -1282,11 +1282,20 @@
 					"existingVnetName": {
 					  "value": "[parameters('coreVirtualNetworkName')]"
 					},
+					"masterSubnetName": {
+						"value": "[parameters('masterSubnetName')]"
+					},
 					"masterSubnetPrefix": {
 						"value": "[parameters('masterSubnetPrefix')]"
 					},
+					"infraSubnetName": {
+						"value": "[parameters('infraSubnetName')]"
+					},
 					"infraSubnetPrefix": {
 						"value": "[parameters('infraSubnetPrefix')]"
+					},
+					"cnsSubnetName": {
+						"value": "[parameters('cnsSubnetName')]"
 					},
 					"cnsSubnetPrefix": {
 						"value": "[parameters('cnsSubnetPrefix')]"
@@ -1434,6 +1443,9 @@
 					"existingVnetName": {
 					  "value": "[parameters('coreVirtualNetworkName')]"
 					},
+					"nodeSubnetName": {
+						"value": "[parameters('toolsSubnetName')]"
+					},
 					"nodeSubnetPrefix": {
 						"value": "[parameters('toolsSubnetPrefix')]"
 					},
@@ -1501,6 +1513,9 @@
 					},
 					"existingVnetName": {
 					  "value": "[parameters('prodVirtualNetworkName')]"
+					},
+					"nodeSubnetName": {
+						"value": "[parameters('prodSubnetName')]"
 					},
 					"nodeSubnetPrefix": {
 						"value": "[parameters('prodSubnetPrefix')]"
