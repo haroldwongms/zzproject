@@ -619,6 +619,158 @@
 				"name": "availabiltySetLoop",
 				"count": "[length(parameters('availabilitySetArray'))]"
 			}
+		}, {
+			"type": "Microsoft.Network/loadBalancers",
+			"name": "[parameters('masterLoadBalancerName')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), json('null'))]"
+			],
+			"properties": {
+				"frontendIPConfigurations": [{
+					"name": "LoadBalancerFrontEnd",
+					"properties": "[parameters('masterFrontEndIpConfigurationProperties')]"
+				}],
+				"backendAddressPools": [{
+					"name": "loadBalancerBackEnd"
+				}],
+				"loadBalancingRules": [{
+					"name": "OpenShiftAdminConsole",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('masterLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('masterLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"loadDistribution": "SourceIP",
+						"idleTimeoutInMinutes": 30,
+						"frontendPort": 443,
+						"backendPort": 443,
+						"probe": {
+							"id": "[parameters('masterLbHttpsProbeId')]"
+						}
+					}
+				}],
+				"probes": [{
+					"name": "httpsProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 443,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}]
+			}
+		}, {
+			"type": "Microsoft.Network/loadBalancers",
+			"name": "[parameters('infraLoadBalancerName')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), json('null'))]"
+			],
+			"properties": {
+				"frontendIPConfigurations": [{
+					"name": "LoadBalancerFrontEnd",
+					"properties": "[parameters('infraFrontEndIpConfigurationProperties')]"
+				}],
+				"backendAddressPools": [{
+					"name": "loadBalancerBackEnd"
+				}],
+				"loadBalancingRules": [{
+					"name": "OpenShiftRouterHTTP",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('infraLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('infraLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"frontendPort": 80,
+						"backendPort": 80,
+						"probe": {
+							"id": "[parameters('infraLbHttpProbeId')]"
+						}
+					}
+				}, {
+					"name": "OpenShiftRouterHTTPS",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('infraLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('infraLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"frontendPort": 443,
+						"backendPort": 443,
+						"probe": {
+							"id": "[parameters('infraLbHttpsProbeId')]"
+						}
+					}
+				}],
+				"probes": [{
+					"name": "httpProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 80,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}, {
+					"name": "httpsProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 443,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}]
+			}
+		}, {
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('bastionPublicIp')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Dynamic",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('bastionPublicIpDnsLabel')]"
+				}
+			}
+		}, {
+			"condition": "[equals(parameters('routerClusterType'), 'public')]",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('infraLbPublicIpDnsLabel')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Static",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('infraLbPublicIpDnsLabel')]"
+				}
+			}
+		}, {
+			"condition": "[equals(parameters('masterClusterType'), 'public')]",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('openshiftMasterPublicIpDnsLabel')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Static",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('openshiftMasterPublicIpDnsLabel')]"
+				}
+			}
 		}
 	],
 	"outputs": {
