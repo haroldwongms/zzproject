@@ -359,7 +359,8 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/virtualNetworks/subnets",
-			"name": "[concat(parameters('existingVnetName'), '/', parameters('masterSubnetName'))]",
+			"name": "[parameters('masterSubnetName')]",
+			"id": "[concat(parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [

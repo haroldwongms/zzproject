@@ -371,7 +371,21 @@
 			"description": "Name of the resource group for the new virtual network"
 		  }
 		},
+		"coreVirtualNetworkResourceGroupName": {
+		  "type": "string",
+		  "defaultValue": "coreopenshiftvnet",
+		  "metadata": {
+			"description": "Name of the virtual network that contains master, infra, cns, and tools nodes"
+		  }
+		},
 		"coreVirtualNetworkName": {
+		  "type": "string",
+		  "defaultValue": "coreopenshiftvnet",
+		  "metadata": {
+			"description": "Name of the virtual network that contains master, infra, cns, and tools nodes"
+		  }
+		},
+		"prodVirtualNetworkResourceGroupName": {
 		  "type": "string",
 		  "defaultValue": "coreopenshiftvnet",
 		  "metadata": {
@@ -383,6 +397,13 @@
 		  "defaultValue": "prodopenshiftvnet",
 		  "metadata": {
 			"description": "Name of the virtual network that contains production nodes"
+		  }
+		},
+		"accVirtualNetworkResourceGroupName": {
+		  "type": "string",
+		  "defaultValue": "coreopenshiftvnet",
+		  "metadata": {
+			"description": "Name of the virtual network that contains master, infra, cns, and tools nodes"
 		  }
 		},
 		"accVirtualNetworkName": {
@@ -1280,7 +1301,7 @@
 						"value": "[variables('availabilitySetArray')]"
 					},
 					"existingVnetName": {
-					  "value": "[parameters('coreVirtualNetworkName')]"
+					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
 					},
 					"masterSubnetName": {
 						"value": "[parameters('masterSubnetName')]"
@@ -1441,7 +1462,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].tagName]"
 					},
 					"existingVnetName": {
-					  "value": "[parameters('coreVirtualNetworkName')]"
+					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('toolsSubnetName')]"
@@ -1512,7 +1533,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].tagName]"
 					},
 					"existingVnetName": {
-					  "value": "[parameters('prodVirtualNetworkName')]"
+					  "value": "[concat('/subscriptions/', parameters('productionNodeGroupSubscriptionID'), '/resourceGroups/', parameters('prodVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVirtualNetworkName'))]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('prodSubnetName')]"
@@ -1583,7 +1604,7 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].tagName]"
 					},
 					"existingVnetName": {
-					  "value": "[parameters('accVirtualNetworkName')]"
+					  "value": "[concat('/subscriptions/', parameters('acceptanceNodeGroupSubscriptionID'), '/resourceGroups/', parameters('accVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('accVirtualNetworkName'))]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('accSubnetName')]"
