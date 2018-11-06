@@ -128,17 +128,15 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/virtualNetworks/subnets",
-			"name": "[parameters('nodeSubnetName')]",
-			"id": "[concat(parameters('existingVnetName'), '/subnets/', parameters('nodeSubnetName'))]",
+			"name": "[concat(parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]",
 			"location": "[parameters('location')]",
-			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
 			],
 			"properties": {
 				"addressPrefix": "[parameters('nodeSubnetPrefix')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
+					"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
 				}
 			}
 		}, {
@@ -201,7 +199,7 @@
 				"platformFaultDomainCount": "2",
 				"platformUpdateDomainCount": "5"
 			},
-			"tags": "[parameters('customTags')]",
+			"tags": "[parameters('customTags')]"
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
 			"name": "[concat(parameters('openshiftNodeHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
