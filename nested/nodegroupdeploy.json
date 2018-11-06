@@ -213,7 +213,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
+				"[concat(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
