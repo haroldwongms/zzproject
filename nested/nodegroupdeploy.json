@@ -213,7 +213,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualNetworks/subnets', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
@@ -226,7 +226,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('nodeFirstAddrPrefix'), copyindex(parameters('nodeFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('nodeSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
 						}
 					}
 				}],
