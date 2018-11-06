@@ -62,6 +62,12 @@
 				"description": "Availability set tag name"
 			}
 		},
+		"virtualNetworkResourceGroupName": {
+			"type": "string",
+			"metadata": {
+				"description": "Existing virtual network resource group name"
+			}
+		},
 		"existingVnetName": {
 			"type": "string",
 			"metadata": {
@@ -207,7 +213,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
+				"[concat('Microsoft.Network/virtualNetworks/subnets', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
@@ -220,7 +226,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('nodeFirstAddrPrefix'), copyindex(parameters('nodeFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('nodeSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('nodeSubnetName'))]"
 						}
 					}
 				}],
