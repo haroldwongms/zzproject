@@ -619,6 +619,271 @@
 				"name": "availabiltySetLoop",
 				"count": "[length(parameters('availabilitySetArray'))]"
 			}
+		}, {
+			"type": "Microsoft.Network/loadBalancers",
+			"name": "[parameters('masterLoadBalancerName')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), json('null'))]"
+			],
+			"properties": {
+				"frontendIPConfigurations": [{
+					"name": "LoadBalancerFrontEnd",
+					"properties": "[parameters('masterFrontEndIpConfigurationProperties')]"
+				}],
+				"backendAddressPools": [{
+					"name": "loadBalancerBackEnd"
+				}],
+				"loadBalancingRules": [{
+					"name": "OpenShiftAdminConsole",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('masterLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('masterLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"loadDistribution": "SourceIP",
+						"idleTimeoutInMinutes": 30,
+						"frontendPort": 443,
+						"backendPort": 443,
+						"probe": {
+							"id": "[parameters('masterLbHttpsProbeId')]"
+						}
+					}
+				}],
+				"probes": [{
+					"name": "httpsProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 443,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}]
+			}
+		}, {
+			"type": "Microsoft.Network/loadBalancers",
+			"name": "[parameters('infraLoadBalancerName')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), json('null'))]"
+			],
+			"properties": {
+				"frontendIPConfigurations": [{
+					"name": "LoadBalancerFrontEnd",
+					"properties": "[parameters('infraFrontEndIpConfigurationProperties')]"
+				}],
+				"backendAddressPools": [{
+					"name": "loadBalancerBackEnd"
+				}],
+				"loadBalancingRules": [{
+					"name": "OpenShiftRouterHTTP",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('infraLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('infraLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"frontendPort": 80,
+						"backendPort": 80,
+						"probe": {
+							"id": "[parameters('infraLbHttpProbeId')]"
+						}
+					}
+				}, {
+					"name": "OpenShiftRouterHTTPS",
+					"properties": {
+						"frontendIPConfiguration": {
+							"id": "[parameters('infraLbFrontEndConfigId')]"
+						},
+						"backendAddressPool": {
+							"id": "[parameters('infraLbBackendPoolId')]"
+						},
+						"protocol": "Tcp",
+						"frontendPort": 443,
+						"backendPort": 443,
+						"probe": {
+							"id": "[parameters('infraLbHttpsProbeId')]"
+						}
+					}
+				}],
+				"probes": [{
+					"name": "httpProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 80,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}, {
+					"name": "httpsProbe",
+					"properties": {
+						"protocol": "Tcp",
+						"port": 443,
+						"intervalInSeconds": 5,
+						"numberOfProbes": 2
+					}
+				}]
+			}
+		}, {
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('bastionPublicIp')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Dynamic",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('bastionPublicIpDnsLabel')]"
+				}
+			}
+		}, {
+			"condition": "[equals(parameters('routerClusterType'), 'public')]",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('infraLbPublicIpDnsLabel')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Static",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('infraLbPublicIpDnsLabel')]"
+				}
+			}
+		}, {
+			"condition": "[equals(parameters('masterClusterType'), 'public')]",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[parameters('openshiftMasterPublicIpDnsLabel')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"publicIPAllocationMethod": "Static",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('openshiftMasterPublicIpDnsLabel')]"
+				}
+			}
+		}, {
+			"type": "Microsoft.Network/networkInterfaces",
+			"name": "[concat(parameters('openshiftBastionHostname'), '-nic-01')]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]"
+			],
+			"properties": {
+				"ipConfigurations": [{
+					"name": "[concat(parameters('openshiftBastionHostname'), 'ipconfig')]",
+					"properties": {
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), variables('bastionip'))]",
+						"publicIPAddress": {
+							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
+						},
+						"subnet": {
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
+						}
+					}
+				}],
+				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]"
+			}
+		}, {
+			"type": "Microsoft.Network/networkInterfaces",
+			"name": "[concat(parameters('openshiftMasterHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'))]",
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('masterSubnetName'))]"
+			],
+			"copy": {
+				"name": "masterNicLoop",
+				"count": "[parameters('masterInstanceCount')]"
+			},
+			"properties": {
+				"ipConfigurations": [{
+					"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"properties": {
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), copyindex(parameters('masterFirstAddrOctet4')))]",
+						"subnet": {
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
+						},
+						"loadBalancerBackendAddressPools": [{
+							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
+						}]
+					}
+				}],
+				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]"
+			}
+		}, {
+			"type": "Microsoft.Network/networkInterfaces",
+			"name": "[concat(parameters('openshiftInfraHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'))]",
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('infraSubnetName'))]"
+			],
+			"copy": {
+				"name": "infraNicLoop",
+				"count": "[parameters('infraInstanceCount')]"
+			},
+			"properties": {
+				"ipConfigurations": [{
+					"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"properties": {
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('infraFirstAddrPrefix'), copyindex(parameters('infraFirstAddrOctet4')))]",
+						"subnet": {
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('infraSubnetName'))]"
+						},
+						"loadBalancerBackendAddressPools": [{
+							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
+						}]
+					}
+				}],
+				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]"
+			}
+		}, {
+			"type": "Microsoft.Network/networkInterfaces",
+			"name": "[concat(parameters('openshiftCnsHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"location": "[parameters('location')]",
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]",
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('existingVnetName'), '/subnets/', parameters('cnsSubnetName'))]"
+			],
+			"copy": {
+				"name": "cnsNicLoop",
+				"count": "[parameters('cnsInstanceCount')]"
+			},
+			"properties": {
+				"ipConfigurations": [{
+					"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"properties": {
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('cnsFirstAddrPrefix'), copyindex(parameters('cnsFirstAddrOctet4')))]",
+						"subnet": {
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('cnsSubnetName'))]"
+						}
+					}
+				}],
+				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]"
+			}
 		}
 	],
 	"outputs": {
