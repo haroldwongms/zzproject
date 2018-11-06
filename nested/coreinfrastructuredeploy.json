@@ -86,6 +86,12 @@
 				"description": "Availability set array"
 			}
 		},
+		"virtualNetworkResourceGroupName": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
 		"existingVnetName": {
 			"type": "string",
 			"metadata": {
@@ -314,12 +320,6 @@
 				"description": "template link"
 			}
 		},
-		"virtualNetworkResourceGroupName": {
-			"type": "string",
-			"metadata": {
-				"description": "template link"
-			}
-		},
 		"coreinfrastructureSubscriptionID": {
 			"type": "string",
 			"metadata": {
@@ -488,7 +488,7 @@
 		}, {
 			"name": "CreateMasterSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+			"resourceGroup": "[parameters('virtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
@@ -527,7 +527,7 @@
 		}, {
 			"name": "CreateInfraSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+			"resourceGroup": "[parameters('virtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
@@ -566,7 +566,7 @@
 		}, {
 			"name": "CreateCnsSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "[parameters('coreVirtualNetworkResourceGroupName')]",
+			"resourceGroup": "[parameters('virtualNetworkResourceGroupName')]",
             "subscriptionId": "[parameters('coreinfrastructureSubscriptionID')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
