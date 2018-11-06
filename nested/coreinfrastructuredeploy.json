@@ -326,6 +326,12 @@
 				"description": "template link"
 			}
 		},
+		"apiVersionLinkTemplate": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
 		"customTags": {
 			"type": "object",
 			"metadata": {

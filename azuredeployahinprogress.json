@@ -1421,6 +1421,9 @@
 					"coreinfrastructureSubscriptionID": {
 						"value": "[parameters('coreinfrastructureSubscriptionID')]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
