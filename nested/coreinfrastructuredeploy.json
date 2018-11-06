@@ -26,10 +26,10 @@
 				"description": "Compute API version"
 			}
 		},
-		"diagStorageAccount": {
-			"type": "string",
+		"coreInfraDiagStorageAccountArray": {
+			"type": "array",
 			"metadata": {
-				"description": "Diagnostics storage account name"
+				"description": "Diagnostics storage account names"
 			}
 		},
 		"newStorageAccountWeb": {
@@ -42,6 +42,18 @@
 			"type": "string",
 			"metadata": {
 				"description": "Storage account name for use by OpenShift registry"
+			}
+		},
+		"openshiftClusterPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "OpenShift cluster prefix"
+			}
+		},
+		"simplifiedClusterPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Simplified cluster prefix with no hyphens and all lowercase"
 			}
 		},
 		"openshiftBastionHostname": {
@@ -72,6 +84,66 @@
 			"type": "array",
 			"metadata": {
 				"description": "Availability set array"
+			}
+		},
+		"existingVnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Existing virtual network name"
+			}
+		},
+		"masterSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Master subnet CIDR"
+			}
+		},
+		"infraSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Infra subnet CIDR"
+			}
+		},
+		"cnsSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "CNS subnet CIDR"
+			}
+		},
+		"masterFirstAddrOctet4": {
+			"type": "int",
+			"metadata": {
+				"description": "First IP address for master nodes"
+			}
+		},
+		"masterFirstAddrPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Master prefix for first IP address"
+			}
+		},
+		"infraFirstAddrOctet4": {
+			"type": "int",
+			"metadata": {
+				"description": "First IP address for infra nodes"
+			}
+		},
+		"infraFirstAddrPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Infra prefix for first IP address"
+			}
+		},
+		"cnsFirstAddrOctet4": {
+			"type": "int",
+			"metadata": {
+				"description": "First IP address for cns nodes"
+			}
+		},
+		"cnsFirstAddrPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "CNS prefix for first IP address"
 			}
 		},
 		"masterClusterType": {
@@ -200,24 +272,6 @@
 				"description": "Enable accelerated networking for cns nodes"
 			}
 		},
-		"existingMasterSubnetReference": {
-			"type": "string",
-			"metadata": {
-				"description": "Full reference for existing master subnet"
-			}
-		},
-		"existingInfraSubnetReference": {
-			"type": "string",
-			"metadata": {
-				"description": "Full reference for existing infra subnet"
-			}
-		},
-		"existingCnsSubnetReference": {
-			"type": "string",
-			"metadata": {
-				"description": "Full reference for existing cns subnet"
-			}
-		},
 		"masterInstanceCount": {
 			"type": "int",
 			"metadata": {
@@ -248,7 +302,7 @@
 	"resources": [
 		{
 			"type": "Microsoft.Storage/storageAccounts",
-			"name": "[parameters('diagStorageAccount')]",
+			"name": "[parameters('coreInfraDiagStorageAccountArray')[copyIndex()].name]",
 			"location": "[parameters('location')]",
 			"kind": "Storage",
 			"apiVersion": "[parameters('apiVersionStorage')]",
@@ -256,6 +310,10 @@
 			"sku": {
 				"name": "Standard_LRS",
 				"tier": "Standard"
+			},
+			"copy": {
+				"name": "storageAccountLoop",
+				"count": "[length(parameters('coreInfraDiagStorageAccountArray'))]"
 			}
 		}, {
 			"type": "Microsoft.Storage/storageAccounts",
@@ -281,8 +339,35 @@
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"type": "Microsoft.Network/virtualNetworks/subnets",
+			"name": "[concat(parameters('existingVnetName'), '/', parameters('masterSubnetName'))]",
+			"location": "[parameters('location')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"addressPrefix": "[parameters('masterSubnetPrefix')]"
+			}
+		}, {
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"type": "Microsoft.Network/virtualNetworks/subnets",
+			"name": "[concat(parameters('existingVnetName'), '/', parameters('infraSubnetName'))]",
+			"location": "[parameters('location')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"addressPrefix": "[parameters('infraSubnetPrefix')]"
+			}
+		}, {
+			"apiVersion": "[parameters('apiVersionNetwork')]",
+			"type": "Microsoft.Network/virtualNetworks/subnets",
+			"name": "[concat(parameters('existingVnetName'), '/', parameters('cnsSubnetName'))]",
+			"location": "[parameters('location')]",
+			"tags": "[parameters('customTags')]",
+			"properties": {
+				"addressPrefix": "[parameters('cnsSubnetPrefix')]"
+			}
+		}, {
+			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftBastionHostname'), '-Nsg-Oscb-01')]",
+			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscb-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
@@ -304,7 +389,7 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftMasterHostname'), '-Nsg-Oscm-01')]",
+			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
@@ -339,7 +424,7 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftInfraHostname'), '-Nsg-Osci-01')]",
+			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
@@ -387,7 +472,7 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftCnsHostname'), '-Nsg-Oscc-01')]",
+			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
@@ -577,7 +662,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftBastionHostname'), '-nic')]",
+			"name": "[concat(parameters('openshiftBastionHostname'), '-nic-01')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -621,9 +706,10 @@
 				"ipConfigurations": [{
 					"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
-						"privateIPAllocationMethod": "Dynamic",
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), copyindex(parameters('masterFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingMasterSubnetReference')]"
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
@@ -653,9 +739,10 @@
 				"ipConfigurations": [{
 					"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
-						"privateIPAllocationMethod": "Dynamic",
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('infraFirstAddrPrefix'), copyindex(parameters('infraFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingInfraSubnetReference')]"
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('infraSubnetName'))]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
@@ -684,9 +771,10 @@
 				"ipConfigurations": [{
 					"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
-						"privateIPAllocationMethod": "Dynamic",
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('cnsFirstAddrPrefix'), copyindex(parameters('cnsFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingCnsSubnetReference')]"
+							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('cnsSubnetName'))]"
 						}
 					}
 				}],
@@ -698,9 +786,15 @@
 		}
 	],
 	"outputs": {
-		"storageUri": {
+		"storageUriMaster": {
 			"type": "string",
-			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('diagStorageAccount')), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
+			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('coreInfraDiagStorageAccountArray')[0].name), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
+		},"storageUriInfra": {
+			"type": "string",
+			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('coreInfraDiagStorageAccountArray')[1].name), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
+		},"storageUriCns": {
+			"type": "string",
+			"value": "[concat(concat(reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', parameters('coreInfraDiagStorageAccountArray')[2].name), parameters('apiVersionStorage')).primaryEndpoints['blob']))]"
 		},
 		"registryKey": {
 			"type": "string",

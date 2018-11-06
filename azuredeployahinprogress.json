@@ -371,11 +371,25 @@
 			"description": "Name of the resource group for the new virtual network"
 		  }
 		},
-		"virtualNetworkName": {
+		"coreVirtualNetworkName": {
 		  "type": "string",
-		  "defaultValue": "openshiftvnet",
+		  "defaultValue": "coreopenshiftvnet",
 		  "metadata": {
-			"description": "Name of the virtual network that contains infra nodes"
+			"description": "Name of the virtual network that contains master, infra, cns, and tools nodes"
+		  }
+		},
+		"prodVirtualNetworkName": {
+		  "type": "string",
+		  "defaultValue": "prodopenshiftvnet",
+		  "metadata": {
+			"description": "Name of the virtual network that contains production nodes"
+		  }
+		},
+		"accVirtualNetworkName": {
+		  "type": "string",
+		  "defaultValue": "accopenshiftvnet",
+		  "metadata": {
+			"description": "Name of the virtual network that contains acceptance nodes"
 		  }
 		},
 		"addressPrefixes": {
@@ -413,61 +427,61 @@
 				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
 			}
 		},
-		"nodeSubnetName": {
+		"cnsSubnetName": {
+		  "type": "string",
+		  "defaultValue": "infrasubnet",
+		  "metadata": {
+			"description": "Name of the subnet for Infra nodes"
+		  }
+		},
+		"cnsSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"toolsSubnetName": {
+		  "type": "string",
+		  "defaultValue": "infrasubnet",
+		  "metadata": {
+			"description": "Name of the subnet for Infra nodes"
+		  }
+		},
+		"toolsSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"prodSubnetName": {
+		  "type": "string",
+		  "defaultValue": "infrasubnet",
+		  "metadata": {
+			"description": "Name of the subnet for Infra nodes"
+		  }
+		},
+		"prodSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"accSubnetName": {
 			"type": "string",
 			"defaultValue": "nodesubnet",
 			"metadata": {
 				"description": "Name of the subnet for Compute and CNS nodes"
 		  }
 		},
-		"nodeSubnetPrefix": {
+		"accSubnetPrefix": {
 			"type": "string",
 			"defaultValue": "10.3.0.0/16",
 			"metadata": {
 				"description": "CIDR used for the node subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
 			}
-		},
-		"existingMasterSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Master nodes"
-		  }
-		},
-		"existingInfraSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/infrasubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Infra nodes"
-		  }
-		},
-		"existingCnsSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/cnssubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for CNS nodes"
-		  }
-		},
-		"existingAcceptanceNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Acceptance Compute nodes"
-		  }
-		},
-		"existingProductionNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Production Compute nodes"
-		  }
-		},
-		"existingToolsNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Tools Compute nodes"
-		  }
 		},
 		"masterClusterType": {
 			"type": "string",
@@ -629,38 +643,27 @@
 		"apiVersionLinkTemplate": "2017-05-10",
 		"routingSubDomain": "[toLower(parameters('routingSubDomain'))]",
 		"masterClusterDns": "[toLower(parameters('masterClusterDns'))]",
-		"namingInfix": "[toLower(parameters('openshiftClusterPrefix'))]",
-		"openshiftBastionHostname": "[concat(variables('namingInfix'), '-bastion')]",
-		"openshiftMasterHostname": "[concat(variables('namingInfix'), '-master')]",
-		"openshiftNodeHostname": "[concat(variables('namingInfix'), '-node')]",
-		"openshiftInfraHostname": "[concat(variables('namingInfix'), '-infra')]",
-		"openshiftCnsHostname": "[concat(variables('namingInfix'), '-cns')]",
-		"openshiftToolsNodeHostname": "[concat(variables('namingInfix'), '-tools')]",
-		"openshiftProductionNodeHostname": "[concat(variables('namingInfix'), '-prod')]",
-		"openshiftAcceptanceNodeHostname": "[concat(variables('namingInfix'), '-acc')]",
-		"newStorageAccountBastion": "[concat('bastion', uniqueString(concat(resourceGroup().id, 'bsa')))]",
-		"newStorageAccountMaster": "[concat('master', uniqueString(concat(resourceGroup().id, 'msa')))]",
-		"newStorageAccountInfra": "[concat('infra', uniqueString(concat(resourceGroup().id, 'isa')))]",
-		"newStorageAccountNodeOs": "[concat('nodeos', uniqueString(concat(resourceGroup().id, 'nodeossa')))]",
-		"newStorageAccountNodeData": "[concat('nodedata', uniqueString(concat(resourceGroup().id, 'nodedatasa')))]",
-		"newStorageAccountWeb": "[concat('web', uniqueString(concat(resourceGroup().id, 'csa')))]",
-		"newStorageAccountCns": "[concat('cns', uniqueString(concat(resourceGroup().id, 'csa')))]",
-		"diagStorageAccount1": "[concat('diag1', uniqueString(concat(resourceGroup().id, 'dsa1')))]",
-		"diagStorageAccount2": "[concat('diag2', uniqueString(concat(parameters('toolsNodeGroupResourceGroup'), 'dsa2')))]",
-		"diagStorageAccount3": "[concat('diag3', uniqueString(concat(parameters('productionNodeGroupResourceGroup'), 'dsa3')))]",
-		"diagStorageAccount4": "[concat('diag4', uniqueString(concat(parameters('acceptanceNodeGroupResourceGroup'), 'dsa4')))]",
-		"newStorageAccountRegistry": "[concat('registry', uniqueString(concat(resourceGroup().id, 'registry')))]",
-		"newStorageAccountPersistentVolume1": "[concat('pv1sa', uniqueString(concat(resourceGroup().id, 'persistentvolume1')))]",
-		"newStorageAccountArray": [
-			{ "name": "[variables('diagStorageAccount1')]", "tagName": "DiagnosticsStorageAccount", "skuName": "[variables('storageSkuObject').diagnostics.skuName]", "skuTier": "[variables('storageSkuObject').diagnostics.skuTier]" },
-			{ "name": "[variables('diagStorageAccount2')]", "tagName": "DiagnosticsStorageAccount", "skuName": "[variables('storageSkuObject').diagnostics.skuName]", "skuTier": "[variables('storageSkuObject').diagnostics.skuTier]" },
-			{ "name": "[variables('newStorageAccountRegistry')]", "tagName": "RegistryStorageAccount", "skuName": "[variables('storageSkuObject').registry.skuName]", "skuTier": "[variables('storageSkuObject').registry.skuTier]" },
-			{ "name": "[variables('newStorageAccountBastion')]", "tagName": "BastionStorageAccount", "skuName": "[variables('storageSkuObject').bastion.skuName]", "skuTier": "[variables('storageSkuObject').bastion.skuTier]" },
-			{ "name": "[variables('newStorageAccountMaster')]", "tagName": "MasterStorageAccount", "skuName": "[variables('storageSkuObject').master.skuName]", "skuTier": "[variables('storageSkuObject').master.skuTier]" },
-			{ "name": "[variables('newStorageAccountInfra')]", "tagName": "InfraStorageAccount", "skuName": "[variables('storageSkuObject').infra.skuName]", "skuTier": "[variables('storageSkuObject').infra.skuTier]" },
-			{ "name": "[variables('newStorageAccountNodeOs')]", "tagName": "NodeStorageAccount", "skuName": "[variables('storageSkuObject').node.skuName]", "skuTier": "[variables('storageSkuObject').node.skuTier]" },
-			{ "name": "[variables('newStorageAccountNodeData')]", "tagName": "NodeStorageAccount", "skuName": "[variables('storageSkuObject').node.skuName]", "skuTier": "[variables('storageSkuObject').node.skuTier]" },
-			{ "name": "[variables('newStorageAccountPersistentVolume1')]", "tagName": "PersistentVolume1StorageAccount", "skuName": "[variables('storageSkuObject').persistent.skuName]", "skuTier": "[variables('storageSkuObject').persistent.skuTier]" }
+		"simplifiedClusterPrefix": "[toLower(replace(parameters('openshiftClusterPrefix'),'-', ''))]",
+		"simplifiedClusterPrefix2": "[toLower(replace(parameters('openshiftClusterPrefix2'),'-', ''))]",
+		"openshiftBastionHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscb')]",
+		"openshiftMasterHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscm')]",
+		"openshiftInfraHostname": "[concat(variables('simplifiedClusterPrefix'), '-plosci')]",
+		"openshiftCnsHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscc')]",
+		"openshiftToolsNodeHostname": "[concat(variables('simplifiedClusterPrefix'), '-plosca')]",
+		"openshiftProductionNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), '-plosca')]",
+		"openshiftAcceptanceNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), '-alosca')]",
+		"newStorageAccountWeb": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscw01')]",
+		"diagStorageAccountM": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscm01')]",
+		"diagStorageAccountI": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosci01')]",
+		"diagStorageAccountC": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscc01')]",
+		"diagStorageAccountT": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscp01')]",
+		"diagStorageAccountP": "[concat(variables('simplifiedClusterPrefix2'), 'prdsaosca01')]",
+		"diagStorageAccountA": "[concat(variables('simplifiedClusterPrefix2'), 'accsaosca01')]",
+		"newStorageAccountRegistry": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosccr1')]",
+		"coreInfraDiagStorageAccountArray": [
+			{ "name": "[variables('diagStorageAccountM')]"},
+			{ "name": "[variables('diagStorageAccountI')]"},
+			{ "name": "[variables('diagStorageAccountC')]"}
 		],
 		"availabilitySetArray": [
 			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Oscm-01')]", "tagName": "MasterAvailabilitySet" },
@@ -737,13 +740,37 @@
 		"nodeOsUri": "[concat(parameters('storageKind'), 'NodeOsUri')]",
 		"nodeDataUri": "[concat(parameters('storageKind'), 'NodeDataUri')]",
 		"cnsUri": "[concat(parameters('storageKind'), 'CnsUri')]",
+		"masterFirstAddrOctets": "[split(parameters('masterSubnetPrefix'),'.')]",
+		"masterFirstAddrOctets4split": "[split(variables('masterFirstAddrOctets')[3],'/')]",
+		"masterFirstAddrOctet4": "[add(int(variables('masterFirstAddrOctets4split')[0]),4)]",
+		"masterFirstAddrPrefix": "[concat(variables('masterFirstAddrOctets')[0], '.', variables('masterFirstAddrOctets')[1], '.', variables('masterFirstAddrOctets')[2], '.')]",
+		"infraFirstAddrOctets": "[split(parameters('infraSubnetPrefix'),'.')]",
+		"infraFirstAddrOctets4split": "[split(variables('infraFirstAddrOctets')[3],'/')]",
+		"infraFirstAddrOctet4": "[add(int(variables('infraFirstAddrOctets4split')[0]),4)]",
+		"infraFirstAddrPrefix": "[concat(variables('infraFirstAddrOctets')[0], '.', variables('infraFirstAddrOctets')[1], '.', variables('infraFirstAddrOctets')[2], '.')]",
+		"cnsFirstAddrOctets": "[split(parameters('cnsSubnetPrefix'),'.')]",
+		"cnsFirstAddrOctets4split": "[split(variables('cnsFirstAddrOctets')[3],'/')]",
+		"cnsFirstAddrOctet4": "[add(int(variables('cnsFirstAddrOctets4split')[0]),4)]",
+		"cnsFirstAddrPrefix": "[concat(variables('cnsFirstAddrOctets')[0], '.', variables('cnsFirstAddrOctets')[1], '.', variables('cnsFirstAddrOctets')[2], '.')]",
+		"toolsFirstAddrOctets": "[split(parameters('toolsSubnetPrefix'),'.')]",
+		"toolsFirstAddrOctets4split": "[split(variables('toolsFirstAddrOctets')[3],'/')]",
+		"toolsFirstAddrOctet4": "[add(int(variables('toolsFirstAddrOctets4split')[0]),4)]",
+		"toolsFirstAddrPrefix": "[concat(variables('toolsFirstAddrOctets')[0], '.', variables('toolsFirstAddrOctets')[1], '.', variables('toolsFirstAddrOctets')[2], '.')]",
+		"prodFirstAddrOctets": "[split(parameters('prodSubnetPrefix'),'.')]",
+		"prodFirstAddrOctets4split": "[split(variables('prodFirstAddrOctets')[3],'/')]",
+		"prodFirstAddrOctet4": "[add(int(variables('prodFirstAddrOctets4split')[0]),4)]",
+		"prodFirstAddrPrefix": "[concat(variables('prodFirstAddrOctets')[0], '.', variables('prodFirstAddrOctets')[1], '.', variables('prodFirstAddrOctets')[2], '.')]",
+		"accFirstAddrOctets": "[split(parameters('accSubnetPrefix'),'.')]",
+		"accFirstAddrOctets4split": "[split(variables('accFirstAddrOctets')[3],'/')]",
+		"accFirstAddrOctet4": "[add(int(variables('accFirstAddrOctets4split')[0]),4)]",
+		"accFirstAddrPrefix": "[concat(variables('accFirstAddrOctets')[0], '.', variables('accFirstAddrOctets')[1], '.', variables('accFirstAddrOctets')[2], '.')]",
 		"bastionPublicIp": "bastionpublicip",
 		"bastionPublicIpDnsLabel": "[concat('bastiondns', uniqueString(resourceGroup().id))]",
 		"infraLbPublicIpDnsLabel": "[concat('infradns', uniqueString(concat(resourceGroup().id, 'infra')))]",
 		"openshiftMasterPublicIpDnsLabel": "[concat('masterdns', uniqueString(concat(resourceGroup().id, 'master')))]",
 		"persistentVolume1Type": "Standard_LRS",
 
-		"masterLoadBalancerName": "[concat(variables('openshiftMasterHostname'), 'lb')]",
+		"masterLoadBalancerName": "[concat(variables('openshiftMasterHostname'), '-Prd-Lb-Oscm-01')]",
 		"masterPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('openshiftMasterPublicIpDnsLabel'))]",
 		"masterLbId": "[resourceId('Microsoft.Network/loadBalancers', variables('masterLoadBalancerName'))]",
 		"masterLbFrontEndConfigId": "[concat(variables('masterLbId'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
@@ -751,7 +778,7 @@
 		"masterLbHttpProbeId": "[concat(variables('masterLbId'),'/probes/httpProbe')]",
 		"masterLbHttpsProbeId": "[concat(variables('masterLbId'),'/probes/httpsProbe')]",
 
-		"infraLoadBalancerName": "[concat(variables('openshiftInfraHostname'), 'lb')]",
+		"infraLoadBalancerName": "[concat(variables('openshiftInfraHostname'), '-Prd-Lb-Oscm-01')]",
 		"infraPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('infraLbPublicIpDnsLabel'))]",
 		"infraLbId": "[resourceId('Microsoft.Network/loadBalancers', variables('infraLoadBalancerName'))]",
 		"infraLbFrontEndConfigId": "[concat(variables('infraLbId'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
@@ -1241,14 +1268,17 @@
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
 					},
-					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccount1')]"
+					"coreInfraDiagStorageAccountArray": {
+						"value": "[variables('coreInfraDiagStorageAccountArray')]"
 					},
 					"newStorageAccountWeb": {
 						"value": "[variables('newStorageAccountWeb')]"
 					},
 					"newStorageAccountRegistry": {
 						"value": "[variables('newStorageAccountRegistry')]"
+					},
+					"simplifiedClusterPrefix": {
+						"value": "[variables('simplifiedClusterPrefix')]"
 					},
 					"openshiftBastionHostname": {
 						"value": "[variables('openshiftBastionHostname')]"
@@ -1264,6 +1294,36 @@
 					},
 					"availabilitySetArray": {
 						"value": "[variables('availabilitySetArray')]"
+					},
+					"existingVnetName": {
+					  "value": "[parameters('coreVirtualNetworkName')]"
+					},
+					"masterSubnetPrefix": {
+						"value": "[parameters('masterSubnetPrefix')]"
+					},
+					"infraSubnetPrefix": {
+						"value": "[parameters('infraSubnetPrefix')]"
+					},
+					"cnsSubnetPrefix": {
+						"value": "[parameters('cnsSubnetPrefix')]"
+					},
+					"masterFirstAddrOctet4": {
+						"value": "[variables('masterFirstAddrOctet4')]"
+					},
+					"masterFirstAddrPrefix": {
+						"value": "[variables('masterFirstAddrPrefix')]"
+					},
+					"infraFirstAddrOctet4": {
+						"value": "[variables('infraFirstAddrOctet4')]"
+					},
+					"infraFirstAddrPrefix": {
+						"value": "[variables('infraFirstAddrPrefix')]"
+					},
+					"cnsFirstAddrOctet4": {
+						"value": "[variables('cnsFirstAddrOctet4')]"
+					},
+					"cnsFirstAddrPrefix": {
+						"value": "[variables('cnsFirstAddrPrefix')]"
 					},
 					"masterClusterType": {
 						"value": "[parameters('masterClusterType')]"
@@ -1328,15 +1388,6 @@
 					"enableCnsAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('cnsVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
 					},
-					"existingMasterSubnetReference": {
-						"value": "[parameters('existingMasterSubnetReference')]"
-					},
-					"existingInfraSubnetReference": {
-						"value": "[parameters('existingInfraSubnetReference')]"
-					},
-					"existingCnsSubnetReference": {
-						"value": "[parameters('existingCnsSubnetReference')]"
-					},
 					"masterInstanceCount": {
 						"value": "[parameters('masterInstanceCount')]"
 					},
@@ -1378,11 +1429,14 @@
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
 					},
+					"simplifiedClusterPrefix": {
+						"value": "[variables('simplifiedClusterPrefix')]"
+					},
 					"openshiftNodeHostname": {
 						"value": "[variables('openshiftToolsNodeHostname')]"
 					},
 					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccount2')]"
+						"value": "[variables('diagStorageAccountT')]"
 					},
 					"availabilitySetName": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].name]"
@@ -1390,11 +1444,20 @@
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].tagName]"
 					},
+					"existingVnetName": {
+					  "value": "[parameters('coreVirtualNetworkName')]"
+					},
+					"nodeSubnetPrefix": {
+						"value": "[parameters('toolsSubnetPrefix')]"
+					},
+					"nodeFirstAddrOctet4": {
+						"value": "[variables('toolsFirstAddrOctet4')]"
+					},
+					"nodeFirstAddrPrefix": {
+						"value": "[variables('toolsFirstAddrPrefix')]"
+					},
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
-					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingToolsNodeSubnetReference')]"
 					},
 					"nodeInstanceCount": {
 						"value": "[parameters('toolsNodeInstanceCount')]"
@@ -1432,7 +1495,10 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccount3')]"
+						"value": "[variables('diagStorageAccountP')]"
+					},
+					"simplifiedClusterPrefix": {
+						"value": "[variables('simplifiedClusterPrefix2')]"
 					},
 					"openshiftNodeHostname": {
 						"value": "[variables('openshiftProductionNodeHostname')]"
@@ -1442,6 +1508,18 @@
 					},
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].tagName]"
+					},
+					"existingVnetName": {
+					  "value": "[parameters('prodVirtualNetworkName')]"
+					},
+					"nodeSubnetPrefix": {
+						"value": "[parameters('prodSubnetPrefix')]"
+					},
+					"nodeFirstAddrOctet4": {
+						"value": "[variables('prodFirstAddrOctet4')]"
+					},
+					"nodeFirstAddrPrefix": {
+						"value": "[variables('prodFirstAddrPrefix')]"
 					},
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
@@ -1485,7 +1563,10 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccount4')]"
+						"value": "[variables('diagStorageAccountA')]"
+					},
+					"simplifiedClusterPrefix": {
+						"value": "[variables('simplifiedClusterPrefix2')]"
 					},
 					"openshiftNodeHostname": {
 						"value": "[variables('openshiftAcceptanceNodeHostname')]"
@@ -1495,6 +1576,21 @@
 					},
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].tagName]"
+					},
+					"existingVnetName": {
+					  "value": "[parameters('accVirtualNetworkName')]"
+					},
+					"nodeSubnetName": {
+						"value": "[parameters('accSubnetName')]"
+					},
+					"nodeSubnetPrefix": {
+						"value": "[parameters('accSubnetPrefix')]"
+					},
+					"nodeFirstAddrOctet4": {
+						"value": "[variables('accFirstAddrOctet4')]"
+					},
+					"nodeFirstAddrPrefix": {
+						"value": "[variables('accFirstAddrPrefix')]"
 					},
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
@@ -1563,7 +1659,7 @@
 						"value": "[parameters('storageKind')]"
 					},
 					"diagStorageAccountUri": {
-						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUri.value]"
+						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUriMaster.value]"
 					},
 					"apiVersionStorage": {
 						"value": "[variables('apiVersionStorage')]"
@@ -1642,7 +1738,7 @@
 						"value": "[parameters('storageKind')]"
 					},
 					"diagStorageAccountUri": {
-						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUri.value]"
+						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUriMaster.value]"
 					},
 					"apiVersionStorage": {
 						"value": "[variables('apiVersionStorage')]"
@@ -1721,7 +1817,7 @@
 						"value": "[parameters('storageKind')]"
 					},
 					"diagStorageAccountUri": {
-						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUri.value]"
+						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUriInfra.value]"
 					},
 					"apiVersionStorage": {
 						"value": "[variables('apiVersionStorage')]"
@@ -1803,7 +1899,7 @@
 						"value": "[parameters('storageKind')]"
 					},
 					"diagStorageAccountUri": {
-						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUri.value]"
+						"value": "[reference('CoreInfrastructureDeployment').outputs.storageUriCns.value]"
 					},
 					"apiVersionStorage": {
 						"value": "[variables('apiVersionStorage')]"
