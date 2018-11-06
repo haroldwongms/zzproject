@@ -1529,9 +1529,6 @@
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
 					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingProductionNodeSubnetReference')]"
-					},
 					"nodeInstanceCount": {
 						"value": "[parameters('productionNodeInstanceCount')]"
 					},
@@ -1602,9 +1599,6 @@
 					},
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
-					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingAcceptanceNodeSubnetReference')]"
 					},
 					"nodeInstanceCount": {
 						"value": "[parameters('acceptanceNodeInstanceCount')]"

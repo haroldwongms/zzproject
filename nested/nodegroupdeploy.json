@@ -131,8 +131,14 @@
 			"name": "[concat(parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), '/', parameters('nodeSubnetName'))]"
+			],
 			"properties": {
-				"addressPrefix": "[parameters('nodeSubnetPrefix')]"
+				"addressPrefix": "[parameters('nodeSubnetPrefix')]",
+				"networkSecurityGroup": {
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01'))]"
+				}
 			}
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
@@ -219,10 +225,7 @@
 						}
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]"
 			}
 		}
 	],
