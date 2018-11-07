@@ -694,9 +694,9 @@
 			{ "name": "[variables('diagStorageAccountC')]"}
 		],
 		"availabilitySetArray": [
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Oscm-01')]", "tagName": "MasterAvailabilitySet" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Osci-01')]", "tagName": "InfraAvailabilitySet" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Oscc-01')]", "tagName": "CNSAvailabilitySet" }
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscm-01')]", "tagName": "MasterAvailabilitySet" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Osci-01')]", "tagName": "InfraAvailabilitySet" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscc-01')]", "tagName": "CNSAvailabilitySet" }
 		],
 		"nodeGroupAvailabilitySetArray": [
 			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Osca-01')]", "tagName": "ToolNodeGroupAvailabilitySet" },
