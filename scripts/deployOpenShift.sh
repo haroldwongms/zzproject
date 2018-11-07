@@ -181,7 +181,7 @@ fi
 echo $(date) " - Creating Master nodes grouping"
 if [ $MASTERCOUNT -gt 9 ]
 then
-	$MASTERLIST=$MASTERCOUNT
+	MASTERLIST=$MASTERCOUNT
 	# If more than 10 master nodes need to create groups 01 - 09 separately than 10 and higher
 	for (( c=1; c<=9; c++ ))
 	do
@@ -195,7 +195,7 @@ ${MASTER}0$c openshift_hostname=${MASTER}0$c openshift_node_group_name='node-con
 $MASTER$c openshift_hostname=$MASTER$c openshift_node_group_name='node-config-master'"
 	done
 else
-	$MASTERLIST="0$MASTERCOUNT"
+	MASTERLIST="0$MASTERCOUNT"
 	# If less than 10 master nodes
 	for (( c=1; c<=$MASTERCOUNT; c++ ))
 	do
