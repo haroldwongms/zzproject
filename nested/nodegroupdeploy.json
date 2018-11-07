@@ -32,6 +32,18 @@
 				"description": "Diagnostics storage account name"
 			}
 		},
+		"openshiftClusterPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "OpenShift cluster prefix"
+			}
+		},
+		"simplifiedClusterPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Simplified cluster prefix with no hyphens and all lowercase"
+			}
+		},
 		"openshiftNodeHostname": {
 			"type": "string",
 			"metadata": {
@@ -48,6 +60,18 @@
 			"type": "string",
 			"metadata": {
 				"description": "Availability set tag name"
+			}
+		},
+		"nodeFirstAddrOctet4": {
+			"type": "int",
+			"metadata": {
+				"description": "Node first IP address"
+			}
+		},
+		"nodeFirstAddrPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Node first IP address prefix"
 			}
 		},
 		"enableNodeAcceleratedNetworking": {
@@ -92,7 +116,7 @@
 		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
-			"name": "[concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01')]",
+			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]",
 			"location": "[parameters('location')]",
 			"tags": "[parameters('customTags')]",
 			"properties": {
@@ -149,15 +173,15 @@
 				"platformFaultDomainCount": "2",
 				"platformUpdateDomainCount": "5"
 			},
-			"tags": "[parameters('customTags')]",
+			"tags": "[parameters('customTags')]"
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftNodeHostname'), '-', copyIndex(), '-nic')]",
+			"name": "[concat(parameters('openshiftNodeHostname'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftNodeHostname'), '-Nsg-Osca-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
@@ -165,9 +189,10 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftNodeHostname'), copyIndex(), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
 					"properties": {
-						"privateIPAllocationMethod": "Dynamic",
+						"privateIPAllocationMethod": "Static",
+						"privateIPAddress": "[concat(parameters('nodeFirstAddrPrefix'), copyindex(parameters('nodeFirstAddrOctet4')))]",
 						"subnet": {
 							"id": "[parameters('existingNodeSubnetReference')]"
 						}
@@ -175,7 +200,7 @@
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",
 				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftNodeHostname'), '-Nsg-Osca-01'))]"
+					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
 				}
 			}
 		}

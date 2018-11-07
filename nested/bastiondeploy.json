@@ -56,10 +56,10 @@
 				"description": "VM Hostname"
 			}
 		},
-		"role": {
+		"networkInterfaceName": {
 			"type": "string",
 			"metadata": {
-				"description": "VM Role for tag"
+				"description": "Network interface name"
 			}
 		},
 		"vmStorageType": {
@@ -109,7 +109,7 @@
 		"managedStorageProfile": {
 			"imageReference": "[if(equals(parameters('osImageType'), 'marketplace'), parameters('marketplaceOsImage'), parameters('imageReference'))]",
 			"osDisk": {
-				"name": "[concat(parameters('hostName'), '-osdisk')]",
+				"name": "[concat(parameters('hostName'), '-osdisk-0')]",
 				"managedDisk": {
 					"storageAccountType": "[parameters('vmStorageType')]"
 				},
@@ -147,7 +147,7 @@
 			"storageProfile": "[variables(variables('storageProfile'))]",
 			"networkProfile": {
 				"networkInterfaces": [{
-					"id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('hostName'), '-nic'))]"
+					"id": "[resourceId(parameters('networkInterfaceName'))]"
 				}]
 			},
 			"diagnosticsProfile": {
