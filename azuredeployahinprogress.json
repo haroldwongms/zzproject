@@ -108,8 +108,8 @@
 			"defaultValue": {
 				"publisher": "redhat",
 				"offer": "rhel-byos",
-				"sku": "rhel-75",
-				"version": "latest"
+				"sku": "rhel-raw75",
+				"version": "7.5.20180917"
 			},
 			"metadata": {
 				"description": "Enter the appropriate publisher, offer, sku and version values for the appropriate marketplace image you want to use."
@@ -329,7 +329,7 @@
 				"default", "custom"
 			],
 			"metadata": {
-				"description": "Domain type for web console - default (use DNS label of master infra public IP) or custom (defined in next parameter)"
+				"description": "Domain type for web console - default (use DNS label of master public IP) or custom (defined in next parameter)"
 			}
 		},
 		"masterClusterDns": {
@@ -358,7 +358,7 @@
 		},
 		"virtualNetworkNewOrExisting": {
 			"type": "string",
-			"defaultValue": "new",
+			"defaultValue": "existing",
 			"allowedValues": ["new", "existing"],
 			"metadata": {
 				"description": "Determines whether to provision a new virtual network or use an existing virtual network"
@@ -513,7 +513,7 @@
 		},
 		"masterClusterType": {
 			"type": "string",
-			"defaultValue": "public",
+			"defaultValue": "private",
 			"allowedValues": [
 				"private", "public"
 			],
@@ -530,7 +530,7 @@
 		},
 		"routerClusterType": {
 			"type": "string",
-			"defaultValue": "public",
+			"defaultValue": "private",
 			"allowedValues": [
 				"private", "public"
 			],
@@ -554,7 +554,7 @@
 		},
 		"routingCertType": {
 			"type": "string",
-			"defaultValue": "selfsigned",
+			"defaultValue": "custom",
 			"allowedValues": [
 				"selfsigned", "custom"
 			],
@@ -564,7 +564,7 @@
 		},
 		"masterCertType": {
 			"type": "string",
-			"defaultValue": "selfsigned",
+			"defaultValue": "custom",
 			"allowedValues": [
 				"selfsigned", "custom"
 			],
@@ -699,9 +699,9 @@
 			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscc-01')]", "tagName": "CNSAvailabilitySet" }
 		],
 		"nodeGroupAvailabilitySetArray": [
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-As-Osca-01')]", "tagName": "ToolNodeGroupAvailabilitySet" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-As-Osca-01')]", "tagName": "ProductionNodeGroupAvailabilitySet" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-As-Osca-01')]", "tagName": "AcceptanceNodeGroupAvailabilitySet" }
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Osca-01')]", "tagName": "ToolNodeGroupAvailabilitySet" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Prd-As-Osca-01')]", "tagName": "ProductionNodeGroupAvailabilitySet" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Acc-As-Osca-01')]", "tagName": "AcceptanceNodeGroupAvailabilitySet" }
 		],
 		"unmanagedAvailabilitySetSku": "Classic",
 		"managedAvailabilitySetSku": "Aligned",
@@ -749,6 +749,7 @@
 		},
 		"managedStorageCount": 3,
 		"storageLoopCount": "[concat(parameters('storageKind'), 'StorageCount')]",
+		"bastionIp": "[concat(parameters('masterFirstAddrPrefix'), add(int(variables('masterFirstAddrOctets4split')[0]),14))]",
 		"masterFirstAddrOctets": "[split(parameters('masterSubnetPrefix'),'.')]",
 		"masterFirstAddrOctets4split": "[split(variables('masterFirstAddrOctets')[3],'/')]",
 		"masterFirstAddrOctet4": "[add(int(variables('masterFirstAddrOctets4split')[0]),5)]",
@@ -840,7 +841,7 @@
 		},
 		"bastionVmSize": "Standard_D2s_v3",
 		"glusterDiskSize": 256,
-		"cnsInstanceCount": 3,
+		"cnsInstanceCount": 4,
 		"singlequote": "'",
 		"sshKeyPath": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
 		"bastionPrepScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/bastionPrep.sh')]",
