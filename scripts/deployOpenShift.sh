@@ -186,7 +186,7 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
     mastergroup="$mastergroup
-$MASTER0$c openshift_hostname=$MASTER0$c openshift_node_group_name='node-config-master'"
+${MASTER}0$c openshift_hostname=${MASTER}0$c openshift_node_group_name='node-config-master'"
 	done
 
 	for (( c=10; c<=$MASTERCOUNT; c++ ))
@@ -200,7 +200,7 @@ else
 	for (( c=1; c<=$MASTERCOUNT; c++ ))
 	do
     mastergroup="$mastergroup
-$MASTER0$c openshift_hostname=$MASTER0$c openshift_node_group_name='node-config-master'"
+${MASTER}0$c openshift_hostname=${MASTER}0$c openshift_node_group_name='node-config-master'"
 	done
 fi
 
@@ -212,7 +212,7 @@ then
 	for (( c=1; c<=$9; c++ ))
 	do
     infragroup="$infragroup
-$INFRA0$c openshift_hostname=$INFRA0$c openshift_node_group_name='node-config-infra'"
+${INFRA}0$c openshift_hostname=${INFRA}0$c openshift_node_group_name='node-config-infra'"
 	done
 
 	for (( c=10; c=<$INFRACOUNT; c++ ))
@@ -225,7 +225,7 @@ else
 	for (( c=1; c<=$INFRACOUNT; c++ ))
 	do
     infragroup="$infragroup
-$INFRA0$c openshift_hostname=$INFRA0$c openshift_node_group_name='node-config-infra'"
+${INFRA}0$c openshift_hostname=${INFRA}0$c openshift_node_group_name='node-config-infra'"
 	done
 fi
 
@@ -237,7 +237,7 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-	$TOOLS0$c openshift_hostname=$TOOLS0$c openshift_node_group_name='node-config-compute'"
+	${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
 	done
 
 	for (( c=10; c<=$TOOLSCOUNT; c++ ))
@@ -250,7 +250,7 @@ else
 	for (( c=1; c<=$TOOLSCOUNT; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-	$TOOLS0$c openshift_hostname=$TOOLS0$c openshift_node_group_name='node-config-compute'"
+	${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
@@ -262,7 +262,7 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
     productionnodegroup="$productionnodegroup
-$PRODUCTION0$c openshift_hostname=$PRODUCTION0$c openshift_node_group_name='node-config-compute'"
+${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
 	done
 
 	for (( c=10; c<=$PRODUCTIONCOUNT; c++ ))
@@ -275,7 +275,7 @@ else
 	for (( c=1; c<=$PRODUCTIONCOUNT; c++ ))
 	do
     productionnodegroup="$productionnodegroup
-$PRODUCTION0$c openshift_hostname=$PRODUCTION0$c openshift_node_group_name='node-config-compute'"
+${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
@@ -287,7 +287,7 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-	$ACCEPTANCE0$c openshift_hostname=$ACCEPTANCE0$c openshift_node_group_name='node-config-compute'"
+	${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
 	done
 	
 	for (( c=10; c<=$ACCEPTANCECOUNT; c++ ))
@@ -299,7 +299,7 @@ else
 	for (( c=1; c<=$ACCEPTANCECOUNT; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-	$ACCEPTANCE0$c openshift_hostname=$ACCEPTANCE0$c openshift_node_group_name='node-config-compute'"
+	${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
@@ -311,7 +311,7 @@ then
     for (( c=1; c<=9; c++ ))
     do
         cnsgroup="$cnsgroup
-$CNS0$c openshift_hostname=$CNS0$c openshift_node_group_name='node-config-compute'"
+${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute'"
     done
 
 	for (( c=10; c<=$CNSCOUNT; c++ ))
@@ -323,7 +323,7 @@ else
 	for (( c=1; c<=$CNSCOUNT; c++ ))
     do
         cnsgroup="$cnsgroup
-$CNS0$c openshift_hostname=$CNS0$c openshift_node_group_name='node-config-compute'"
+${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute'"
     done
 fi
 
