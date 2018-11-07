@@ -385,6 +385,90 @@
 				"description": "Address prefix of the new virtual network"
 			}
 		},
+		"masterSubnetName": {
+		  "type": "string",
+		  "defaultValue": "mastersubnet",
+		  "metadata": {
+			"description": "Name of the subnet for Master nodes and Bastion node"
+		  }
+		},
+		"masterSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.1.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the master subnet - needs to be a subset of the addressPrefix - default is 10.1.0.0/16"
+			}
+		},
+		"infraSubnetName": {
+		  "type": "string",
+		  "defaultValue": "infrasubnet",
+		  "metadata": {
+			"description": "Name of the subnet for Infra nodes"
+		  }
+		},
+		"infraSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"cnsSubnetName": {
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
+		},
+		"cnsSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"toolsSubnetName": {
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
+		},
+		"toolsSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"prodSubnetName": {
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+				"description": "Name of the subnet for Infra nodes"
+			}
+		},
+		"prodSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.2.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"accSubnetName": {
+			"type": "string",
+			"defaultValue": "nodesubnet",
+			"metadata": {
+				"description": "Name of the subnet for Compute and CNS nodes"
+		  }
+		},
+		"accSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.3.0.0/16",
+			"metadata": {
+				"description": "CIDR used for the node subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
+			}
+		},
 		"existingMasterSubnetReference": {
 		  "type": "string",
 		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet",
@@ -703,7 +787,7 @@
 		"masterLbHttpProbeId": "[concat(variables('masterLbId'),'/probes/httpProbe')]",
 		"masterLbHttpsProbeId": "[concat(variables('masterLbId'),'/probes/httpsProbe')]",
 
-		"infraLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Oscm-01')]",
+		"infraLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Osci-01')]",
 		"infraPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('infraLbPublicIpDnsLabel'))]",
 		"infraLbId": "[resourceId('Microsoft.Network/loadBalancers', variables('infraLoadBalancerName'))]",
 		"infraLbFrontEndConfigId": "[concat(variables('infraLbId'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
