@@ -62,6 +62,12 @@
 				"description": "Availability set tag name"
 			}
 		},
+		"apiVersionLinkTemplate": {
+			"type": "string",
+			"metadata": {
+				"description": "template link"
+			}
+		},
 		"subnetCreateTemplateUrl": {
 			"type": "string",
 			"metadata": {
