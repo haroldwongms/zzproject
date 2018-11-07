@@ -175,10 +175,10 @@
 						"value": "[parameters('existingVnetName')]"
 					},
 					"subnetName": {
-						"value": "[parameters('cnsSubnetName')]"
+						"value": "[parameters('nodeSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "[parameters('cnsSubnetPrefix')]"
+						"value": "[parameters('nodeSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
 						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
