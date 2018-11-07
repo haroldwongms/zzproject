@@ -659,7 +659,7 @@
 		"tenantId": "[subscription().tenantId]",
 		"subscriptionId": "[subscription().subscriptionId]",
 		"apiVersionCompute": "2017-03-30",
-		"apiVersionNetwork": "2017-09-01",
+		"apiVersionNetwork": "2018-04-01",
 		"apiVersionStorage": "2018-07-01",
 		"apiVersionLinkTemplate": "2017-05-10",
 		"routingSubDomain": "[toLower(parameters('routingSubDomain'))]",
@@ -1415,7 +1415,7 @@
 					"subnetCreateTemplateUrl": {
 						"value": "[variables('subnetCreateTemplateUrl')]"
 					},
-					"coreVirtualNetworkResourceGroupName": {
+					"virtualNetworkResourceGroupName": {
 						"value": "[parameters('coreVirtualNetworkResourceGroupName')]"
 					},
 					"coreinfrastructureSubscriptionID": {
@@ -1474,8 +1474,20 @@
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].tagName]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
+					"subnetCreateTemplateUrl": {
+						"value": "[variables('subnetCreateTemplateUrl')]"
+					},
+					"nodeGroupSubscriptionID": {
+					  "value": "[parameters('toolsNodeGroupSubscriptionID')]"
+					},
+					"virtualNetworkResourceGroupName": {
+					  "value": "[parameters('coreVirtualNetworkResourceGroupName')]"
+					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('coreinfrastructureSubscriptionID'), '/resourceGroups/', parameters('coreVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('coreVirtualNetworkName'))]"
+					  "value": "[parameters('coreVirtualNetworkName')]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('toolsSubnetName')]"
@@ -1545,8 +1557,20 @@
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].tagName]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
+					"subnetCreateTemplateUrl": {
+						"value": "[variables('subnetCreateTemplateUrl')]"
+					},
+					"nodeGroupSubscriptionID": {
+					  "value": "[parameters('productionNodeGroupSubscriptionID')]"
+					},
+					"virtualNetworkResourceGroupName": {
+					  "value": "[parameters('prodVirtualNetworkResourceGroupName')]"
+					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('productionNodeGroupSubscriptionID'), '/resourceGroups/', parameters('prodVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVirtualNetworkName'))]"
+					  "value": "[parameters('prodVirtualNetworkName')]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('prodSubnetName')]"
@@ -1616,8 +1640,20 @@
 					"availabilitySetTag": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].tagName]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
+					"subnetCreateTemplateUrl": {
+						"value": "[variables('subnetCreateTemplateUrl')]"
+					},
+					"nodeGroupSubscriptionID": {
+					  "value": "[parameters('acceptanceNodeGroupSubscriptionID')]"
+					},
+					"virtualNetworkResourceGroupName": {
+					  "value": "[parameters('accVirtualNetworkResourceGroupName')]"
+					},
 					"existingVnetName": {
-					  "value": "[concat('/subscriptions/', parameters('acceptanceNodeGroupSubscriptionID'), '/resourceGroups/', parameters('accVirtualNetworkResrouceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('accVirtualNetworkName'))]"
+					  "value": "[parameters('accVirtualNetworkName')]"
 					},
 					"nodeSubnetName": {
 						"value": "[parameters('accSubnetName')]"
