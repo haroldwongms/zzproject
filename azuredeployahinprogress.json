@@ -673,13 +673,13 @@
 		"masterClusterDns": "[toLower(parameters('masterClusterDns'))]",
 		"simplifiedClusterPrefix": "[toLower(replace(parameters('openshiftClusterPrefix'),'-', ''))]",
 		"simplifiedClusterPrefix2": "[toLower(replace(parameters('openshiftClusterPrefix2'),'-', ''))]",
-		"openshiftBastionHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscb')]",
-		"openshiftMasterHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscm')]",
-		"openshiftInfraHostname": "[concat(variables('simplifiedClusterPrefix'), '-plosci')]",
-		"openshiftCnsHostname": "[concat(variables('simplifiedClusterPrefix'), '-ploscc')]",
-		"openshiftToolsNodeHostname": "[concat(variables('simplifiedClusterPrefix'), '-plosca')]",
-		"openshiftProductionNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), '-plosca')]",
-		"openshiftAcceptanceNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), '-alosca')]",
+		"openshiftBastionHostname": "[concat(variables('simplifiedClusterPrefix'), 'ploscb01')]",
+		"openshiftMasterHostname": "[concat(variables('simplifiedClusterPrefix'), 'ploscm')]",
+		"openshiftInfraHostname": "[concat(variables('simplifiedClusterPrefix'), 'plosci')]",
+		"openshiftCnsHostname": "[concat(variables('simplifiedClusterPrefix'), 'ploscc')]",
+		"openshiftToolsNodeHostname": "[concat(variables('simplifiedClusterPrefix'), 'plosca')]",
+		"openshiftProductionNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'plosca')]",
+		"openshiftAcceptanceNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'alosca')]",
 		"newStorageAccountWeb": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscw01')]",
 		"diagStorageAccountM": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscm01')]",
 		"diagStorageAccountI": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosci01')]",
@@ -1288,7 +1288,7 @@
 						"value": "[variables('newStorageAccountRegistry')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[parameters('openshiftClusterPrefix')]"
+						"value": "[concat(parameters('openshiftClusterPrefix'), '-Prd')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix')]"
@@ -1440,7 +1440,7 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[parameters('openshiftClusterPrefix')]"
+						"value": "[concat(parameters('openshiftClusterPrefix'), '-Prd')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix')]"
@@ -1508,7 +1508,7 @@
 						"value": "[variables('diagStorageAccountP')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[parameters('openshiftClusterPrefix2')]"
+						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Prd')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix2')]"
@@ -1573,7 +1573,7 @@
 						"value": "[variables('diagStorageAccountA')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[parameters('openshiftClusterPrefix2')]"
+						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Acc')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix2')]"
