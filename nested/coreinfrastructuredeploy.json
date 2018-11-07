@@ -791,7 +791,7 @@
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
 						},
 						"subnet": {
-							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
 						}
 					}
 				}],
@@ -818,7 +818,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), copyindex(parameters('masterFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('masterSubnetName'))]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
@@ -848,7 +848,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('infraFirstAddrPrefix'), copyindex(parameters('infraFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('infraSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('infraSubnetName'))]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
@@ -878,7 +878,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('cnsFirstAddrPrefix'), copyindex(parameters('cnsFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('cnsSubnetName'))]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('cnsSubnetName'))]"
 						}
 					}
 				}],
