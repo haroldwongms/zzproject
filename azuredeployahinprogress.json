@@ -749,7 +749,7 @@
 		},
 		"managedStorageCount": 3,
 		"storageLoopCount": "[concat(parameters('storageKind'), 'StorageCount')]",
-		"bastionIp": "[concat(parameters('masterFirstAddrPrefix'), add(int(variables('masterFirstAddrOctets4split')[0]),14))]",
+		"bastionIp": "[concat(variables('masterFirstAddrPrefix'), add(int(variables('masterFirstAddrOctets4split')[0]),14))]",
 		"masterFirstAddrOctets": "[split(parameters('masterSubnetPrefix'),'.')]",
 		"masterFirstAddrOctets4split": "[split(variables('masterFirstAddrOctets')[3],'/')]",
 		"masterFirstAddrOctet4": "[add(int(variables('masterFirstAddrOctets4split')[0]),5)]",
@@ -1371,6 +1371,9 @@
 					},
 					"infraLbHttpsProbeId": {
 						"value": "[variables('infraLbHttpsProbeId')]"
+					},
+					"bastionIp": {
+						"value": "[variables('bastionIp')]"
 					},
 					"bastionPublicIp": {
 						"value": "[variables('bastionPublicIp')]"

@@ -212,6 +212,12 @@
 				"description": "Infra load balancer HTTPS probe ID"
 			}
 		},
+		"bastionIp": {
+			"type": "string",
+			"metadata": {
+				"description": "Bastion private IP"
+			}
+		},
 		"bastionPublicIp": {
 			"type": "string",
 			"metadata": {
@@ -292,7 +298,6 @@
 		}
 	},
 	"variables": {
-		"bastionip": "[add(parameters('masterFirstAddrOctet4'), 4)]"
 	},
 	"resources": [
 		{
@@ -621,7 +626,7 @@
 					"name": "[concat(parameters('openshiftBastionHostname'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Static",
-						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), variables('bastionip'))]",
+						"privateIPAddress": "[parameters('bastionIp')]",
 						"publicIPAddress": {
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
 						},
