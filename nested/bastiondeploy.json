@@ -147,7 +147,7 @@
 			"storageProfile": "[variables(variables('storageProfile'))]",
 			"networkProfile": {
 				"networkInterfaces": [{
-					"id": "[resourceId(parameters('networkInterfaceName'))]"
+					"id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('networkInterfaceName'))]"
 				}]
 			},
 			"diagnosticsProfile": {
