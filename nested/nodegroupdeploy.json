@@ -196,6 +196,9 @@
 						"subnet": {
 							"id": "[parameters('existingNodeSubnetReference')]"
 						}
+					},
+					"dnsSettings": {
+						"internalDomainNameSuffix": "ah.nl"
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",

@@ -669,6 +669,9 @@
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
 						}]
+					},
+					"dnsSettings": {
+						"internalDomainNameSuffix": "ah.nl"
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]",
@@ -702,6 +705,9 @@
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
 						}]
+					},
+					"dnsSettings": {
+						"internalDomainNameSuffix": "ah.nl"
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]",
@@ -731,6 +737,9 @@
 						"subnet": {
 							"id": "[parameters('existingCnsSubnetReference')]"
 						}
+					},
+					"dnsSettings": {
+						"internalDomainNameSuffix": "ah.nl"
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]",
