@@ -641,9 +641,8 @@
 		"diagStorageAccountM": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscm01')]",
 		"diagStorageAccountI": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosci01')]",
 		"diagStorageAccountC": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscc01')]",
-		"diagStorageAccountT": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscp01')]",
-		"diagStorageAccountP": "[concat(variables('simplifiedClusterPrefix2'), 'tstsaosca01')]",
-		"diagStorageAccountA": "[concat(variables('simplifiedClusterPrefix2'), 'devsaosca01')]",
+		"diagStorageAccountT": "[concat(variables('simplifiedClusterPrefix2'), 'tstsaosca01')]",
+		"diagStorageAccountD": "[concat(variables('simplifiedClusterPrefix2'), 'devsaosca01')]",
 		"newStorageAccountRegistry": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosccr01')]",
 		"coreInfraDiagStorageAccountArray": [
 			{ "name": "[variables('diagStorageAccountM')]"},
@@ -804,14 +803,17 @@
 		"nodePrepScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/nodePrep.sh')]",
 		"masterPrepScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/masterPrep.sh')]",
 		"openshiftDeploymentScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/deployOpenShift.sh')]",
+		"openshiftDeploymentDTScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/deployOpenShiftdt.sh')]",
 		"bastionPrepScriptFileName": "bastionPrep.sh",
 		"nodePrepScriptFileName": "nodePrep.sh",
 		"masterPrepScriptFileName": "masterPrep.sh",
 		"openshiftDeploymentScriptFileName": "deployOpenShift.sh",
+		"openshiftDeploymentScriptDTFileName": "deployOpenShiftdt.sh",
 		"clusterNodeDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/clusternode.json')]",
 		"clusterCnsNodeDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/clustercnsnode.json')]",
 		"basicDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/bastiondeploy.json')]",
 		"openshiftDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/openshiftdeploy.json')]",
+		"openshiftDeploymentDTTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/openshiftdeploydt.json')]",
 		"coreInfrastructureDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/coreinfrastructuredeploy.json')]",
 		"nodeGroupDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/nodegroupdeploy.json')]",
 		"subnetCreateTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/subnetcreate.json')]",
@@ -1400,10 +1402,10 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccountP')]"
+						"value": "[variables('diagStorageAccountT')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Prd')]"
+						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Tst')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix2')]"
@@ -1465,10 +1467,10 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"diagStorageAccount": {
-						"value": "[variables('diagStorageAccountA')]"
+						"value": "[variables('diagStorageAccountD')]"
 					},
 					"openshiftClusterPrefix": {
-						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Acc')]"
+						"value": "[concat(parameters('openshiftClusterPrefix2'), '-Dev')]"
 					},
 					"simplifiedClusterPrefix": {
 						"value": "[variables('simplifiedClusterPrefix2')]"
@@ -2417,7 +2419,7 @@
 			"properties": {
 				"mode": "Incremental",
 				"templateLink": {
-					"uri": "[variables('openshiftDeploymentTemplateUrl')]",
+					"uri": "[variables('openshiftDeploymentDTTemplateUrl')]",
 					"contentVersion": "1.0.0.0"
 				},
 				"parameters": {
@@ -2437,10 +2439,10 @@
 						"value": "[variables('apiVersionCompute')]"
 					},
 					"openshiftDeploymentScriptUrl": {
-						"value": "[variables('openshiftDeploymentScriptUrl')]"
+						"value": "[variables('openshiftDeploymentDTScriptUrl')]"
 					},
 					"openshiftDeploymentScriptFileName": {
-						"value": "[variables('openshiftDeploymentScriptFileName')]"
+						"value": "[variables('openshiftDeploymentScriptDTFileName')]"
 					},
 					"newStorageAccountRegistry": {
 						"value": "[variables('newStorageAccountRegistry')]"
