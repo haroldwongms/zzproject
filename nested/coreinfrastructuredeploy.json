@@ -574,6 +574,7 @@
 				}]
 			}
 		}, {
+			"condition": "[equals(parameters('routerClusterType'), 'public')]",
 			"type": "Microsoft.Network/publicIPAddresses",
 			"name": "[parameters('bastionPublicIp')]",
 			"location": "[parameters('location')]",
