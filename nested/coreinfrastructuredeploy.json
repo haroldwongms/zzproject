@@ -628,9 +628,6 @@
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[parameters('bastionIp')]",
-						"publicIPAddress": {
-							"id": "[if(equals(parameters('routerClusterType'), 'public'), concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp')), json('null'))]"
-						},
 						"subnet": {
 							"id": "[parameters('existingMasterSubnetReference')]"
 						}
