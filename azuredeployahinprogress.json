@@ -1734,7 +1734,7 @@
 						"value": "[concat(variables('openshiftMasterHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftMasterHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftMasterHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('masterVmSize')].storageAccountType]"
@@ -1813,7 +1813,7 @@
 						"value": "[concat(variables('openshiftInfraHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftInfraHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftInfraHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('infraVmSize')].storageAccountType]"
@@ -1895,7 +1895,7 @@
 						"value": "[concat(variables('openshiftCnsHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftCnsHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftCnsHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('cnsVmSize')].storageAccountType]"
@@ -1974,7 +1974,7 @@
 						"value": "[concat(variables('openshiftToolsNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftToolsNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftToolsNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('nodeVmSize')].storageAccountType]"
@@ -2053,7 +2053,7 @@
 						"value": "[concat(variables('openshiftProductionNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftProductionNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftProductionNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('nodeVmSize')].storageAccountType]"
@@ -2132,7 +2132,7 @@
 						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'))]"
 					},
 					"networkInterfaceName": {
-						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-', padLeft(add(copyIndex(), 1), 2, '0'))]"
+						"value": "[concat(variables('openshiftAcceptanceNodeHostname'), padLeft(add(copyIndex(), 1), 2, '0'), '-nic-01')]"
 					},
 					"vmStorageType": {
 						"value": "[variables('vmSizesMap')[parameters('nodeVmSize')].storageAccountType]"
