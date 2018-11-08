@@ -619,7 +619,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp')), 'availabiltySetLoop')]",
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
 			],
 			"properties": {
@@ -629,7 +629,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[parameters('bastionIp')]",
 						"publicIPAddress": {
-							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
+							"id": "[if(equals(parameters('routerClusterType'), 'public'), concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp')), json('null'))]"
 						},
 						"subnet": {
 							"id": "[parameters('existingMasterSubnetReference')]"
