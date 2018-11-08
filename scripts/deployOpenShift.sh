@@ -168,7 +168,7 @@ fi
 echo $(date) " - Create variable for master cluster address based on cluster type"
 if [[ $MASTERCLUSTERTYPE == "private" ]]
 then
-	MASTERCLUSTERADDRESS="openshift_master_cluster_hostname=$MASTER-0
+	MASTERCLUSTERADDRESS="openshift_master_cluster_hostname=${MASTER}01
 openshift_master_cluster_public_hostname=$PRIVATEDNS
 openshift_master_cluster_public_vip=$PRIVATEIP"
 else
@@ -564,7 +564,7 @@ fi
 # Install OpenShift Atomic Client
 cd /root
 mkdir .kube
-runuser ${SUDOUSER} -c "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${SUDOUSER}@${MASTER}-0:~/.kube/config /tmp/kube-config"
+runuser ${SUDOUSER} -c "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${SUDOUSER}@${MASTER}01:~/.kube/config /tmp/kube-config"
 cp /tmp/kube-config /root/.kube/config
 mkdir /home/${SUDOUSER}/.kube
 cp /tmp/kube-config /home/${SUDOUSER}/.kube/config
@@ -620,7 +620,7 @@ fi
 
 # Adding some labels back because they go missing
 echo $(date) " - Adding api and logging labels"
-runuser -l $SUDOUSER -c  "oc label --overwrite nodes $MASTER-0 openshift-infra=apiserver"
+runuser -l $SUDOUSER -c  "oc label --overwrite nodes ${MASTER}01 openshift-infra=apiserver"
 runuser -l $SUDOUSER -c  "oc label --overwrite nodes --all logging-infra-fluentd=true logging=true"
 
 # Restarting things so everything is clean before installing anything else
