@@ -298,6 +298,11 @@
 		}
 	},
 	"variables": {
+	"publicBastionIpConfigurationProperties": {
+		"publicIPAddress": {
+			"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
+		}
+	},
 	},
 	"resources": [
 		{
@@ -628,6 +633,7 @@
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[parameters('bastionIp')]",
+						"publicIPAddress": "[if(equals(parameters('routerClusterType'), 'public'), variables('publicIPAddress'), json('null'))]"
 						"subnet": {
 							"id": "[parameters('existingMasterSubnetReference')]"
 						}
