@@ -513,7 +513,7 @@ $MASTER[01:${MASTERLIST}]
 $MASTER[01:${MASTERLIST}]
 
 [master0]
-$MASTER01
+${MASTER}01
 
 # Only populated when CNS is enabled
 [glusterfs]
