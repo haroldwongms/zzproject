@@ -409,42 +409,42 @@
 			"type": "string",
 			"defaultValue": "infrasubnet",
 			"metadata": {
-				"description": "Name of the subnet for Infra nodes"
+				"description": "Name of the subnet for cns nodes"
 			}
 		},
 		"cnsSubnetPrefix": {
 			"type": "string",
 			"defaultValue": "10.2.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+				"description": "CIDR used for the cns subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
 			}
 		},
 		"testSubnetName": {
 			"type": "string",
 			"defaultValue": "infrasubnet",
 			"metadata": {
-				"description": "Name of the subnet for Infra nodes"
+				"description": "Name of the subnet for test nodes"
 			}
 		},
 		"testSubnetPrefix": {
 			"type": "string",
 			"defaultValue": "10.2.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+				"description": "CIDR used for the test subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
 			}
 		},
 		"devSubnetName": {
 			"type": "string",
 			"defaultValue": "nodesubnet",
 			"metadata": {
-				"description": "Name of the subnet for Compute and CNS nodes"
+				"description": "Name of the subnet for dev nodes"
 		  }
 		},
-		"devNodeInstanceCountSubnetPrefix": {
+		"devSubnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.3.0.0/16",
+			"defaultValue": "10.2.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the node subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
+				"description": "CIDR used for the dev subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
 			}
 		},
 		"existingMasterSubnetReference": {
