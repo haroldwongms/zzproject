@@ -635,16 +635,16 @@
 		"openshiftInfraHostname": "[concat(variables('simplifiedClusterPrefix'), 'plosci')]",
 		"openshiftCnsHostname": "[concat(variables('simplifiedClusterPrefix'), 'ploscc')]",
 		"openshiftToolsNodeHostname": "[concat(variables('simplifiedClusterPrefix'), 'plosca')]",
-		"openshiftTestNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'plosca')]",
-		"openshiftDevNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'alosca')]",
+		"openshiftTestNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'tlosca')]",
+		"openshiftDevNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'dlosca')]",
 		"newStorageAccountWeb": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscw01')]",
 		"diagStorageAccountM": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscm01')]",
 		"diagStorageAccountI": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosci01')]",
 		"diagStorageAccountC": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscc01')]",
 		"diagStorageAccountT": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscp01')]",
-		"diagStorageAccountP": "[concat(variables('simplifiedClusterPrefix2'), 'prdsaosca01')]",
-		"diagStorageAccountA": "[concat(variables('simplifiedClusterPrefix2'), 'accsaosca01')]",
-		"newStorageAccountRegistry": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosccr1')]",
+		"diagStorageAccountP": "[concat(variables('simplifiedClusterPrefix2'), 'tstsaosca01')]",
+		"diagStorageAccountA": "[concat(variables('simplifiedClusterPrefix2'), 'devsaosca01')]",
+		"newStorageAccountRegistry": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosccr01')]",
 		"coreInfraDiagStorageAccountArray": [
 			{ "name": "[variables('diagStorageAccountM')]"},
 			{ "name": "[variables('diagStorageAccountI')]"},
@@ -656,8 +656,8 @@
 			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscc-01')]" }
 		],
 		"nodeGroupAvailabilitySetArray": [
-			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Prd-As-Osca-01')]" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Acc-As-Osca-01')]" }
+			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Tst-As-Osca-01')]" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Dev-As-Osca-01')]" }
 		],
 		"unmanagedAvailabilitySetSku": "Classic",
 		"managedAvailabilitySetSku": "Aligned",
