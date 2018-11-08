@@ -307,7 +307,7 @@ fi
 echo $(date) " - Creating CNS nodes grouping"
 if [ $CNSCOUNT -gt 9 ]
 then
-	# If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+	# If more than 10 cns nodes need to create groups 01 - 09 separately than 10 and higher
     for (( c=1; c<=9; c++ ))
     do
         cnsgroup="$cnsgroup
