@@ -196,14 +196,14 @@
 						"subnet": {
 							"id": "[parameters('existingNodeSubnetReference')]"
 						}
-					},
-					"dnsSettings": {
-						"internalDomainNameSuffix": "ah.nl"
 					}
 				}],
 				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
+				},
+				"dnsSettings": {
+					"internalDomainNameSuffix": "ah.nl"
 				}
 			}
 		}
