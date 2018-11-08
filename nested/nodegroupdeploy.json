@@ -176,7 +176,7 @@
 			"tags": "[parameters('customTags')]"
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"name": "[concat(parameters('openshiftNodeHostname'), padLeft(add(copyindex(), 1), 2, '0'), '-nic-01')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
