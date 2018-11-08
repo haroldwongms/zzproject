@@ -650,9 +650,9 @@
 			{ "name": "[variables('diagStorageAccountC')]"}
 		],
 		"availabilitySetArray": [
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscm-01')]" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Osci-01')]" },
-			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscc-01')]" }
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscm-11')]" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Osci-11')]" },
+			{ "name": "[concat(parameters('openshiftClusterPrefix'), '-Prd-As-Oscc-11')]" }
 		],
 		"nodeGroupAvailabilitySetArray": [
 			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Tst-As-Osca-01')]" },
@@ -735,7 +735,7 @@
 		"openshiftMasterPublicIpDnsLabel": "[concat('masterdns', uniqueString(concat(resourceGroup().id, 'master')))]",
 		"persistentVolume1Type": "Standard_LRS",
 
-		"masterLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Oscm-01')]",
+		"masterLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Oscm-11')]",
 		"masterPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('openshiftMasterPublicIpDnsLabel'))]",
 		"masterLbId": "[resourceId('Microsoft.Network/loadBalancers', variables('masterLoadBalancerName'))]",
 		"masterLbFrontEndConfigId": "[concat(variables('masterLbId'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
@@ -743,7 +743,7 @@
 		"masterLbHttpProbeId": "[concat(variables('masterLbId'),'/probes/httpProbe')]",
 		"masterLbHttpsProbeId": "[concat(variables('masterLbId'),'/probes/httpsProbe')]",
 
-		"infraLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Osci-01')]",
+		"infraLoadBalancerName": "[concat(parameters('openshiftClusterPrefix'), '-Prd-Lb-Osci-11')]",
 		"infraPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('infraLbPublicIpDnsLabel'))]",
 		"infraLbId": "[resourceId('Microsoft.Network/loadBalancers', variables('infraLoadBalancerName'))]",
 		"infraLbFrontEndConfigId": "[concat(variables('infraLbId'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
@@ -815,7 +815,8 @@
 		"openshiftDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/openshiftdeploy.json')]",
 		"openshiftDeploymentDTTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/openshiftdeploydt.json')]",
 		"coreInfrastructureDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/coreinfrastructuredeploy.json')]",
-		"nodeGroupDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/nodegroupdeploy.json')]",
+		"coreInfrastructureDeploymentDTTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/coreinfrastructuredeploydt.json')]",
+		"nodeGroupDeploymentTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/nodegroupdeploy.json')]",)]",
 		"subnetCreateTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/subnetcreate.json')]",
 		"bastionPrepTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/bastionprep.json')]",
 		"masterPrepTemplateUrl": "[concat(parameters('_artifactsLocation'), '/nested/masterprep.json')]",
@@ -1221,7 +1222,7 @@
 			"properties": {
 				"mode": "Incremental",
 				"templateLink": {
-					"uri": "[variables('coreInfrastructureDeploymentTemplateUrl')]",
+					"uri": "[variables('coreInfrastructureDeploymentDTTemplateUrl')]",
 					"contentVersion": "1.0.0.0"
 				},
 				"parameters": {
