@@ -424,7 +424,7 @@ then
         drive2=$(echo $drive | cut -d ' ' -f 2)
         drive3=$(echo $drive | cut -d ' ' -f 3)
         cnsglusterinfo="$cnsglusterinfo
-$CNS-$c glusterfs_devices='[ \"${drive1}\", \"${drive2}\", \"${drive3}\" ]'"
+${CNS}0$c glusterfs_devices='[ \"${drive1}\", \"${drive2}\", \"${drive3}\" ]'"
     done
 fi
 
