@@ -642,7 +642,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '1'), '-nic-01')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -656,7 +656,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftMasterHostname'), padLeft(add(copyindex(), 1), 2, '1'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), copyindex(parameters('masterFirstAddrOctet4')))]",
@@ -675,7 +675,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '1'), '-nic-01')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -689,7 +689,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftInfraHostname'), padLeft(add(copyindex(), 1), 2, '1'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('infraFirstAddrPrefix'), copyindex(parameters('infraFirstAddrOctet4')))]",
@@ -708,7 +708,7 @@
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
-			"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'), '-nic-', padLeft(add(copyindex(), 1), 2, '0'))]",
+			"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '1'), '-nic-01')]",
 			"location": "[parameters('location')]",
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
@@ -721,7 +721,7 @@
 			},
 			"properties": {
 				"ipConfigurations": [{
-					"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '0'), 'ipconfig')]",
+					"name": "[concat(parameters('openshiftCnsHostname'), padLeft(add(copyindex(), 1), 2, '1'), 'ipconfig')]",
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('cnsFirstAddrPrefix'), copyindex(parameters('cnsFirstAddrOctet4')))]",
