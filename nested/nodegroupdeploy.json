@@ -203,7 +203,7 @@
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
 				},
 				"dnsSettings": {
-					"internalDomainNameSuffix": "ah.nl"
+					"internalFqdn": "ah.nl"
 				}
 			}
 		}
