@@ -36,8 +36,8 @@ export NODEAVAILIBILITYSET=${29}
 export MASTERCLUSTERTYPE=${30}
 export PRIVATEIP=${31}
 export PRIVATEDNS=${32}
-export PRODUCTION=${33}
-export ACCEPTANCE=${34}
+export TEST=${33}
+export DEV=${34}
 export INFRAPIPNAME=${35}
 export IMAGEURL=${36}
 export WEBSTORAGE=${37}
@@ -47,8 +47,8 @@ export PROXYSETTING=${40}
 export HTTPPROXYENTRY="${41}"
 export HTTSPPROXYENTRY="${42}"
 export NOPROXYENTRY="${43}"
-export PRODUCTIONCOUNT="${44}"
-export ACCEPTANCECOUNT="${45}"
+export TESTCOUNT="${44}"
+export DEVCOUNT="${45}"
 
 
 export BASTION=$(hostname)
@@ -229,77 +229,77 @@ ${INFRA}0$c openshift_hostname=${INFRA}0$c openshift_node_group_name='node-confi
 	done
 fi
 
-# Create Tools node grouping
+# # Create Tools node grouping
+# echo $(date) " - Creating Nodes grouping"
+# if [ $TOOLSCOUNT -gt 9 ]
+# then
+	# # If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+	# for (( c=1; c<=9; c++ ))
+	# do
+		# toolsnodegroup="$toolsnodegroup
+# ${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+	# done
+
+	# for (( c=10; c<=$TOOLSCOUNT; c++ ))
+	# do
+		# toolsnodegroup="$toolsnodegroup
+# $TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
+	# done
+# else
+	# # If less than 10 tools nodes
+	# for (( c=1; c<=$TOOLSCOUNT; c++ ))
+	# do
+		# toolsnodegroup="$toolsnodegroup
+# ${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+	# done
+# fi
+
+# Create Test node grouping
 echo $(date) " - Creating Nodes grouping"
-if [ $TOOLSCOUNT -gt 9 ]
+if [ $TESTCOUNT -gt 9 ]
 then
-	# If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+	# If more than 10 test nodes need to create groups 01 - 09 separately than 10 and higher
 	for (( c=1; c<=9; c++ ))
 	do
-		toolsnodegroup="$toolsnodegroup
-${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+    testnodegroup="$testnodegroup
+${TEST}0$c openshift_hostname=${TEST}0$c openshift_node_group_name='node-config-compute'"
 	done
 
-	for (( c=10; c<=$TOOLSCOUNT; c++ ))
+	for (( c=10; c<=$TESTCOUNT; c++ ))
 	do
-		toolsnodegroup="$toolsnodegroup
-$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
+    testnodegroup="$testnodegroup
+$TEST$c openshift_hostname=$TEST$c openshift_node_group_name='node-config-compute'"
 	done
 else
 	# If less than 10 tools nodes
-	for (( c=1; c<=$TOOLSCOUNT; c++ ))
+	for (( c=1; c<=$TESTCOUNT; c++ ))
 	do
-		toolsnodegroup="$toolsnodegroup
-${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+    testnodegroup="$testnodegroup
+${TEST}0$c openshift_hostname=${TEST}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
-# Create Production node grouping
+# Create Dev node grouping
 echo $(date) " - Creating Nodes grouping"
-if [ $PRODUCTIONCOUNT -gt 9 ]
+if [ $DEVCOUNT -gt 9 ]
 then
-	# If more than 10 production nodes need to create groups 01 - 09 separately than 10 and higher
+	# If more than 10 dev nodes need to create groups 01 - 09 separately than 10 and higher
 	for (( c=1; c<=9; c++ ))
 	do
-    productionnodegroup="$productionnodegroup
-${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
-	done
-
-	for (( c=10; c<=$PRODUCTIONCOUNT; c++ ))
-	do
-    productionnodegroup="$productionnodegroup
-$PRODUCTION$c openshift_hostname=$PRODUCTION$c openshift_node_group_name='node-config-compute'"
-	done
-else
-	# If less than 10 tools nodes
-	for (( c=1; c<=$PRODUCTIONCOUNT; c++ ))
-	do
-    productionnodegroup="$productionnodegroup
-${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
-	done
-fi
-
-# Create Acceptance node grouping
-echo $(date) " - Creating Nodes grouping"
-if [ $ACCEPTANCECOUNT -gt 9 ]
-then
-	# If more than 10 acceptance nodes need to create groups 01 - 09 separately than 10 and higher
-	for (( c=1; c<=9; c++ ))
-	do
-		acceptancenodegroup="$acceptancenodegroup
-${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+		devnodegroup="$devnodegroup
+${DEV}0$c openshift_hostname=${DEV}0$c openshift_node_group_name='node-config-compute'"
 	done
 	
-	for (( c=10; c<=$ACCEPTANCECOUNT; c++ ))
+	for (( c=10; c<=$DEVCOUNT; c++ ))
 	do
-		acceptancenodegroup="$acceptancenodegroup
-$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute'"
+		devnodegroup="$devnodegroup
+$DEV$c openshift_hostname=$DEV$c openshift_node_group_name='node-config-compute'"
 	done
 else
-	for (( c=1; c<=$ACCEPTANCECOUNT; c++ ))
+	for (( c=1; c<=$DEVCOUNT; c++ ))
 	do
-		acceptancenodegroup="$acceptancenodegroup
-${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+		devnodegroup="$devnodegroup
+${DEV}0$c openshift_hostname=${DEV}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
@@ -307,7 +307,7 @@ fi
 echo $(date) " - Creating CNS nodes grouping"
 if [ $CNSCOUNT -gt 9 ]
 then
-	# If more than 10 tools nodes need to create groups 01 - 09 separately than 10 and higher
+	# If more than 10 cns nodes need to create groups 01 - 09 separately than 10 and higher
     for (( c=1; c<=9; c++ ))
     do
         cnsgroup="$cnsgroup
@@ -344,8 +344,8 @@ $infragroup
 $nodegroup
 $cnsgroup
 $toolsnodegroup
-$productionnodegroup
-$acceptancenodegroup
+$testnodegroup
+$devnodegroup
 EOF
 
 # Run a loop playbook to ensure DNS Hostname resolution is working prior to continuing with script
@@ -523,9 +523,8 @@ $cnsglusterinfo
 [nodes]
 $mastergroup
 $infragroup
-$toolsnodegroup
-$productionnodegroup
-$acceptancenodegroup
+$testnodegroup
+$devnodegroup
 $cnsgroup
 
 # host group for adding new nodes
