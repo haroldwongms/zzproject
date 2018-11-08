@@ -237,20 +237,20 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-	${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
 	done
 
 	for (( c=10; c<=$TOOLSCOUNT; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-	$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
+$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
 	done
 else
 	# If less than 10 tools nodes
 	for (( c=1; c<=$TOOLSCOUNT; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-	${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
@@ -287,19 +287,19 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-	${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
 	done
 	
 	for (( c=10; c<=$ACCEPTANCECOUNT; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-	$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute'"
+$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute'"
 	done
 else
 	for (( c=1; c<=$ACCEPTANCECOUNT; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-	${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
 	done
 fi
 
