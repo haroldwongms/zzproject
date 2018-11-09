@@ -641,9 +641,6 @@
 				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
-				},
-				"dnsSettings": {
-					"internalFqdn": "ah.nl"
 				}
 			}
 		}, {
@@ -677,9 +674,6 @@
 				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
-				},
-				"dnsSettings": {
-					"internalFqdn": "ah.nl"
 				}
 			}
 		}, {
@@ -713,9 +707,6 @@
 				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
-				},
-				"dnsSettings": {
-					"internalFqdn": "ah.nl"
 				}
 			}
 		}, {
@@ -745,9 +736,6 @@
 				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]",
 				"networkSecurityGroup": {
 					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
-				},
-				"dnsSettings": {
-					"internalFqdn": "ah.nl"
 				}
 			}
 		}
