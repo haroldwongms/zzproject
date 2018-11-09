@@ -49,7 +49,7 @@ export HTTSPPROXYENTRY="${42}"
 export NOPROXYENTRY="${43}"
 export PRODUCTIONCOUNT="${44}"
 export ACCEPTANCECOUNT="${45}"
-
+export DOMAIN="${46}"
 
 export BASTION=$(hostname)
 
@@ -57,7 +57,7 @@ export BASTION=$(hostname)
 export CNS_DEFAULT_STORAGE=true
 
 # Setting DOMAIN variable
-export DOMAIN=`domainname -d`
+# export DOMAIN=`domainname -d`
 
 # Determine if Commercial Azure or Azure Government
 CLOUD=$( curl -H Metadata:true "http://169.254.169.254/metadata/instance/compute/location?api-version=2017-04-02&format=text" | cut -c 1-2 )

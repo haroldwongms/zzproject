@@ -18,6 +18,7 @@ export CUSTOMROUTINGKEYFILE="${14}"
 export CUSTOMMASTERCAFILE="${15}"
 export CUSTOMMASTERCERTFILE="${16}"
 export CUSTOMMASTERKEYFILE="${17}"
+export DOMAIN="${18}"
 
 # Generate private keys for use by Ansible
 echo $(date) " - Generating Private keys for use by Ansible for OpenShift Installation"
@@ -116,7 +117,12 @@ sudo yum install -y ImageMagick
 
 # Configure DNS so it always has the domain name
 echo $(date) " - Adding DOMAIN to search for resolv.conf"
-echo "DOMAIN=`domainname -d`" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "DOMAIN=$DOMAIN" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+
+# Configure resolv.conf on all hosts through NetworkManager
+echo $(date) " - Restarting NetworkManager"
+runuser -l $SUDOUSER -c "ansible localhost -o -f 30 -b -m service -a \"name=NetworkManager state=restarted\""
+echo $(date) " - NetworkManager configuration complete"
 
 # Run Ansible Playbook to update ansible.cfg file
 echo $(date) " - Updating ansible.cfg file"
