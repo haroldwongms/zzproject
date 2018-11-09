@@ -700,7 +700,7 @@ EOF
 if [[ $MASTERCLUSTERTYPE == "private" ]]
 then
 	echo $(date) " - Configure cluster for private masters"
-	runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/activate-private-lb.yaml"
+	runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/activate-private-lb.31x.yaml"
 fi
 
 # Setting Masters to non-schedulable
