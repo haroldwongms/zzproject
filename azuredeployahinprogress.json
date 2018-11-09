@@ -169,6 +169,14 @@
 				"description": "Number of OpenShift infra nodes. 1 is non HA. Choose 2 or 3 for HA"
 			}
 		},
+		"cnsInstanceCount": {
+			"type": "int",
+			"defaultValue": 3,
+			"allowedValues": [3, 4, 5, 6],
+			"metadata": {
+				"description": "Number of OpenShift cns nodes. 3 is default"
+			}
+		},
 		"acceptanceNodeInstanceCount": {
 			"type": "int",
 			"defaultValue": 2,
@@ -1416,7 +1424,7 @@
 						"value": "[parameters('infraInstanceCount')]"
 					},
 					"cnsInstanceCount": {
-						"value": "[variables('cnsInstanceCount')]"
+						"value": "[parameters('cnsInstanceCount')]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -1856,7 +1864,7 @@
 			],
 			"copy": {
 				"name": "cnsVmLoop",
-				"count": "[variables('cnsInstanceCount')]"
+				"count": "[parameters('cnsInstanceCount')]"
 			},
 			"properties": {
 				"mode": "Incremental",
@@ -2425,7 +2433,7 @@
 			],
 			"copy": {
 				"name": "cnsPrepLoop",
-				"count": "[variables('cnsInstanceCount')]"
+				"count": "[parameters('cnsInstanceCount')]"
 			},
 			"properties": {
 				"mode": "Incremental",
@@ -2742,7 +2750,7 @@
 						"value": "[parameters('infraInstanceCount')]"
 					},
 					"cnsInstanceCount": {
-						"value": "[variables('cnsInstanceCount')]"
+						"value": "[parameters('cnsInstanceCount')]"
 					},
 					"toolsNodeInstanceCount": {
 						"value": "[parameters('toolsNodeInstanceCount')]"
