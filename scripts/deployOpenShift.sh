@@ -692,8 +692,8 @@ fi
 # Creating variables file for private master configuration playbook
 echo $(date) " - Creating variables file for future playbooks"
 cat > /home/azureuser/openshift-container-platform-playbooks/vars.yaml <<EOF
-admin_user: azureuser
-master_lb_private_dns: openshift-mgt.ah.nl
+admin_user: $SUDOUSER
+master_lb_private_dns: $PRIVATEDNS
 EOF
 
 # Configure cluster for private masters

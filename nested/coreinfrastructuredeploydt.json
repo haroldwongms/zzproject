@@ -466,7 +466,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), json('null'))]"
+				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), 'availabiltySetLoop')]"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
@@ -512,7 +512,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), json('null'))]"
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), 'availabiltySetLoop')]"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
@@ -574,6 +574,7 @@
 				}]
 			}
 		}, {
+			"condition": "[equals(parameters('routerClusterType'), 'public')]",
 			"type": "Microsoft.Network/publicIPAddresses",
 			"name": "[parameters('bastionPublicIp')]",
 			"location": "[parameters('location')]",
@@ -618,7 +619,7 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]",
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp')), 'availabiltySetLoop')]",
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
 			],
 			"properties": {
@@ -627,9 +628,6 @@
 					"properties": {
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[parameters('bastionIp')]",
-						"publicIPAddress": {
-							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
-						},
 						"subnet": {
 							"id": "[parameters('existingMasterSubnetReference')]"
 						}
