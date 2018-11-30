@@ -636,17 +636,17 @@ then
 fi
 
 # Adding Open Sevice Broker for Azaure (requires service catalog)
-if [[ $AZURE == "true" ]]
-then
-    oc new-project osba
-    oc process -f https://raw.githubusercontent.com/Azure/open-service-broker-azure/master/contrib/openshift/osba-os-template.yaml  \
-        -p ENVIRONMENT=AzurePublicCloud \
-        -p AZURE_SUBSCRIPTION_ID=$SUBSCRIPTIONID \
-        -p AZURE_TENANT_ID=$TENANTID \
-        -p AZURE_CLIENT_ID=$AADCLIENTID \
-        -p AZURE_CLIENT_SECRET=$AADCLIENTSECRET \
-        | oc create -f -
-fi
+# if [[ $AZURE == "true" ]]
+# then
+    # oc new-project osba
+    # oc process -f https://raw.githubusercontent.com/Azure/open-service-broker-azure/master/contrib/openshift/osba-os-template.yaml  \
+        # -p ENVIRONMENT=AzurePublicCloud \
+        # -p AZURE_SUBSCRIPTION_ID=$SUBSCRIPTIONID \
+        # -p AZURE_TENANT_ID=$TENANTID \
+        # -p AZURE_CLIENT_ID=$AADCLIENTID \
+        # -p AZURE_CLIENT_SECRET=$AADCLIENTSECRET \
+        # | oc create -f -
+# fi
 
 # Configure Metrics
 if [[ $METRICS == "true" ]]
