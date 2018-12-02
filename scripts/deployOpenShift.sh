@@ -90,15 +90,15 @@ else
 fi
 
 # Logging into Azure CLI
-if [ "$AADCLIENTID" != "" ]
-then
-    echo $(date) " - Logging into Azure CLI"
-    az login --service-principal -u $AADCLIENTID -p $AADCLIENTSECRET -t $TENANTID
-    az account set -s $SUBSCRIPTIONID
+# if [ "$AADCLIENTID" != "" ]
+# then
+    # echo $(date) " - Logging into Azure CLI"
+    # az login --service-principal -u $AADCLIENTID -p $AADCLIENTSECRET -t $TENANTID
+    # az account set -s $SUBSCRIPTIONID
 
-    # Adding Storage Extension
-    az extension add --name storage-preview
-fi
+    # # Adding Storage Extension
+    # az extension add --name storage-preview
+# fi
 
 # Setting the default openshift_cloudprovider_kind if Azure enabled
 if [[ $AZURE == "true" ]]
@@ -124,12 +124,12 @@ openshift_cloudprovider_azure_location=$LOCATION"
 fi
 
 # Configure PROXY settings for OpenShift cluster
-if [[ $PROXYSETTING == "custom" ]]
-then
-    PROXY="openshift_http_proxy=$HTTPPROXYENTRY
-openshift_https_proxy=$HTTSPPROXYENTRY
-openshift_no_proxy='$NOPROXYENTRY'"
-fi
+# if [[ $PROXYSETTING == "custom" ]]
+# then
+    # PROXY="openshift_http_proxy=$HTTPPROXYENTRY
+# openshift_https_proxy=$HTTSPPROXYENTRY
+# openshift_no_proxy='$NOPROXYENTRY'"
+# fi
 
 # Cloning Ansible playbook repository
 
@@ -353,63 +353,63 @@ echo $(date) " - Running DNS Hostname resolution check"
 runuser -l $SUDOUSER -c "ansible-playbook ~/openshift-container-platform-playbooks/check-dns-host-name-resolution.yaml"
 
 # Working with custom header logo can only happen is Azure is enabled
-IMAGECT=nope
-if [ $AZURE == "true" ]
-then
-    # Enabling static web site on the web storage account
-    echo "Custom Header: Enabling a static-website in the web storage account"
-    az storage blob service-properties update --account-name $WEBSTORAGE --static-website
+# IMAGECT=nope
+# if [ $AZURE == "true" ]
+# then
+    # # Enabling static web site on the web storage account
+    # echo "Custom Header: Enabling a static-website in the web storage account"
+    # az storage blob service-properties update --account-name $WEBSTORAGE --static-website
 
-    # Retrieving URL
-    WEBSTORAGEURL=$(az storage account show -n $WEBSTORAGE --query primaryEndpoints.web -o tsv)
-else
-    # If its not a valid HTTP or HTTPS Url set it to empty
-    echo "Custom Header: Invalid http or https URL"
-    IMAGEURL=""
-fi
+    # # Retrieving URL
+    # WEBSTORAGEURL=$(az storage account show -n $WEBSTORAGE --query primaryEndpoints.web -o tsv)
+# else
+    # # If its not a valid HTTP or HTTPS Url set it to empty
+    # echo "Custom Header: Invalid http or https URL"
+    # IMAGEURL=""
+# fi
 
 # Getting the image type assuming a valid URL
 # Failing is ok it will just default to the standard image
-if [[ $IMAGEURL =~ ^http ]]
-then
-    # If this curl fails then the script will just use the default image
-    # no retries required
-    IMAGECT=$(curl --head $IMAGEURL | grep -i content-type: | awk '{print $NF}' | tr -d '\r') || true
-    IMAGETYPE=$(echo $IMAGECT | awk -F/ '{print $2}' | awk -F+ '{print $1}')
-    echo "Custom Header: $IMAGETYPE identified"
-else
-    echo "Custom Header: No Valid Image URL specified"
-fi
+# if [[ $IMAGEURL =~ ^http ]]
+# then
+    # # If this curl fails then the script will just use the default image
+    # # no retries required
+    # IMAGECT=$(curl --head $IMAGEURL | grep -i content-type: | awk '{print $NF}' | tr -d '\r') || true
+    # IMAGETYPE=$(echo $IMAGECT | awk -F/ '{print $2}' | awk -F+ '{print $1}')
+    # echo "Custom Header: $IMAGETYPE identified"
+# else
+    # echo "Custom Header: No Valid Image URL specified"
+# fi
 
 # Create base CSS file
-cat > /tmp/customlogo.css <<EOF
-#header-logo {
-    background-image: url("${WEBSTORAGEURL}customlogo.${IMAGETYPE}");
-    height: 20px;
-}
-EOF
+# cat > /tmp/customlogo.css <<EOF
+# #header-logo {
+    # background-image: url("${WEBSTORAGEURL}customlogo.${IMAGETYPE}");
+    # height: 20px;
+# }
+# EOF
 
-# If there is an image then transfer it
-if [[ $IMAGECT =~ ^image ]]
-then
-    # If this curl fails then the script will just use the default image
-    # no retries required
-    echo "Custom Header: $IMAGETYPE downloaded"
-    curl -o /tmp/originallogo.$IMAGETYPE $IMAGEURL || true
-    convert /tmp/originallogo.$IMAGETYPE -geometry x20 /tmp/customlogo.$IMAGETYPE || true
-    # Uploading the custom css and image
-    echo "Custom Header: Uploading a logo of type $IMAGECT"
-    az storage blob upload-batch -s /tmp --pattern customlogo.* -d \$web --account-name $WEBSTORAGE
-fi
+# # If there is an image then transfer it
+# if [[ $IMAGECT =~ ^image ]]
+# then
+    # # If this curl fails then the script will just use the default image
+    # # no retries required
+    # echo "Custom Header: $IMAGETYPE downloaded"
+    # curl -o /tmp/originallogo.$IMAGETYPE $IMAGEURL || true
+    # convert /tmp/originallogo.$IMAGETYPE -geometry x20 /tmp/customlogo.$IMAGETYPE || true
+    # # Uploading the custom css and image
+    # echo "Custom Header: Uploading a logo of type $IMAGECT"
+    # az storage blob upload-batch -s /tmp --pattern customlogo.* -d \$web --account-name $WEBSTORAGE
+# fi
 
-# If there is an image then activate it in the install
-CUSTOMCSS=""
-if [ -f /tmp/customlogo.$IMAGETYPE ]
-then
-    # To be added to /etc/ansible/hosts
-    echo "Custom Header: Adding Image to Ansible Hosts file"
-    CUSTOMCSS="openshift_web_console_extension_stylesheet_urls=['${WEBSTORAGEURL}customlogo.css']"
-fi
+# # If there is an image then activate it in the install
+# CUSTOMCSS=""
+# if [ -f /tmp/customlogo.$IMAGETYPE ]
+# then
+    # # To be added to /etc/ansible/hosts
+    # echo "Custom Header: Adding Image to Ansible Hosts file"
+    # CUSTOMCSS="openshift_web_console_extension_stylesheet_urls=['${WEBSTORAGEURL}customlogo.css']"
+# fi
 
 # Create glusterfs configuration if CNS is enabled
 if [[ $ENABLECNS == "true" ]]
@@ -477,6 +477,8 @@ openshift_router_selector='node-role.kubernetes.io/infra=true'
 openshift_registry_selector='node-role.kubernetes.io/infra=true'
 $registrygluster
 
+# Need to add custom node group definitions
+
 # Deploy Service Catalog
 openshift_enable_service_catalog=false
 
@@ -502,7 +504,7 @@ openshift_logging_fluentd_nodeselector={"logging":"true"}
 openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra":"true"}
-openshift_logging_master_public_url=https://$MASTERPUBLICIPHOSTNAME
+#openshift_logging_master_public_url=https://$MASTERPUBLICIPHOSTNAME
 
 # host group for masters
 [masters]
