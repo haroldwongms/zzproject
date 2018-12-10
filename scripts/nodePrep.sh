@@ -1,5 +1,5 @@
 #!/bin/bash
-echo $(date) " - Starting Infra / Node Prep Script"
+echo $(date) " - Starting Node Prep Script"
 
 export USERNAME_ORG=$1
 export PASSWORD_ACT_KEY="$2"
