@@ -4,25 +4,11 @@ echo $(date) " - Starting Infra / Node Prep Script"
 export USERNAME_ORG=$1
 export PASSWORD_ACT_KEY="$2"
 export POOL_ID=$3
-export PROXYSETTING=$4
-export HTTPPROXYENTRY="$5"
-export HTTSPPROXYENTRY="$6"
-export NOPROXYENTRY="$7"
 
 # Remove RHUI
 
 rm -f /etc/yum.repos.d/rh-cloud.repo
 sleep 10
-
-# Configure Proxy settings
-if [[ $PROXYSETTING == "custom" ]]
-then
-    echo $(date) " - Configure proxy settings"
-    echo "http_proxy=$HTTPPROXYENTRY
-https_proxy=$HTTSPPROXYENTRY
-no_proxy=$NOPROXYENTRY
-" > /etc/environment
-fi
 
 # Register Host with Cloud Access Subscription
 echo $(date) " - Register host with Cloud Access Subscription"
@@ -102,7 +88,7 @@ OPTIONS=\"\$OPTIONS --insecure-registry 172.30.0.0/16\"
 " >> /etc/sysconfig/docker
 
 # Create thin pool logical volume for Docker
-echo $(date) " - Creating thin pool logical volume for Docker and staring service"
+echo $(date) " - Creating thin pool logical volume for Docker and starting service"
 
 DOCKERVG=$( parted -m /dev/sda print all 2>/dev/null | grep unknown | grep /dev/sd | cut -d':' -f1 | head -n1 )
 

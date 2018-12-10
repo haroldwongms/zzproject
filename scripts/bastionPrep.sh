@@ -6,19 +6,15 @@ export PASSWORD_ACT_KEY="$2"
 export POOL_ID=$3
 export PRIVATEKEY=$4
 export SUDOUSER=$5
-export PROXYSETTING=$6
-export HTTPPROXYENTRY="$7"
-export HTTSPPROXYENTRY="$8"
-export NOPROXYENTRY="$9"
-export CUSTOMROUTINGCERTTYPE=${10}
-export CUSTOMMASTERCERTTYPE=${11}
-export CUSTOMROUTINGCAFILE="${12}"
-export CUSTOMROUTINGCERTFILE="${13}"
-export CUSTOMROUTINGKEYFILE="${14}"
-export CUSTOMMASTERCAFILE="${15}"
-export CUSTOMMASTERCERTFILE="${16}"
-export CUSTOMMASTERKEYFILE="${17}"
-export DOMAIN="${18}"
+export CUSTOMROUTINGCERTTYPE=$6
+export CUSTOMMASTERCERTTYPE=$7
+export CUSTOMROUTINGCAFILE="$8"
+export CUSTOMROUTINGCERTFILE="$9"
+export CUSTOMROUTINGKEYFILE="${10}"
+export CUSTOMMASTERCAFILE="${11}"
+export CUSTOMMASTERCERTFILE="${12}"
+export CUSTOMMASTERKEYFILE="${13}"
+export DOMAIN="${14}"
 
 # Generate private keys for use by Ansible
 echo $(date) " - Generating Private keys for use by Ansible for OpenShift Installation"
@@ -30,16 +26,6 @@ runuser -l $SUDOUSER -c "chmod 600 ~/.ssh/id_rsa*"
 
 rm -f /etc/yum.repos.d/rh-cloud.repo
 sleep 10
-
-# Configure Proxy settings
-if [[ $PROXYSETTING == "custom" ]]
-then
-    echo $(date) " - Configure proxy settings"
-    echo "http_proxy=$HTTPPROXYENTRY
-https_proxy=$HTTSPPROXYENTRY
-no_proxy=$NOPROXYENTRY
-" > /etc/environment
-fi
 
 # Register Host with Cloud Access Subscription
 echo $(date) " - Register host with Cloud Access Subscription"
@@ -111,9 +97,6 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
 sudo yum install -y azure-cli
 echo $(date) " - Azure CLI installation complete"
-
-# Install ImageMagick to resize image for Custom Header
-sudo yum install -y ImageMagick
 
 # Configure DNS so it always has the domain name
 echo $(date) " - Adding DOMAIN to search for resolv.conf"

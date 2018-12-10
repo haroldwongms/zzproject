@@ -5,25 +5,11 @@ export USERNAME_ORG=$1
 export PASSWORD_ACT_KEY="$2"
 export POOL_ID=$3
 export SUDOUSER=$4
-export PROXYSETTING=$5
-export HTTPPROXYENTRY="$6"
-export HTTSPPROXYENTRY="$7"
-export NOPROXYENTRY="$8"
 
 # Remove RHUI
 
 rm -f /etc/yum.repos.d/rh-cloud.repo
 sleep 10
-
-# Configure Proxy settings
-if [[ $PROXYSETTING == "custom" ]]
-then
-    echo $(date) " - Configure proxy settings"
-    echo "http_proxy=$HTTPPROXYENTRY
-https_proxy=$HTTSPPROXYENTRY
-no_proxy=$NOPROXYENTRY
-" > /etc/environment
-fi
 
 # Register Host with Cloud Access Subscription
 echo $(date) " - Register host with Cloud Access Subscription"
@@ -107,7 +93,7 @@ OPTIONS=\"\$OPTIONS --insecure-registry 172.30.0.0/16\"
 " >> /etc/sysconfig/docker
 
 # Create thin pool logical volume for Docker
-echo $(date) " - Creating thin pool logical volume for Docker and staring service"
+echo $(date) " - Creating thin pool logical volume for Docker and starting service"
 
 DOCKERVG=$( parted -m /dev/sda print all 2>/dev/null | grep unknown | grep /dev/sd | cut -d':' -f1 )
 

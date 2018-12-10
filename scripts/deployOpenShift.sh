@@ -38,26 +38,16 @@ export PRIVATEIP=${31}
 export PRIVATEDNS=${32}
 export PRODUCTION=${33}
 export ACCEPTANCE=${34}
-export INFRAPIPNAME=${35}
-export IMAGEURL=${36}
-export WEBSTORAGE=${37}
-export CUSTOMROUTINGCERTTYPE=${38}
-export CUSTOMMASTERCERTTYPE=${39}
-export PROXYSETTING=${40}
-export HTTPPROXYENTRY="${41}"
-export HTTSPPROXYENTRY="${42}"
-export NOPROXYENTRY="${43}"
-export PRODUCTIONCOUNT="${44}"
-export ACCEPTANCECOUNT="${45}"
-export DOMAIN="${46}"
+export CUSTOMROUTINGCERTTYPE=${35}
+export CUSTOMMASTERCERTTYPE=${36}
+export PRODUCTIONCOUNT="${37}"
+export ACCEPTANCECOUNT="${38}"
+export DOMAIN="${39}"
 
 export BASTION=$(hostname)
 
 # Set CNS to default storage type.  Will be overridden later if Azure is true
 export CNS_DEFAULT_STORAGE=true
-
-# Setting DOMAIN variable
-# export DOMAIN=`domainname -d`
 
 # Determine if Commercial Azure or Azure Government
 CLOUD=$( curl -H Metadata:true "http://169.254.169.254/metadata/instance/compute/location?api-version=2017-04-02&format=text" | cut -c 1-2 )
@@ -89,17 +79,6 @@ else
     export CLOUDNAME="AzurePublicCloud"
 fi
 
-# Logging into Azure CLI
-# if [ "$AADCLIENTID" != "" ]
-# then
-    # echo $(date) " - Logging into Azure CLI"
-    # az login --service-principal -u $AADCLIENTID -p $AADCLIENTSECRET -t $TENANTID
-    # az account set -s $SUBSCRIPTIONID
-
-    # # Adding Storage Extension
-    # az extension add --name storage-preview
-# fi
-
 # Setting the default openshift_cloudprovider_kind if Azure enabled
 if [[ $AZURE == "true" ]]
 then
@@ -122,14 +101,6 @@ openshift_cloudprovider_azure_location=$LOCATION"
 		SCKIND="openshift_storageclass_parameters={'kind': 'shared', 'storageaccounttype': 'Premium_LRS'}"
 	fi
 fi
-
-# Configure PROXY settings for OpenShift cluster
-# if [[ $PROXYSETTING == "custom" ]]
-# then
-    # PROXY="openshift_http_proxy=$HTTPPROXYENTRY
-# openshift_https_proxy=$HTTSPPROXYENTRY
-# openshift_no_proxy='$NOPROXYENTRY'"
-# fi
 
 # Cloning Ansible playbook repository
 
@@ -352,65 +323,6 @@ EOF
 echo $(date) " - Running DNS Hostname resolution check"
 runuser -l $SUDOUSER -c "ansible-playbook ~/openshift-container-platform-playbooks/check-dns-host-name-resolution.yaml"
 
-# Working with custom header logo can only happen is Azure is enabled
-# IMAGECT=nope
-# if [ $AZURE == "true" ]
-# then
-    # # Enabling static web site on the web storage account
-    # echo "Custom Header: Enabling a static-website in the web storage account"
-    # az storage blob service-properties update --account-name $WEBSTORAGE --static-website
-
-    # # Retrieving URL
-    # WEBSTORAGEURL=$(az storage account show -n $WEBSTORAGE --query primaryEndpoints.web -o tsv)
-# else
-    # # If its not a valid HTTP or HTTPS Url set it to empty
-    # echo "Custom Header: Invalid http or https URL"
-    # IMAGEURL=""
-# fi
-
-# Getting the image type assuming a valid URL
-# Failing is ok it will just default to the standard image
-# if [[ $IMAGEURL =~ ^http ]]
-# then
-    # # If this curl fails then the script will just use the default image
-    # # no retries required
-    # IMAGECT=$(curl --head $IMAGEURL | grep -i content-type: | awk '{print $NF}' | tr -d '\r') || true
-    # IMAGETYPE=$(echo $IMAGECT | awk -F/ '{print $2}' | awk -F+ '{print $1}')
-    # echo "Custom Header: $IMAGETYPE identified"
-# else
-    # echo "Custom Header: No Valid Image URL specified"
-# fi
-
-# Create base CSS file
-# cat > /tmp/customlogo.css <<EOF
-# #header-logo {
-    # background-image: url("${WEBSTORAGEURL}customlogo.${IMAGETYPE}");
-    # height: 20px;
-# }
-# EOF
-
-# # If there is an image then transfer it
-# if [[ $IMAGECT =~ ^image ]]
-# then
-    # # If this curl fails then the script will just use the default image
-    # # no retries required
-    # echo "Custom Header: $IMAGETYPE downloaded"
-    # curl -o /tmp/originallogo.$IMAGETYPE $IMAGEURL || true
-    # convert /tmp/originallogo.$IMAGETYPE -geometry x20 /tmp/customlogo.$IMAGETYPE || true
-    # # Uploading the custom css and image
-    # echo "Custom Header: Uploading a logo of type $IMAGECT"
-    # az storage blob upload-batch -s /tmp --pattern customlogo.* -d \$web --account-name $WEBSTORAGE
-# fi
-
-# # If there is an image then activate it in the install
-# CUSTOMCSS=""
-# if [ -f /tmp/customlogo.$IMAGETYPE ]
-# then
-    # # To be added to /etc/ansible/hosts
-    # echo "Custom Header: Adding Image to Ansible Hosts file"
-    # CUSTOMCSS="openshift_web_console_extension_stylesheet_urls=['${WEBSTORAGEURL}customlogo.css']"
-# fi
-
 # Create glusterfs configuration if CNS is enabled
 if [[ $ENABLECNS == "true" ]]
 then
@@ -448,8 +360,8 @@ ansible_become=yes
 openshift_install_examples=true
 deployment_type=openshift-enterprise
 openshift_release=v3.11
-#openshift_image_tag=v3.10.34
-#openshift_pkg_version=-3.10.34
+#openshift_image_tag=v3.11
+#openshift_pkg_version=-3.11
 docker_udev_workaround=True
 openshift_use_dnsmasq=true
 openshift_master_default_subdomain=$ROUTING
@@ -636,19 +548,6 @@ if [[ $AZURE == "true" || $ENABLECNS == "true" ]]
 then
     runuser -l $SUDOUSER -c "ansible-playbook -e openshift_cloudprovider_azure_client_id=$AADCLIENTID -e openshift_cloudprovider_azure_client_secret=\"$AADCLIENTSECRET\" -e openshift_cloudprovider_azure_tenant_id=$TENANTID -e openshift_cloudprovider_azure_subscription_id=$SUBSCRIPTIONID -e openshift_enable_service_catalog=true -f 30 /usr/share/ansible/openshift-ansible/playbooks/openshift-service-catalog/config.yml"
 fi
-
-# Adding Open Sevice Broker for Azaure (requires service catalog)
-# if [[ $AZURE == "true" ]]
-# then
-    # oc new-project osba
-    # oc process -f https://raw.githubusercontent.com/Azure/open-service-broker-azure/master/contrib/openshift/osba-os-template.yaml  \
-        # -p ENVIRONMENT=AzurePublicCloud \
-        # -p AZURE_SUBSCRIPTION_ID=$SUBSCRIPTIONID \
-        # -p AZURE_TENANT_ID=$TENANTID \
-        # -p AZURE_CLIENT_ID=$AADCLIENTID \
-        # -p AZURE_CLIENT_SECRET=$AADCLIENTSECRET \
-        # | oc create -f -
-# fi
 
 # Configure Metrics
 if [[ $METRICS == "true" ]]

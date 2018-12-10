@@ -56,37 +56,6 @@
 				"description": "Pool Id with OpenShift entitlements"
 			}
 		},
-		"proxySettings": {
-			"type": "string",
-			"defaultValue": "none",
-			"allowedValues": [
-				"none", "custom"
-			],
-			"metadata": {
-				"description": "Use custom proxy settings"
-			}
-		},
-		"httpProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter http_proxy settings to use"
-			}
-		},
-		"httpsProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter https_proxy settings to use"
-			}
-		},
-		"noProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter no_proxy settings to use"
-			}
-		},
 		"customTags": {
 			"type": "object",
 			"metadata": {
@@ -117,7 +86,7 @@
 				]
 			},
 			"protectedSettings": {
-				"commandToExecute": "[concat('bash ', parameters('masterPrepScriptFileName'), ' ', parameters('rhsmUsernameOrOrgId'), ' ',variables('singlequote'), parameters('rhsmPasswordOrActivationKey'), variables('singlequote'), ' ', parameters('rhsmPoolId'), ' ', variables('singlequote'), parameters('adminUsername'), variables('singlequote'), ' ', variables('singlequote'), parameters('proxySettings'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('httpsProxyEntry'), variables('singlequote'), ' ', variables('singlequote'), parameters('noProxyEntry'), variables('singlequote'))]"
+				"commandToExecute": "[concat('bash ', parameters('masterPrepScriptFileName'), ' ', variables('singlequote'), parameters('rhsmUsernameOrOrgId'), variables('singlequote'), ' ', variables('singlequote'), parameters('rhsmPasswordOrActivationKey'), variables('singlequote'), ' ', variables('singlequote'), parameters('rhsmPoolId'), variables('singlequote'), ' ', variables('singlequote'), parameters('adminUsername'), variables('singlequote'))]"
 			}
 		}
 	}],

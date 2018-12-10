@@ -560,13 +560,6 @@
 				"description": "Static Private IP address to use for infra load balancer when creating a cluster with private infra nodes"
 			}
 		},
-		"customHeaderImage": {
-			"type": "string",
-			"defaultValue": "",
-			"metadata": {
-				"description": "URL to a custom image for the header in the web console. If no valid image type is specified then it will use the default. 20px is the default height as well."
-			}
-		},
 		"routingCertType": {
 			"type": "string",
 			"defaultValue": "custom",
@@ -585,37 +578,6 @@
 			],
 			"metadata": {
 				"description": "Use custom certificate for master domain or the default self-signed certificate"
-			}
-		},
-		"proxySettings": {
-			"type": "string",
-			"defaultValue": "none",
-			"allowedValues": [
-				"none", "custom"
-			],
-			"metadata": {
-				"description": "Use custom proxy settings"
-			}
-		},
-		"httpProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter http_proxy settings to use"
-			}
-		},
-		"httpsProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter https_proxy settings to use"
-			}
-		},
-		"noProxyEntry": {
-			"type": "string",
-			"defaultValue": "none",
-			"metadata": {
-				"description": "If custom proxy settings selected, enter no_proxy settings to use"
 			}
 		},
 		"coreinfrastructureResourceGroup": {
@@ -2280,18 +2242,6 @@
 							"secretName": "[if(equals(parameters('masterCertType'),'custom'), 'masterkeyfile', parameters('keyVaultSecret'))]"
 						}
 					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
-					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
@@ -2344,18 +2294,6 @@
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmBrokerPoolId')]"
 					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
-					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
@@ -2404,18 +2342,6 @@
 					},
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmBrokerPoolId')]"
-					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -2466,18 +2392,6 @@
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmPoolId')]"
 					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
-					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
@@ -2526,18 +2440,6 @@
 					},
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmPoolId')]"
-					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -2588,18 +2490,6 @@
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmPoolId')]"
 					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
-					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
 					}
@@ -2648,18 +2538,6 @@
 					},
 					"rhsmPoolId": {
 						"value": "[parameters('rhsmPoolId')]"
-					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
 					},
 					"customTags": {
 						"value": "[parameters('customTags')]"
@@ -2821,32 +2699,11 @@
 					"masterClusterDns": {
 						"value": "[variables('masterClusterDns')]"
 					},
-					"routerPublicIpName": {
-						"value": "[variables('infraLbPublicIpDnsLabel')]"
-					},
-					"customHeaderImage": {
-						"value": "[parameters('customHeaderImage')]"
-					},
-					"newStorageAccountWeb": {
-						"value": "[variables('newStorageAccountWeb')]"
-					},
 					"routingCertType": {
 						"value": "[parameters('routingCertType')]"
 					},
 					"masterCertType": {
 						"value": "[parameters('masterCertType')]"
-					},
-					"proxySettings": {
-						"value": "[parameters('proxySettings')]"
-					},
-					"httpProxyEntry": {
-						"value": "[parameters('httpProxyEntry')]"
-					},
-					"httpsProxyEntry": {
-						"value": "[parameters('httpsProxyEntry')]"
-					},
-					"noProxyEntry": {
-						"value": "[parameters('noProxyEntry')]"
 					}
 				}
 			}
