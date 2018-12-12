@@ -321,17 +321,6 @@
 				"tier": "Standard"
 			}
 		}, {
-			"type": "Microsoft.Storage/storageAccounts",
-			"name": "[parameters('newStorageAccountWeb')]",
-			"location": "[parameters('location')]",
-			"kind": "StorageV2",
-			"apiVersion": "[parameters('apiVersionStorage')]",
-			"tags": "[parameters('customTags')]",
-			"sku": {
-				"name": "Standard_RAGRS",
-				"tier": "Standard"
-			}
-		}, {
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"type": "Microsoft.Network/networkSecurityGroups",
 			"name": "[concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]",
