@@ -208,20 +208,20 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute-tools'"
 	done
 
 	for (( c=10; c<=$TOOLSCOUNT; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute'"
+$TOOLS$c openshift_hostname=$TOOLS$c openshift_node_group_name='node-config-compute-tools'"
 	done
 else
 	# If less than 10 tools nodes
 	for (( c=1; c<=$TOOLSCOUNT; c++ ))
 	do
 		toolsnodegroup="$toolsnodegroup
-${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute'"
+${TOOLS}0$c openshift_hostname=${TOOLS}0$c openshift_node_group_name='node-config-compute-tools'"
 	done
 fi
 
@@ -233,20 +233,20 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
     productionnodegroup="$productionnodegroup
-${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
+${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute-production'"
 	done
 
 	for (( c=10; c<=$PRODUCTIONCOUNT; c++ ))
 	do
     productionnodegroup="$productionnodegroup
-$PRODUCTION$c openshift_hostname=$PRODUCTION$c openshift_node_group_name='node-config-compute'"
+$PRODUCTION$c openshift_hostname=$PRODUCTION$c openshift_node_group_name='node-config-compute-production'"
 	done
 else
 	# If less than 10 tools nodes
 	for (( c=1; c<=$PRODUCTIONCOUNT; c++ ))
 	do
     productionnodegroup="$productionnodegroup
-${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute'"
+${PRODUCTION}0$c openshift_hostname=${PRODUCTION}0$c openshift_node_group_name='node-config-compute-production'"
 	done
 fi
 
@@ -258,19 +258,19 @@ then
 	for (( c=1; c<=9; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute-acceptance'"
 	done
 	
 	for (( c=10; c<=$ACCEPTANCECOUNT; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute'"
+$ACCEPTANCE$c openshift_hostname=$ACCEPTANCE$c openshift_node_group_name='node-config-compute-acceptance'"
 	done
 else
 	for (( c=1; c<=$ACCEPTANCECOUNT; c++ ))
 	do
 		acceptancenodegroup="$acceptancenodegroup
-${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute'"
+${ACCEPTANCE}0$c openshift_hostname=${ACCEPTANCE}0$c openshift_node_group_name='node-config-compute-acceptance'"
 	done
 fi
 
@@ -378,6 +378,8 @@ $CUSTOMCSS
 $ROUTINGCERTIFICATE
 $MASTERCERTIFICATE
 $PROXY
+
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'nodepool=production']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true', 'nodepool=production']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=tools']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}]
 
 # Workaround for docker image failure
 # https://access.redhat.com/solutions/3480921
