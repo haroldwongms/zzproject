@@ -32,12 +32,6 @@
 				"description": "Diagnostics storage account names"
 			}
 		},
-		"newStorageAccountWeb": {
-			"type": "string",
-			"metadata": {
-				"description": "Web storage account name for custom image"
-			}
-		},
 		"newStorageAccountRegistry": {
 			"type": "string",
 			"metadata": {

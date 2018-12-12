@@ -657,7 +657,6 @@
 		"openshiftToolsNodeHostname": "[concat(variables('simplifiedClusterPrefix'), 'plosca')]",
 		"openshiftProductionNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'plosca')]",
 		"openshiftAcceptanceNodeHostname": "[concat(variables('simplifiedClusterPrefix2'), 'alosca')]",
-		"newStorageAccountWeb": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscw01')]",
 		"diagStorageAccountM": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscm01')]",
 		"diagStorageAccountI": "[concat(variables('simplifiedClusterPrefix'), 'prdsaosci01')]",
 		"diagStorageAccountC": "[concat(variables('simplifiedClusterPrefix'), 'prdsaoscc01')]",
@@ -680,52 +679,6 @@
 			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Prd-As-Osca-01')]", "tagName": "ProductionNodeGroupAvailabilitySet" },
 			{ "name": "[concat(parameters('openshiftClusterPrefix2'), '-Acc-As-Osca-01')]", "tagName": "AcceptanceNodeGroupAvailabilitySet" }
 		],
-		"unmanagedAvailabilitySetSku": "Classic",
-		"managedAvailabilitySetSku": "Aligned",
-		"availabilitySetSku": "[concat(parameters('storageKind'), 'AvailabilitySetSku')]",
-		"unmanagedPlatformFaultDomainCount": 3,
-		"managedPlatformFaultDomainCount": 2,
-		"platformFaultDomainCount": "[concat(parameters('storageKind'), 'PlatformFaultDomainCount')]",
-		"storageSkuObject": {
-			"bastion": {
-				"skuName": "[variables('vmSizesMap')[variables('bastionVmSize')].storageAccountType]",
-				"skuTier": "[variables('vmSizesMap')[variables('bastionVmSize')].storageAccountTier]"
-			},
-			"master": {
-				"skuName": "[variables('vmSizesMap')[parameters('masterVmSize')].storageAccountType]",
-				"skuTier": "[variables('vmSizesMap')[parameters('masterVmSize')].storageAccountTier]"
-			},
-			"infra": {
-				"skuName": "[variables('vmSizesMap')[parameters('infraVmSize')].storageAccountType]",
-				"skuTier": "[variables('vmSizesMap')[parameters('infraVmSize')].storageAccountTier]"
-			},
-			"node": {
-				"skuName": "[variables('vmSizesMap')[parameters('nodeVmSize')].storageAccountType]",
-				"skuTier": "[variables('vmSizesMap')[parameters('nodeVmSize')].storageAccountTier]"
-			},
-			"cns": {
-				"skuName": "[variables('vmSizesMap')[parameters('cnsVmSize')].storageAccountType]",
-				"skuTier": "[variables('vmSizesMap')[parameters('cnsVmSize')].storageAccountTier]"
-			},
-			"web": {
-				"skuName": "Standard_RAGRS",
-				"skuTier": "Standard"
-			},
-			"diagnostics": {
-				"skuName": "Standard_LRS",
-				"skuTier": "Standard"
-			},
-			"registry": {
-				"skuName": "Standard_LRS",
-				"skuTier": "Standard"
-			},
-			"persistent": {
-				"skuName": "Standard_LRS",
-				"skuTier": "Standard"
-			}
-		},
-		"managedStorageCount": 3,
-		"storageLoopCount": "[concat(parameters('storageKind'), 'StorageCount')]",
 		"bastionIp": "[concat(variables('masterFirstAddrPrefix'), add(int(variables('masterFirstAddrOctets4split')[0]),14))]",
 		"masterFirstAddrOctets": "[split(parameters('masterSubnetPrefix'),'.')]",
 		"masterFirstAddrOctets4split": "[split(variables('masterFirstAddrOctets')[3],'/')]",
@@ -810,15 +763,8 @@
 			"product": "[parameters('marketplaceOsImage').offer]",
 			"name": "[parameters('marketplaceOsImage').sku]"
 		},
-		"redHatTags": {
-			"app": "OpenShiftContainerPlatform",
-			"version": "3.10",
-			"platform": "AzurePublic",
-			"provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc"
-		},
 		"bastionVmSize": "Standard_D2s_v3",
 		"glusterDiskSize": 256,
-		"cnsInstanceCount": 4,
 		"singlequote": "'",
 		"sshKeyPath": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
 		"bastionPrepScriptUrl": "[concat(parameters('_artifactsLocation'), '/scripts/bastionPrep.sh')]",
@@ -1258,9 +1204,6 @@
 					},
 					"coreInfraDiagStorageAccountArray": {
 						"value": "[variables('coreInfraDiagStorageAccountArray')]"
-					},
-					"newStorageAccountWeb": {
-						"value": "[variables('newStorageAccountWeb')]"
 					},
 					"newStorageAccountRegistry": {
 						"value": "[variables('newStorageAccountRegistry')]"
