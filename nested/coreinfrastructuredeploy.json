@@ -292,11 +292,6 @@
 		}
 	},
 	"variables": {
-	"publicBastionIpConfigurationProperties": {
-		"publicIPAddress": {
-			"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp'))]"
-		}
-	},
 	},
 	"resources": [
 		{
