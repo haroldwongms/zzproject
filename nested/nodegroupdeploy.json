@@ -246,7 +246,8 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]",
+				"CreateNodeSubnet"
 			],
 			"copy": {
 				"name": "nodeNicLoop",
@@ -259,7 +260,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('nodeFirstAddrPrefix'), copyindex(parameters('nodeFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingNodeSubnetReference')]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('subnetName')]"
 						}
 					}
 				}],
