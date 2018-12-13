@@ -742,7 +742,7 @@
 			"privateIPAddress": "[parameters('masterPrivateClusterIp')]",
 			"privateIPAllocationMethod": "Static",
 			"subnet": {
-				"id": "[parameters('existingMasterSubnetReference')]"
+				"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('masterSubnetName')]"
 			}
 		},
 		"publicMasterFrontEndIpConfigurationProperties": {
@@ -755,7 +755,7 @@
 			"privateIPAddress": "[parameters('routerPrivateClusterIp')]",
 			"privateIPAllocationMethod": "Static",
 			"subnet": {
-				"id": "[parameters('existingInfraSubnetReference')]"
+				"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('infraSubnetName')]"
 			}
 		},
 		"publicInfraFrontEndIpConfigurationProperties": {
