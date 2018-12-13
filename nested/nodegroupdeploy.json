@@ -56,10 +56,28 @@
 				"description": "Availability set name"
 			}
 		},
-		"availabilitySetTag": {
+		"virtualNetworkResourceGroupName": {
 			"type": "string",
 			"metadata": {
-				"description": "Availability set tag name"
+				"description": "Availability set name"
+			}
+		},
+		"existingVnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Availability set name"
+			}
+		},
+		"subnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Availability set name"
+			}
+		},
+		"subnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Availability set name"
 			}
 		},
 		"nodeFirstAddrOctet4": {
@@ -160,6 +178,41 @@
 						"direction": "Inbound"
 					}
 				}]
+			}
+		}, {
+			"name": "CreateNodeSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "[parameters('virtualNetworkResourceGroupName')]",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osca-01')]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
+					},
+					"existingVnetName": {
+						"value": "[parameters('existingVnetName')]"
+					},
+					"subnetName": {
+						"value": "[parameters('nodeSubnetName')]"
+					},
+					"subnetPrefix": {
+						"value": "[parameters('nodeSubnetPrefix')]"
+					},
+					"networkSecurityGroup": {
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
+					}
+				}
 			}
 		}, {
 			"type": "Microsoft.Compute/availabilitySets",

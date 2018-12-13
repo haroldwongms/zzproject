@@ -1378,8 +1378,17 @@
 					"availabilitySetName": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].name]"
 					},
-					"availabilitySetTag": {
-						"value": "[variables('nodeGroupAvailabilitySetArray')[0].tagName]"
+					"virtualNetworkResourceGroupName": {
+						"value": "haroldw-corevnet"
+					},
+					"existingVnetName": {
+						"value": "ocpinfravnet"
+					},
+					"subnetName": {
+						"value": "newtoolssubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.1.53.0/24"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('toolsFirstAddrOctet4')]"
@@ -1443,8 +1452,17 @@
 					"availabilitySetName": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].name]"
 					},
-					"availabilitySetTag": {
-						"value": "[variables('nodeGroupAvailabilitySetArray')[1].tagName]"
+					"virtualNetworkResourceGroupName": {
+						"value": "haroldw-prodvnet"
+					},
+					"existingVnetName": {
+						"value": "ocpprodvnet"
+					},
+					"subnetName": {
+						"value": "newproductionsubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.3.54.0/24"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('prodFirstAddrOctet4')]"
@@ -1508,8 +1526,17 @@
 					"availabilitySetName": {
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].name]"
 					},
-					"availabilitySetTag": {
-						"value": "[variables('nodeGroupAvailabilitySetArray')[2].tagName]"
+					"virtualNetworkResourceGroupName": {
+						"value": "haroldw-accvnet"
+					},
+					"existingVnetName": {
+						"value": "ocpaccvnet"
+					},
+					"subnetName": {
+						"value": "newacceptancesubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.2.55.0/24"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('accFirstAddrOctet4')]"

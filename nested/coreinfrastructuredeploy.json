@@ -426,6 +426,111 @@
 				}]
 			}
 		}, {
+			"name": "CreateMasterSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "haroldw-corevnet",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
+					},
+					"existingVnetName": {
+						"value": "ocpinfravnet"
+					},
+					"subnetName": {
+						"value": "newmastersubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.1.50.0/24"
+					},
+					"networkSecurityGroup": {
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
+					}
+				}
+			}
+		}, {
+			"name": "CreateInfraSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "haroldw-corevnet",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
+					},
+					"existingVnetName": {
+						"value": "ocpinfravnet"
+					},
+					"subnetName": {
+						"value": "newinfrasubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.1.51.0/24"
+					},
+					"networkSecurityGroup": {
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
+					}
+				}
+			}
+		}, {
+			"name": "CreateCnsSubnet",
+			"type": "Microsoft.Resources/deployments",
+			"resourceGroup": "haroldw-corevnet",
+			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('subnetCreateTemplateUrl')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"apiVersionNetwork": {
+						"value": "[parameters('apiVersionNetwork')]"
+					},
+					"existingVnetName": {
+						"value": "ocpinfravnet"
+					},
+					"subnetName": {
+						"value": "newcnssubnet"
+					},
+					"subnetPrefix": {
+						"value": "10.1.52.0/24"
+					},
+					"networkSecurityGroup": {
+						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
+					}
+				}
+			}
+		}, {
 			"type": "Microsoft.Compute/availabilitySets",
 			"name": "[parameters('availabilitySetArray')[copyIndex()].name]",
 			"location": "[parameters('location')]",
