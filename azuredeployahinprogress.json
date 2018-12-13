@@ -1349,6 +1349,7 @@
             "subscriptionId": "[parameters('toolsNodeGroupSubscriptionID')]",
 			"apiVersion": "[variables('apiVersionLinkTemplate')]",
 			"dependsOn": [
+				"CoreInfrastructureDeployment"
 			],
 			"properties": {
 				"mode": "Incremental",
