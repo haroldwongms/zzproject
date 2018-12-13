@@ -26,6 +26,12 @@
 				"description": "Compute API version"
 			}
 		},
+		"apiVersionLinkTemplate": {
+			"type": "string",
+			"metadata": {
+				"description": "Link Template API version"
+			}
+		},
 		"coreInfraDiagStorageAccountArray": {
 			"type": "array",
 			"metadata": {

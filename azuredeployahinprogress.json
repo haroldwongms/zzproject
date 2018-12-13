@@ -1202,6 +1202,9 @@
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
 					"coreInfraDiagStorageAccountArray": {
 						"value": "[variables('coreInfraDiagStorageAccountArray')]"
 					},
@@ -1363,6 +1366,9 @@
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
 					"openshiftClusterPrefix": {
 						"value": "[concat(parameters('openshiftClusterPrefix'), '-Prd')]"
 					},
@@ -1437,6 +1443,9 @@
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
 					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
+					},
 					"diagStorageAccount": {
 						"value": "[variables('diagStorageAccountP')]"
 					},
@@ -1510,6 +1519,9 @@
 					},
 					"apiVersionCompute": {
 						"value": "[variables('apiVersionCompute')]"
+					},
+					"apiVersionLinkTemplate": {
+						"value": "[variables('apiVersionLinkTemplate')]"
 					},
 					"diagStorageAccount": {
 						"value": "[variables('diagStorageAccountA')]"
