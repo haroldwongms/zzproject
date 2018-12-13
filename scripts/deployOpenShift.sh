@@ -282,19 +282,19 @@ then
     for (( c=1; c<=9; c++ ))
     do
         cnsgroup="$cnsgroup
-${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute'"
+${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute-cns'"
     done
 
 	for (( c=10; c<=$CNSCOUNT; c++ ))
     do
         cnsgroup="$cnsgroup
-$CNS$c openshift_hostname=$CNS$c openshift_node_group_name='node-config-compute'"
+$CNS$c openshift_hostname=$CNS$c openshift_node_group_name='node-config-compute-cns'"
     done
 else
 	for (( c=1; c<=$CNSCOUNT; c++ ))
     do
         cnsgroup="$cnsgroup
-${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute'"
+${CNS}0$c openshift_hostname=${CNS}0$c openshift_node_group_name='node-config-compute-cns'"
     done
 fi
 
@@ -379,7 +379,7 @@ $ROUTINGCERTIFICATE
 $MASTERCERTIFICATE
 $PROXY
 
-openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'nodepool=production']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true', 'nodepool=production']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=tools']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}]
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true'}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true'}, {'name': 'node-config-compute-cns', 'labels': ['nodepool=cns']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=ToolsProduction']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Production']}]
 
 # Workaround for docker image failure
 # https://access.redhat.com/solutions/3480921
@@ -461,6 +461,12 @@ echo $(date) " - Restarting NetworkManager"
 runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -m service -a \"name=NetworkManager state=restarted\""
 echo $(date) " - NetworkManager configuration complete"
 
+# Restarting things so everything is clean before continuing with installation
+echo $(date) " - Rebooting cluster to complete installation"
+runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
+runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
+sleep 20
+
 # Run OpenShift Container Platform prerequisites playbook
 echo $(date) " - Running Prerequisites via Ansible Playbook"
 runuser -l $SUDOUSER -c "ansible-playbook -e openshift_cloudprovider_azure_client_id=$AADCLIENTID -e openshift_cloudprovider_azure_client_secret=\"$AADCLIENTSECRET\" -e openshift_cloudprovider_azure_tenant_id=$TENANTID -e openshift_cloudprovider_azure_subscription_id=$SUBSCRIPTIONID -f 30 /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml"
@@ -539,12 +545,6 @@ echo $(date) " - Adding api and logging labels"
 runuser -l $SUDOUSER -c  "oc label --overwrite nodes ${MASTER}01 openshift-infra=apiserver"
 runuser -l $SUDOUSER -c  "oc label --overwrite nodes --all logging-infra-fluentd=true logging=true"
 
-# Restarting things so everything is clean before installing anything else
-echo $(date) " - Rebooting cluster to complete installation"
-runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
-runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
-sleep 20
-
 # Installing Service Catalog, Ansible Service Broker and Template Service Broker
 if [[ $AZURE == "true" || $ENABLECNS == "true" ]]
 then
@@ -608,12 +608,12 @@ then
 fi
 
 # Setting Masters to non-schedulable
-echo $(date) " - Setting Masters to non-schedulable"
-runuser -l $SUDOUSER -c "ansible-playbook -f 10 ~/openshift-container-platform-playbooks/reset-masters-non-schedulable.yaml"
+#echo $(date) " - Setting Masters to non-schedulable"
+#runuser -l $SUDOUSER -c "ansible-playbook -f 10 ~/openshift-container-platform-playbooks/reset-masters-non-schedulable.yaml"
 
 # Re-enabling requiretty
-echo $(date) " - Re-enabling requiretty"
-sed -i -e "s/# Defaults    requiretty/Defaults    requiretty/" /etc/sudoers
+#echo $(date) " - Re-enabling requiretty"
+#sed -i -e "s/# Defaults    requiretty/Defaults    requiretty/" /etc/sudoers
 
 # Delete yaml files
 echo $(date) " - Deleting unecessary files"
