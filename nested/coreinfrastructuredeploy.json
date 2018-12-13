@@ -260,22 +260,52 @@
 				"description": "Enable accelerated networking for cns nodes"
 			}
 		},
-		"existingMasterSubnetReference": {
+		"coreInfraVirtualNetworkResourceGroup": {
 			"type": "string",
 			"metadata": {
-				"description": "Full reference for existing master subnet"
+				"description": "Name of the core infrastructure vNet for Master, Infra, CNS, and Tools nodes"
 			}
 		},
-		"existingInfraSubnetReference": {
+		"coreInfraVirtualNetworkName": {
 			"type": "string",
 			"metadata": {
-				"description": "Full reference for existing infra subnet"
+				"description": "Name of the core infrastructure vNet resource group"
 			}
 		},
-		"existingCnsSubnetReference": {
+		"masterSubnetName": {
 			"type": "string",
 			"metadata": {
-				"description": "Full reference for existing cns subnet"
+				"description": "Name of the subnet for Master, Infra, CNS, and Tools nodes"
+			}
+		},
+		"masterSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "CIDR used for the master subnet - needs to be a subset of the addressPrefix - default is 10.1.0.0/16"
+			}
+		},
+		"infraSubnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the subnet for infra nodes"
+			}
+		},
+		"infraSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+			}
+		},
+		"cnsSubnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the subnet for cns nodes"
+			}
+		},
+		"cnsSubnetPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "CIDR used for the cns subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
 			}
 		},
 		"masterInstanceCount": {
@@ -440,7 +470,7 @@
 		}, {
 			"name": "CreateMasterSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "haroldw-corevnet",
+			"resourceGroup": "[parameters('coreInfraVirtualNetworkResourceGroup')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
@@ -459,13 +489,13 @@
 						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
-						"value": "ocpinfravnet"
+						"value": "[parameters('coreInfraVirtualNetworkName')]"
 					},
 					"subnetName": {
-						"value": "newmastersubnet"
+						"value": "[parameters('masterSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.1.50.0/24"
+						"value": "[parameters('masterSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
 						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
@@ -475,7 +505,7 @@
 		}, {
 			"name": "CreateInfraSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "haroldw-corevnet",
+			"resourceGroup": "[parameters('coreInfraVirtualNetworkResourceGroup')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]"
@@ -494,13 +524,13 @@
 						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
-						"value": "ocpinfravnet"
+						"value": "[parameters('coreInfraVirtualNetworkName')]"
 					},
 					"subnetName": {
-						"value": "newinfrasubnet"
+						"value": "[parameters('infraSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.1.51.0/24"
+						"value": "[parameters('infraSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
 						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
@@ -510,7 +540,7 @@
 		}, {
 			"name": "CreateCnsSubnet",
 			"type": "Microsoft.Resources/deployments",
-			"resourceGroup": "haroldw-corevnet",
+			"resourceGroup": "[parameters('coreInfraVirtualNetworkResourceGroup')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
@@ -529,13 +559,13 @@
 						"value": "[parameters('apiVersionNetwork')]"
 					},
 					"existingVnetName": {
-						"value": "ocpinfravnet"
+						"value": "[parameters('coreInfraVirtualNetworkName')]"
 					},
 					"subnetName": {
-						"value": "newcnssubnet"
+						"value": "[parameters('cnsSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.1.52.0/24"
+						"value": "[parameters('cnsSubnetPrefix')]"
 					},
 					"networkSecurityGroup": {
 						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
@@ -720,7 +750,8 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('bastionPublicIp')), 'availabiltySetLoop')]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]",
+				"CreateMasterSubnet"
 			],
 			"properties": {
 				"ipConfigurations": [{
@@ -729,14 +760,11 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[parameters('bastionIp')]",
 						"subnet": {
-							"id": "[parameters('existingMasterSubnetReference')]"
+							"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('masterSubnetName')]"
 						}
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableBastionAcceleratedNetworking')]"
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
@@ -746,7 +774,8 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'))]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01')]",
+				"CreateMasterSubnet"
 			],
 			"copy": {
 				"name": "masterNicLoop",
@@ -759,17 +788,14 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('masterFirstAddrPrefix'), copyindex(parameters('masterFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingMasterSubnetReference')]"
+							"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('masterSubnetName')]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('masterLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
 						}]
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscm-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableMasterAcceleratedNetworking')]"
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
@@ -779,7 +805,8 @@
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'))]",
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]",
+				"CreateInfraSubnet"
 			],
 			"copy": {
 				"name": "infraNicLoop",
@@ -792,17 +819,14 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('infraFirstAddrPrefix'), copyindex(parameters('infraFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingInfraSubnetReference')]"
+							"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('infraSubnetName')]"
 						},
 						"loadBalancerBackendAddressPools": [{
 							"id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('infraLoadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]"
 						}]
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osci-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableInfraAcceleratedNetworking')]"
 			}
 		}, {
 			"type": "Microsoft.Network/networkInterfaces",
@@ -811,7 +835,8 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]",
+				"CreateCnsSubnet"
 			],
 			"copy": {
 				"name": "cnsNicLoop",
@@ -824,14 +849,11 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('cnsFirstAddrPrefix'), copyindex(parameters('cnsFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[parameters('existingCnsSubnetReference')]"
+							"id": "[resourceId(parameters('coreInfraVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('coreInfraVirtualNetworkName'), parameters('cnsSubnetName')]"
 						}
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableCnsAcceleratedNetworking')]"
 			}
 		}
 	],
