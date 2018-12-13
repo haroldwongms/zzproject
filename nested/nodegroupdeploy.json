@@ -263,10 +263,7 @@
 						}
 					}
 				}],
-				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]",
-				"networkSecurityGroup": {
-					"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
-				}
+				"enableAcceleratedNetworking": "[parameters('enableNodeAcceleratedNetworking')]"
 			}
 		}
 	],
