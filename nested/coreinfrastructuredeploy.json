@@ -32,6 +32,12 @@
 				"description": "Link Template API version"
 			}
 		},
+		"subnetCreateTemplateUrl": {
+			"type": "string",
+			"metadata": {
+				"description": "Subnet Create Template URL"
+			}
+		},
 		"coreInfraDiagStorageAccountArray": {
 			"type": "array",
 			"metadata": {
