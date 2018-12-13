@@ -379,7 +379,7 @@ $ROUTINGCERTIFICATE
 $MASTERCERTIFICATE
 $PROXY
 
-openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'nodepool=production']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true', 'nodepool=production']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=tools']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}]
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'nodepool=production']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true', 'nodepool=production']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=tools']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=production']}]
 
 # Workaround for docker image failure
 # https://access.redhat.com/solutions/3480921
