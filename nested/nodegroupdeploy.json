@@ -216,10 +216,10 @@
 						"value": "[parameters('existingVnetName')]"
 					},
 					"subnetName": {
-						"value": "[parameters('nodeSubnetName')]"
+						"value": "[parameters('subnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "[parameters('nodeSubnetPrefix')]"
+						"value": "[parameters('subnetPrefix')]"
 					},
 					"networkSecurityGroup": {
 						"value": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups/', concat(parameters('openshiftClusterPrefix'), '-Nsg-Osca-01'))]"
