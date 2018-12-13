@@ -1666,7 +1666,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1745,7 +1745,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1824,7 +1824,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1906,7 +1906,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1985,7 +1985,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2064,7 +2064,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2143,7 +2143,7 @@
 						"value": "[variables('imageReference')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('acceptanceCustomTags')]"
 					}
 				}
 			}
@@ -2256,7 +2256,7 @@
 						}
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2308,7 +2308,7 @@
 						"value": "[parameters('rhsmBrokerPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2357,7 +2357,7 @@
 						"value": "[parameters('rhsmBrokerPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2406,7 +2406,7 @@
 						"value": "[parameters('rhsmPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2455,7 +2455,7 @@
 						"value": "[parameters('rhsmPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2504,7 +2504,7 @@
 						"value": "[parameters('rhsmPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -2553,7 +2553,7 @@
 						"value": "[parameters('rhsmPoolId')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('acceptanceCustomTags')]"
 					}
 				}
 			}
@@ -2692,7 +2692,7 @@
 						"value": "[concat(parameters('routingSubDomainType'), 'Domain')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					},
 					"virtualNetworkName": {
 						"value": "[parameters('virtualNetworkName')]"
