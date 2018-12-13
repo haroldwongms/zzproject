@@ -115,7 +115,19 @@
 				"description": "Enter the appropriate publisher, offer, sku and version values for the appropriate marketplace image you want to use."
 			}
 		},
-		"customTags": {
+		"productionCustomTags": {
+			"type": "object",
+			"defaultValue": {
+				"applicationId": "Application ID",
+				"applicationName": "OpenShift Container Platform cluster",
+				"businessUnitName": "Business Unit",
+				"environment": "Environment"
+			},
+			"metadata": {
+				"description": "Custom tags to apply to resources"
+			}
+		},
+		"acceptanceCustomTags": {
 			"type": "object",
 			"defaultValue": {
 				"applicationId": "Application ID",
@@ -380,18 +392,18 @@
 			}
 		},
 		"virtualNetworkResourceGroupName": {
-		  "type": "string",
-		  "defaultValue": "[resourceGroup().name]",
-		  "metadata": {
+			"type": "string",
+			"defaultValue": "[resourceGroup().name]",
+			"metadata": {
 			"description": "Name of the resource group for the new virtual network"
-		  }
+			}
 		},
 		"virtualNetworkName": {
-		  "type": "string",
-		  "defaultValue": "openshiftvnet",
-		  "metadata": {
+			"type": "string",
+			"defaultValue": "openshiftvnet",
+			"metadata": {
 			"description": "Name of the virtual network that contains master, infra, and cns nodes"
-		  }
+			}
 		},
 		"addressPrefixes": {
 			"type": "string",
@@ -400,12 +412,26 @@
 				"description": "Address prefix of the new virtual network"
 			}
 		},
+		"coreInfraVirtualNetworkName": {
+			"type": "string",
+			"defaultValue": "corevnet",
+			"metadata": {
+			"description": "Name of the core infrastructure vNet for Master, Infra, CNS, and Tools nodes"
+			}
+		},
+		"coreInfraVirtualNetworkResourceGroup": {
+			"type": "string",
+			"defaultValue": "corevnetrg",
+			"metadata": {
+			"description": "Name of the core infrastructure vNet resource group"
+			}
+		},
 		"masterSubnetName": {
-		  "type": "string",
-		  "defaultValue": "mastersubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Master nodes and Bastion node"
-		  }
+			"type": "string",
+			"defaultValue": "mastersubnet",
+			"metadata": {
+			"description": "Name of the subnet for master nodes"
+			}
 		},
 		"masterSubnetPrefix": {
 			"type": "string",
@@ -415,11 +441,11 @@
 			}
 		},
 		"infraSubnetName": {
-		  "type": "string",
-		  "defaultValue": "infrasubnet",
-		  "metadata": {
-			"description": "Name of the subnet for Infra nodes"
-		  }
+			"type": "string",
+			"defaultValue": "infrasubnet",
+			"metadata": {
+			"description": "Name of the subnet for infra nodes"
+			}
 		},
 		"infraSubnetPrefix": {
 			"type": "string",
@@ -430,101 +456,87 @@
 		},
 		"cnsSubnetName": {
 			"type": "string",
-			"defaultValue": "infrasubnet",
+			"defaultValue": "cnssubnet",
 			"metadata": {
-				"description": "Name of the subnet for Infra nodes"
+				"description": "Name of the subnet for cns nodes"
 			}
 		},
 		"cnsSubnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.2.0.0/16",
+			"defaultValue": "10.3.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+				"description": "CIDR used for the cns subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
 			}
 		},
 		"toolsSubnetName": {
 			"type": "string",
-			"defaultValue": "infrasubnet",
+			"defaultValue": "toolssubnet",
 			"metadata": {
-				"description": "Name of the subnet for Infra nodes"
+				"description": "Name of the subnet for tools nodes"
 			}
 		},
 		"toolsSubnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.2.0.0/16",
+			"defaultValue": "10.4.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+				"description": "CIDR used for the tools subnet - needs to be a subset of the addressPrefix - default is 10.4.0.0/16"
+			}
+		},
+		"prodVirtualNetworkName": {
+			"type": "string",
+			"defaultValue": "prodvnet",
+			"metadata": {
+			"description": "Name of the vNet for production nodes"
+			}
+		},
+		"prodVirtualNetworkResourceGroup": {
+			"type": "string",
+			"defaultValue": "prodvnetrg",
+			"metadata": {
+			"description": "Name of the production vNet resource group"
 			}
 		},
 		"prodSubnetName": {
 			"type": "string",
-			"defaultValue": "infrasubnet",
+			"defaultValue": "prodsubnet",
 			"metadata": {
-				"description": "Name of the subnet for Infra nodes"
+				"description": "Name of the subnet for production nodes"
 			}
 		},
 		"prodSubnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.2.0.0/16",
+			"defaultValue": "10.5.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the infra subnet - needs to be a subset of the addressPrefix - default is 10.2.0.0/16"
+				"description": "CIDR used for the production subnet - needs to be a subset of the addressPrefix - default is 10.5.0.0/16"
+			}
+		},
+		"accVirtualNetworkName": {
+			"type": "string",
+			"defaultValue": "accvnet",
+			"metadata": {
+			"description": "Name of the vNet for acceptance nodes"
+			}
+		},
+		"accVirtualNetworkResourceGroup": {
+			"type": "string",
+			"defaultValue": "accvnetrg",
+			"metadata": {
+			"description": "Name of the acceptance vNet resource group"
 			}
 		},
 		"accSubnetName": {
 			"type": "string",
-			"defaultValue": "nodesubnet",
+			"defaultValue": "accsubnet",
 			"metadata": {
-				"description": "Name of the subnet for Compute and CNS nodes"
+				"description": "Name of the subnet for acceptance nodes"
 		  }
 		},
 		"accSubnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.3.0.0/16",
+			"defaultValue": "10.6.0.0/16",
 			"metadata": {
-				"description": "CIDR used for the node subnet - needs to be a subset of the addressPrefix - default is 10.3.0.0/16"
+				"description": "CIDR used for the acceptance node subnet - needs to be a subset of the addressPrefix - default is 10.6.0.0/16"
 			}
-		},
-		"existingMasterSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Master nodes"
-		  }
-		},
-		"existingInfraSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/infrasubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Infra nodes"
-		  }
-		},
-		"existingCnsSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/cnssubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for CNS nodes"
-		  }
-		},
-		"existingAcceptanceNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Acceptance Compute nodes"
-		  }
-		},
-		"existingProductionNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Production Compute nodes"
-		  }
-		},
-		"existingToolsNodeSubnetReference": {
-		  "type": "string",
-		  "defaultValue": "/subscriptions/abc686f6-963b-4e64-bff4-99dc369ab1cd/resourceGroups/vnetresourcegroup/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet",
-		  "metadata": {
-			"description": "Full reference to existing subnet for Tools Compute nodes"
-		  }
 		},
 		"masterClusterType": {
 			"type": "string",
@@ -1319,14 +1331,29 @@
 					"enableCnsAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('cnsVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
 					},
-					"existingMasterSubnetReference": {
-						"value": "[parameters('existingMasterSubnetReference')]"
+					"coreInfraVirtualNetworkResourceGroup": {
+						"value": "[parameters('coreInfraVirtualNetworkResourceGroup')]"
 					},
-					"existingInfraSubnetReference": {
-						"value": "[parameters('existingInfraSubnetReference')]"
+					"coreInfraVirtualNetworkName": {
+						"value": "[parameters('coreInfraVirtualNetworkName')]"
 					},
-					"existingCnsSubnetReference": {
-						"value": "[parameters('existingCnsSubnetReference')]"
+					"masterSubnetName": {
+						"value": "[parameters('masterSubnetName')]"
+					},
+					"masterSubnetPrefix": {
+						"value": "[parameters('masterSubnetPrefix')]"
+					},
+					"infraSubnetName": {
+						"value": "[parameters('infraSubnetName')]"
+					},
+					"infraSubnetPrefix": {
+						"value": "[parameters('infraSubnetPrefix')]"
+					},
+					"cnsSubnetName": {
+						"value": "[parameters('cnsSubnetName')]"
+					},
+					"cnsSubnetPrefix": {
+						"value": "[parameters('cnsSubnetPrefix')]"
 					},
 					"masterInstanceCount": {
 						"value": "[parameters('masterInstanceCount')]"
@@ -1338,7 +1365,7 @@
 						"value": "[parameters('cnsInstanceCount')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1392,16 +1419,16 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[0].name]"
 					},
 					"virtualNetworkResourceGroupName": {
-						"value": "haroldw-corevnet"
+						"value": "[parameters('coreInfraVirtualNetworkResourceGroup')]"
 					},
 					"existingVnetName": {
-						"value": "ocpinfravnet"
+						"value": "[parameters('coreInfraVirtualNetworkName')]"
 					},
 					"subnetName": {
-						"value": "newtoolssubnet"
+						"value": "[parameters('toolsSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.1.53.0/24"
+						"value": "[parameters('toolsSubnetPrefix')]"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('toolsFirstAddrOctet4')]"
@@ -1419,7 +1446,7 @@
 						"value": "[parameters('toolsNodeInstanceCount')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1472,16 +1499,16 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[1].name]"
 					},
 					"virtualNetworkResourceGroupName": {
-						"value": "haroldw-prodvnet"
+						"value": "[parameters('prodVirtualNetworkResourceGroup')]"
 					},
 					"existingVnetName": {
-						"value": "ocpprodvnet"
+						"value": "[parameters('prodVirtualNetworkName')]"
 					},
 					"subnetName": {
-						"value": "newproductionsubnet"
+						"value": "[parameters('prodSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.3.54.0/24"
+						"value": "[parameters('prodSubnetPrefix')]"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('prodFirstAddrOctet4')]"
@@ -1499,7 +1526,7 @@
 						"value": "[parameters('productionNodeInstanceCount')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('productionCustomTags')]"
 					}
 				}
 			}
@@ -1552,16 +1579,16 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].name]"
 					},
 					"virtualNetworkResourceGroupName": {
-						"value": "haroldw-accvnet"
+						"value": "[parameters('prodSubnetPrefix')]"
 					},
 					"existingVnetName": {
-						"value": "ocpaccvnet"
+						"value": "[parameters('accVirtualNetworkResourceGroup')]"
 					},
 					"subnetName": {
-						"value": "newacceptancesubnet"
+						"value": "[parameters('accSubnetName')]"
 					},
 					"subnetPrefix": {
-						"value": "10.2.55.0/24"
+						"value": "[parameters('accSubnetPrefix')]"
 					},
 					"nodeFirstAddrOctet4": {
 						"value": "[variables('accFirstAddrOctet4')]"
@@ -1579,7 +1606,7 @@
 						"value": "[parameters('acceptanceNodeInstanceCount')]"
 					},
 					"customTags": {
-						"value": "[parameters('customTags')]"
+						"value": "[parameters('acceptanceCustomTags')]"
 					}
 				}
 			}
