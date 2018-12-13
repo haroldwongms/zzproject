@@ -50,7 +50,10 @@
 			"dependsOn": [
 			],
 			"properties": {
-				"addressPrefix": "[parameters('subnetPrefix')]"
+				"addressPrefix": "[parameters('subnetPrefix')]",
+				"networkSecurityGroup": {
+					"id": "[parameters('networkSecurityGroup')]"
+				}
 			}
 		}
 	],
