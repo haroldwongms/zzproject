@@ -597,13 +597,14 @@ echo $(date) " - Creating variables file for future playbooks"
 cat > /home/$SUDOUSER/openshift-container-platform-playbooks/vars.yaml <<EOF
 admin_user: $SUDOUSER
 master_lb_private_dns: $PRIVATEDNS
+domain: $DOMAIN
 EOF
 
 # Configure cluster for private masters
 if [[ $MASTERCLUSTERTYPE == "private" ]]
 then
 	echo $(date) " - Configure cluster for private masters"
-	runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/activate-private-lb.31x.yaml"
+	runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/activate-private-lb-fqdn.31x.yaml"
 fi
 
 # Setting Masters to non-schedulable
