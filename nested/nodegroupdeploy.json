@@ -260,7 +260,7 @@
 						"privateIPAllocationMethod": "Static",
 						"privateIPAddress": "[concat(parameters('nodeFirstAddrPrefix'), copyindex(parameters('nodeFirstAddrOctet4')))]",
 						"subnet": {
-							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('subnetName')]"
+							"id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('existingVnetName'), parameters('subnetName'))]"
 						}
 					}
 				}],

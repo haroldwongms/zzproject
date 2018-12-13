@@ -1439,9 +1439,6 @@
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
 					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingToolsNodeSubnetReference')]"
-					},
 					"nodeInstanceCount": {
 						"value": "[parameters('toolsNodeInstanceCount')]"
 					},
@@ -1519,9 +1516,6 @@
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
 					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingProductionNodeSubnetReference')]"
-					},
 					"nodeInstanceCount": {
 						"value": "[parameters('productionNodeInstanceCount')]"
 					},
@@ -1579,10 +1573,10 @@
 						"value": "[variables('nodeGroupAvailabilitySetArray')[2].name]"
 					},
 					"virtualNetworkResourceGroupName": {
-						"value": "[parameters('prodSubnetPrefix')]"
+						"value": "[parameters('accVirtualNetworkResourceGroup')]"
 					},
 					"existingVnetName": {
-						"value": "[parameters('accVirtualNetworkResourceGroup')]"
+						"value": "[parameters('accVirtualNetworkName')]"
 					},
 					"subnetName": {
 						"value": "[parameters('accSubnetName')]"
@@ -1598,9 +1592,6 @@
 					},
 					"enableNodeAcceleratedNetworking": {
 						"value": "[if(equals(variables('vmSizesMap')[parameters('nodeVmSize')].acceleratedNetworking, 'true'), 'true', 'false')]"
-					},
-					"existingNodeSubnetReference": {
-						"value": "[parameters('existingAcceptanceNodeSubnetReference')]"
 					},
 					"nodeInstanceCount": {
 						"value": "[parameters('acceptanceNodeInstanceCount')]"
