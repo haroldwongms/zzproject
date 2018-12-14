@@ -330,7 +330,7 @@ then
 
     for (( c=1; c<=$CNSCOUNT; c++ ))
     do
-        # runuser $SUDOUSER -c "ssh-keyscan -H ${CNS}0$c >> ~/.ssh/known_hosts"
+        runuser $SUDOUSER -c "ssh-keyscan -H ${CNS}0$c >> ~/.ssh/known_hosts"
         drive=$(runuser $SUDOUSER -c "ssh ${CNS}0$c 'sudo /usr/sbin/fdisk -l'" | awk '$1 == "Disk" && $2 ~ /^\// && ! /mapper/ {if (drive) print drive; drive = $2; sub(":", "", drive);} drive && /^\// {drive = ""} END {if (drive) print drive;}')
         drive1=$(echo $drive | cut -d ' ' -f 1)
         drive2=$(echo $drive | cut -d ' ' -f 2)
