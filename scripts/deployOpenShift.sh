@@ -330,7 +330,7 @@ then
 
     for (( c=1; c<=$CNSCOUNT; c++ ))
     do
-        runuser $SUDOUSER -c "ssh-keyscan -H ${CNS}0$c >> ~/.ssh/known_hosts"
+        # runuser $SUDOUSER -c "ssh-keyscan -H ${CNS}0$c >> ~/.ssh/known_hosts"
         drive=$(runuser $SUDOUSER -c "ssh ${CNS}0$c 'sudo /usr/sbin/fdisk -l'" | awk '$1 == "Disk" && $2 ~ /^\// && ! /mapper/ {if (drive) print drive; drive = $2; sub(":", "", drive);} drive && /^\// {drive = ""} END {if (drive) print drive;}')
         drive1=$(echo $drive | cut -d ' ' -f 1)
         drive2=$(echo $drive | cut -d ' ' -f 2)
@@ -391,6 +391,13 @@ openshift_examples_modify_imagestreams=true
 # default selectors for router and registry services
 openshift_router_selector='node-role.kubernetes.io/infra=true'
 openshift_registry_selector='node-role.kubernetes.io/infra=true'
+
+# Configure registry to use Azure blob storage
+openshift_hosted_registry_storage_provider=azure_blob
+openshift_hosted_registry_storage_azure_blob_accountname=$REGISTRYSA
+openshift_hosted_registry_storage_azure_blob_accountkey=$ACCOUNTKEY
+openshift_hosted_registry_storage_azure_blob_container=registry
+openshift_hosted_registry_storage_azure_blob_realm=core.windows.net
 
 # Need to add custom node group definitions
 
@@ -504,8 +511,8 @@ echo $(date) " - Assigning cluster admin rights to user"
 runuser $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/assignclusteradminrights.yaml"
 
 # Configure Docker Registry to use Azure Storage Account
-echo $(date) " - Configuring Docker Registry to use Azure Storage Account"
-runuser $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/$DOCKERREGISTRYYAML"
+# echo $(date) " - Configuring Docker Registry to use Azure Storage Account"
+# runuser $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/$DOCKERREGISTRYYAML"
 
 # Reconfigure glusterfs storage class
 # if [ $CNS_DEFAULT_STORAGE == "true" ]
