@@ -462,10 +462,10 @@ runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -m service -a \"name=NetworkMan
 echo $(date) " - NetworkManager configuration complete"
 
 # Restarting things so everything is clean before continuing with installation
-echo $(date) " - Rebooting cluster to complete installation"
-runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
-runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
-sleep 20
+# echo $(date) " - Rebooting cluster to complete installation"
+# runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
+# runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
+# sleep 20
 
 # Run OpenShift Container Platform prerequisites playbook
 echo $(date) " - Running Prerequisites via Ansible Playbook"
