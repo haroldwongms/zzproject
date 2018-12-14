@@ -372,14 +372,16 @@ openshift_master_api_port=443
 openshift_master_console_port=443
 osm_default_node_selector='node-role.kubernetes.io/compute=true'
 openshift_disable_check=memory_availability,docker_image_availability
+glusterfs_storageclass_default=true
 $CLOUDKIND
 $SCKIND
 $CUSTOMCSS
 $ROUTINGCERTIFICATE
 $MASTERCERTIFICATE
 $PROXY
+$glusterfsvar
 
-openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true'}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true'}, {'name': 'node-config-compute-cns', 'labels': ['nodepool=cns']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=ToolsProduction']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Production']}]
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true']}, {'name': 'node-config-compute-cns', 'labels': ['nodepool=cns']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=ToolsProduction']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Production']}]
 
 # Workaround for docker image failure
 # https://access.redhat.com/solutions/3480921
@@ -389,7 +391,6 @@ openshift_examples_modify_imagestreams=true
 # default selectors for router and registry services
 openshift_router_selector='node-role.kubernetes.io/infra=true'
 openshift_registry_selector='node-role.kubernetes.io/infra=true'
-$registrygluster
 
 # Need to add custom node group definitions
 
@@ -462,10 +463,10 @@ runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -m service -a \"name=NetworkMan
 echo $(date) " - NetworkManager configuration complete"
 
 # Restarting things so everything is clean before continuing with installation
-# echo $(date) " - Rebooting cluster to complete installation"
-# runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
-# runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
-# sleep 20
+echo $(date) " - Rebooting cluster to complete installation"
+runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-master.yaml"
+runuser -l $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/reboot-nodes.yaml"
+sleep 20
 
 # Run OpenShift Container Platform prerequisites playbook
 echo $(date) " - Running Prerequisites via Ansible Playbook"
@@ -507,29 +508,29 @@ echo $(date) " - Configuring Docker Registry to use Azure Storage Account"
 runuser $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-playbooks/$DOCKERREGISTRYYAML"
 
 # Reconfigure glusterfs storage class
-if [ $CNS_DEFAULT_STORAGE == "true" ]
-then
-    echo $(date) "- Create default glusterfs storage class"
-    cat > /home/$SUDOUSER/default-glusterfs-storage.yaml <<EOF
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "$CNS_DEFAULT_STORAGE"
-  name: default-glusterfs-storage
-parameters:
-  resturl: http://heketi-storage-glusterfs.${ROUTING}
-  restuser: admin
-  secretName: heketi-storage-admin-secret
-  secretNamespace: glusterfs
-provisioner: kubernetes.io/glusterfs
-reclaimPolicy: Delete
-EOF
-    runuser -l $SUDOUSER -c "oc create -f /home/$SUDOUSER/default-glusterfs-storage.yaml"
+# if [ $CNS_DEFAULT_STORAGE == "true" ]
+# then
+    # echo $(date) "- Create default glusterfs storage class"
+    # cat > /home/$SUDOUSER/default-glusterfs-storage.yaml <<EOF
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+  # annotations:
+    # storageclass.kubernetes.io/is-default-class: "$CNS_DEFAULT_STORAGE"
+  # name: default-glusterfs-storage
+# parameters:
+  # resturl: http://heketi-storage-glusterfs.${ROUTING}
+  # restuser: admin
+  # secretName: heketi-storage-admin-secret
+  # secretNamespace: glusterfs
+# provisioner: kubernetes.io/glusterfs
+# reclaimPolicy: Delete
+# EOF
+    # runuser -l $SUDOUSER -c "oc create -f /home/$SUDOUSER/default-glusterfs-storage.yaml"
 
-    echo $(date) " - Sleep for 10"
-    sleep 10
-fi
+    # echo $(date) " - Sleep for 10"
+    # sleep 10
+# fi
 
 # Ensuring selinux is configured properly
 if [[ $ENABLECNS == "true" ]]
