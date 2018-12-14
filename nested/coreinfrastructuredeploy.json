@@ -508,7 +508,8 @@
 			"resourceGroup": "[parameters('coreInfraVirtualNetworkResourceGroup')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Osci-01')]",
+				"CreateMasterSubnet"
 			],
 			"properties": {
 				"mode": "Incremental",
@@ -543,7 +544,8 @@
 			"resourceGroup": "[parameters('coreInfraVirtualNetworkResourceGroup')]",
 			"apiVersion": "[parameters('apiVersionLinkTemplate')]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]"
+				"[concat('Microsoft.Network/networkSecurityGroups/', parameters('openshiftClusterPrefix'), '-Nsg-Oscc-01')]",
+				"CreateInfraSubnet"
 			],
 			"properties": {
 				"mode": "Incremental",
@@ -596,7 +598,8 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), 'availabiltySetLoop')]"
+				"[if(equals(parameters('masterClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('openshiftMasterPublicIpDnsLabel')), 'availabiltySetLoop')]",
+				"CreateCnsSubnet"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
@@ -642,7 +645,8 @@
 			"apiVersion": "[parameters('apiVersionNetwork')]",
 			"tags": "[parameters('customTags')]",
 			"dependsOn": [
-				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), 'availabiltySetLoop')]"
+				"[if(equals(parameters('routerClusterType'), 'public'), concat('Microsoft.Network/publicIPAddresses/', parameters('infraLbPublicIpDnsLabel')), 'availabiltySetLoop')]",
+				"CreateCnsSubnet"
 			],
 			"properties": {
 				"frontendIPConfigurations": [{
