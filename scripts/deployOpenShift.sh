@@ -327,7 +327,12 @@ runuser -l $SUDOUSER -c "ansible-playbook ~/openshift-container-platform-playboo
 if [[ $ENABLECNS == "true" ]]
 then
     echo $(date) " - Creating glusterfs configuration"
-
+	
+	# Ensuring selinux is configured properly
+    echo $(date) " - Setting selinux to allow gluster-fuse access"
+    runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -a 'sudo setsebool -P virt_sandbox_use_fusefs on'" || true
+	runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -a 'sudo setsebool -P virt_use_fusefs on'" || true
+	
     for (( c=1; c<=$CNSCOUNT; c++ ))
     do
         runuser $SUDOUSER -c "ssh-keyscan -H ${CNS}0$c >> ~/.ssh/known_hosts"
@@ -372,16 +377,15 @@ openshift_master_api_port=443
 openshift_master_console_port=443
 osm_default_node_selector='node-role.kubernetes.io/compute=true'
 openshift_disable_check=memory_availability,docker_image_availability
-glusterfs_storageclass_default=true
+openshift_storage_glusterfs_storageclass_default=true
 $CLOUDKIND
 $SCKIND
 $CUSTOMCSS
 $ROUTINGCERTIFICATE
 $MASTERCERTIFICATE
-$PROXY
-$glusterfsvar
 
-openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true']}, {'name': 'node-config-compute-cns', 'labels': ['nodepool=cns']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=ToolsProduction']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Production']}]
+# Custom node group definitions
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true']}, {'name': 'node-config-compute-cns', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=cns']}, {'name': 'node-config-compute-tools', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=ToolsProduction']}, {'name': 'node-config-compute-acceptance', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Acceptance']}, {'name': 'node-config-compute-production', 'labels': ['node-role.kubernetes.io/compute=true', 'nodepool=Production']}]
 
 # Workaround for docker image failure
 # https://access.redhat.com/solutions/3480921
@@ -393,13 +397,13 @@ openshift_router_selector='node-role.kubernetes.io/infra=true'
 openshift_registry_selector='node-role.kubernetes.io/infra=true'
 
 # Configure registry to use Azure blob storage
+openshift_hosted_registry_replicas=1
+openshift_hosted_registry_storage_kind=object
 openshift_hosted_registry_storage_provider=azure_blob
 openshift_hosted_registry_storage_azure_blob_accountname=$REGISTRYSA
 openshift_hosted_registry_storage_azure_blob_accountkey=$ACCOUNTKEY
 openshift_hosted_registry_storage_azure_blob_container=registry
 openshift_hosted_registry_storage_azure_blob_realm=core.windows.net
-
-# Need to add custom node group definitions
 
 # Deploy Service Catalog
 openshift_enable_service_catalog=false
@@ -412,6 +416,11 @@ $MASTERCLUSTERADDRESS
 
 # Enable HTPasswdPasswordIdentityProvider
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+
+# Settings for Prometheus
+openshift_cluster_monitoring_operator_prometheus_storage_enabled=true
+openshift_cluster_monitoring_operator_alertmanager_storage_enabled=true
+openshift_cluster_monitoring_operator_node_selector={"node-role.kubernetes.io/infra":"true"}
 
 # Setup metrics
 openshift_metrics_install_metrics=false
@@ -538,15 +547,6 @@ runuser $SUDOUSER -c "ansible-playbook -f 30 ~/openshift-container-platform-play
     # echo $(date) " - Sleep for 10"
     # sleep 10
 # fi
-
-# Ensuring selinux is configured properly
-if [[ $ENABLECNS == "true" ]]
-then
-    # Setting selinux to allow gluster-fusefs access
-    echo $(date) " - Setting selinux to allow gluster-fuse access"
-    runuser -l $SUDOUSER -c "ansible all -o -f 30 -b -a 'sudo setsebool -P virt_sandbox_use_fusefs on'" || true
-# End of CNS specific section
-fi
 
 # Adding some labels back because they go missing
 echo $(date) " - Adding api and logging labels"
