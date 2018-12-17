@@ -377,6 +377,7 @@ openshift_master_api_port=443
 openshift_master_console_port=443
 osm_default_node_selector='node-role.kubernetes.io/compute=true'
 openshift_disable_check=memory_availability,docker_image_availability
+openshift_master_bootstrap_auto_approve=true
 openshift_storage_glusterfs_storageclass_default=true
 $CLOUDKIND
 $SCKIND
